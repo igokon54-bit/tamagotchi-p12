@@ -1712,6 +1712,190 @@
       animation: pulseGiftBadge 1.2s infinite ease-in-out;
     }
 
+  
+    /* V3.0 ANIMATIONS & ENGAGEMENT: LIVING EYES, BUBBLES, LASER, GARDEN */
+    .pet-eyes-group.blinking {
+      transform: scaleY(0.08) !important;
+      transition: transform 0.08s ease-in-out;
+    }
+
+    /* Soap lather on pet when washing */
+    .pet-wrapper.soapy::before {
+      content: '🫧';
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 26px;
+      animation: soapSuds 1.8s ease-in-out infinite alternate;
+      z-index: 15;
+      pointer-events: none;
+    }
+    .pet-wrapper.soapy::after {
+      content: '🫧';
+      position: absolute;
+      top: 25px;
+      right: 12px;
+      font-size: 22px;
+      animation: soapSuds 1.5s 0.3s ease-in-out infinite alternate;
+      z-index: 15;
+      pointer-events: none;
+    }
+    @keyframes soapSuds {
+      0% { transform: scale(0.9) translateY(0); opacity: 0.7; }
+      100% { transform: scale(1.15) translateY(-6px); opacity: 1; }
+    }
+
+    /* Interactive Floating Soap Bubbles */
+    .bubble-pop-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 50;
+      overflow: hidden;
+    }
+    .soap-bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.85) 0%, rgba(56, 189, 248, 0.45) 45%, rgba(236, 72, 153, 0.35) 75%, rgba(255, 255, 255, 0.15) 100%);
+      border: 1.5px solid rgba(255, 255, 255, 0.75);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.5), inset 0 0 8px rgba(255, 255, 255, 0.6);
+      cursor: pointer;
+      pointer-events: auto;
+      animation: bubbleFloat 5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    @keyframes bubbleFloat {
+      0% {
+        transform: translateY(120px) scale(0.4) rotate(0deg);
+        opacity: 0;
+      }
+      15% {
+        opacity: 1;
+        transform: translateY(60px) scale(1) rotate(15deg);
+      }
+      85% {
+        opacity: 0.95;
+      }
+      100% {
+        transform: translateY(-240px) scale(1.08) rotate(45deg);
+        opacity: 0;
+      }
+    }
+    .bubble-splash-dot {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #38BDF8;
+      pointer-events: none;
+      animation: bubbleSplash 0.4s ease-out forwards;
+      z-index: 60;
+    }
+    @keyframes bubbleSplash {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: translate(var(--dx, 0px), var(--dy, 0px)) scale(0.2); opacity: 0; }
+    }
+
+    /* Laser Pointer Toy */
+    .toy-laser-btn {
+      position: absolute;
+      bottom: 14px;
+      right: 72px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1E293B, #0F172A);
+      border: 2px solid #EF4444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.2s ease;
+    }
+    .toy-laser-btn.active {
+      background: #EF4444;
+      border-color: #FCD34D;
+      box-shadow: 0 0 16px rgba(239, 68, 68, 0.8);
+      animation: laserBtnPulse 1s infinite alternate;
+    }
+    @keyframes laserBtnPulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.12); }
+    }
+    .laser-dot {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: #FF0033;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #FF0033, 0 0 20px #FF3366, 0 0 35px #FF6699;
+      pointer-events: none;
+      z-index: 45;
+      transform: translate(-50%, -50%);
+      animation: laserDotPulse 0.4s infinite alternate;
+    }
+    @keyframes laserDotPulse {
+      from { transform: translate(-50%, -50%) scale(0.85); }
+      to { transform: translate(-50%, -50%) scale(1.18); }
+    }
+
+    /* Garden Plot UI */
+    .garden-plots-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+      margin-bottom: 12px;
+    }
+    .garden-plot-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 10px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      position: relative;
+      transition: all 0.25s ease;
+    }
+    .garden-plot-card.ready {
+      border-color: #FCD34D;
+      background: rgba(245, 158, 11, 0.2);
+      box-shadow: 0 0 14px rgba(245, 158, 11, 0.45);
+      animation: readyBounce 1.5s infinite ease-in-out;
+    }
+    @keyframes readyBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+    .plot-crop-icon {
+      font-size: 32px;
+      margin: 4px 0;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .garden-plot-card.ready .plot-crop-icon {
+      transform: scale(1.15);
+    }
+    .plot-progress-bar {
+      width: 100%;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 2px;
+    }
+    .plot-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #10B981, #34D399);
+      width: 0%;
+      transition: width 0.5s linear;
+    }
+
   </style>
 </head>
 <body>
@@ -1867,6 +2051,9 @@
         </div>
 
         <!-- Toy Bouncing Ball -->
+                <!-- Laser Pointer Toy -->
+        <div class="toy-laser-btn" id="toy-laser-btn" title="Включить лазерную указку!">🔴</div>
+        <div class="laser-dot" id="laser-dot" style="display: none;"></div>
         <div class="toy-ball" id="toy-ball" title="Бросить мячик питомцу!"></div>
 
         <!-- Poops -->
@@ -2011,7 +2198,8 @@
       <div class="modal-card">
         <div class="modal-title">⚙️ НАСТРОЙКИ ИГРЫ</div>
         <div style="display: flex; flex-direction: column; gap: 8px;">
-                    <button class="menu-btn" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(239, 68, 68, 0.25)); border-color: #FCD34D; font-weight: 800; color: #FEF08A;" id="btn-open-daily-from-settings">🎁 Ежедневные награды и Колесо Фортуны</button>
+                              <button class="menu-btn" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(5, 150, 105, 0.25)); border-color: #34D399; font-weight: 800; color: #A7F3D0;" id="btn-open-garden-from-settings">🌱 Сад и Огород питомца</button>
+          <button class="menu-btn" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(239, 68, 68, 0.25)); border-color: #FCD34D; font-weight: 800; color: #FEF08A;" id="btn-open-daily-from-settings">🎁 Ежедневные награды и Колесо Фортуны</button>
           <button class="menu-btn btn-primary" id="btn-open-char-modal">🐾 Сменить персонажа (Яйцо)</button>
           <button class="menu-btn btn-primary" style="background: linear-gradient(135deg, #0284C7, #0D9488); border-color: #38BDF8; font-weight: 800;" id="btn-open-env-modal">🌍 Локация, Погода и Время суток</button>
           <button class="menu-btn" style="background: rgba(255,255,255,0.08); color: #FFF;" id="btn-toggle-sound">🔊 Звуки: ВКЛ</button>
@@ -2085,6 +2273,26 @@
     <!-- GAME HUB MODAL -->
     
     <!-- DAILY REWARDS & STREAK MODAL -->
+    
+    <!-- GARDEN / IDLE FARMING MODAL -->
+    <div class="modal-overlay" id="garden-modal">
+      <div class="modal-card" style="max-width: 380px; padding: 14px 12px; text-align: center;">
+        <div class="modal-title" style="margin-bottom: 2px;">🌱 Сад и Огород питомца</div>
+        <div style="font-size: 11px; color: #94A3B8; margin-bottom: 8px;">Сажай семена — урожай растёт в реальном времени!</div>
+
+        <!-- 3 Garden Plots -->
+        <div class="garden-plots-grid" id="garden-plots-container">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <div style="font-size: 10px; color: #38BDF8; margin-bottom: 10px; background: rgba(56, 189, 248, 0.12); border-radius: 8px; padding: 6px 8px;">
+          💡 <b>Совет:</b> Растения зреют даже когда игра закрыта! Возвращайтесь за урожаем!
+        </div>
+
+        <button class="menu-btn btn-close" id="btn-close-garden">✕ Закрыть</button>
+      </div>
+    </div>
+
     <div class="modal-overlay" id="daily-modal">
       <div class="modal-card" style="max-width: 380px; padding: 14px 12px; text-align: center;">
         <div class="modal-title" style="margin-bottom: 2px;">🎁 Ежедневные награды</div>
@@ -2125,7 +2333,12 @@
       <div class="modal-card">
         <div class="modal-title">🎮 ВЫБЕРИТЕ ИГРУ</div>
         <div style="display: flex; flex-direction: column; gap: 8px;">
-                    <div class="menu-card" id="card-play-wheel" style="border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.1);">
+                              <div class="menu-card" id="card-play-garden" style="border-color: rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.12);">
+            <span class="menu-card-icon">🌱</span>
+            <span class="menu-card-name">Сад и Огород</span>
+            <span class="menu-card-desc">Выращивай морковку, ягоды и денежное дерево! (+Монеты и еда)</span>
+          </div>
+          <div class="menu-card" id="card-play-wheel" style="border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.1);">
             <span class="menu-card-icon">🎡</span>
             <span class="menu-card-name">Колесо Фортуны</span>
             <span class="menu-card-desc">Вращай рулетку и выигрывай монеты, еду и джекпот! (+Призы)</span>
@@ -2308,6 +2521,31 @@
           osc.start(now);
           osc.stop(now + 0.14);
         } catch(e) {}
+      }
+
+      
+      pop() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const now = this.ctx.currentTime;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(650, now);
+          osc.frequency.exponentialRampToValueAtTime(1450, now + 0.04);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.05);
+        } catch(e) {}
+      }
+
+      laserBeep() {
+        this.beep(980, 0.03, 'sine', 0.07);
       }
 
       wheelTick() {
@@ -4433,6 +4671,10 @@
         this.initDailyStreak();
         this.initDesires();
         this.initWheel();
+        this.initBlinking();
+        this.setupEyeTracking();
+        this.initLaserToy();
+        this.initGarden();
       try {
         if (window.Telegram?.WebApp?.CloudStorage?.getItem) {
           window.Telegram.WebApp.CloudStorage.getItem('tamagotchi_cloud_v2', (err, val) => {
@@ -4486,6 +4728,7 @@
             this.lastDailyClaim = s.lastDailyClaim || null;
             this.lastDailyLogin = s.lastDailyLogin || null;
             this.lastWheelSpinDate = s.lastWheelSpinDate || null;
+            this.gardenPlots = s.gardenPlots || null;
             this.timeOfDayIndex = s.timeOfDayIndex !== undefined ? s.timeOfDayIndex : 1;
             this.weatherIndex = s.weatherIndex !== undefined ? s.weatherIndex : 0;
             this.lastCelebratedDay = this.getAgeDays();
@@ -4541,6 +4784,7 @@
             lastDailyClaim: this.lastDailyClaim,
             lastDailyLogin: this.lastDailyLogin,
             lastWheelSpinDate: this.lastWheelSpinDate,
+            gardenPlots: this.gardenPlots,
 
             lastSaved: Date.now()
           };
@@ -5009,6 +5253,7 @@ selectLocation(id) {
           this.addXP(12);
         } else if (type === 'shine') {
           sounds.clean();
+        this.spawnSoapBubbles();
           this.hygiene = Math.min(100, this.hygiene + 25);
           this.showEffect("✨ Чистое яичко! -5 🪙");
           this.addXP(20);
@@ -5092,6 +5337,7 @@ selectLocation(id) {
 
       washPet() {
         sounds.clean();
+        this.spawnSoapBubbles();
         this.hygiene = 100; this.stats.poopsCleaned = (this.stats.poopsCleaned || 0) + 1; this.checkAchievements();
         this.poops = [];
         this.renderPoops();
@@ -6238,6 +6484,10 @@ selectLocation(id) {
       }
 
       // --- RENDERING ---
+      renderHUD() {
+        this.render();
+      }
+
       render() {
         const stageInfo = this.getCurrentStageInfo();
 
@@ -6961,6 +7211,362 @@ selectLocation(id) {
         this.say("Вот это удача! 🎉");
         this.cheer(2200);
         this.render();
+      }
+
+      
+      // --- V3.0 LIVING FACE & PROCEDURAL BLINKING ---
+      initBlinking() {
+        const scheduleBlink = () => {
+          const delay = 3500 + Math.random() * 2500; // Blink every 3.5 - 6.0 sec
+          setTimeout(() => {
+            if (!this.isSleeping && !this.isDead) {
+              this.triggerBlink();
+            }
+            scheduleBlink();
+          }, delay);
+        };
+        scheduleBlink();
+      }
+
+      triggerBlink() {
+        const eyes = document.querySelectorAll('.pet-eyes-group, .pet-eye, #pet-accessory-glasses');
+        eyes.forEach(el => el.classList.add('blinking'));
+        setTimeout(() => {
+          eyes.forEach(el => el.classList.remove('blinking'));
+        }, 140);
+      }
+
+      setupEyeTracking() {
+        const app = document.getElementById('app-container');
+        const wrapper = document.getElementById('pet-wrapper');
+        if (!app || !wrapper) return;
+
+        let trackingTimeout = null;
+
+        const updatePupils = (clientX, clientY) => {
+          if (this.isSleeping || this.isDead) return;
+          const rect = wrapper.getBoundingClientRect();
+          const petX = rect.left + rect.width / 2;
+          const petY = rect.top + rect.height * 0.45;
+
+          const dx = clientX - petX;
+          const dy = clientY - petY;
+          const maxDist = rect.width;
+          const px = Math.max(-4, Math.min(4, (dx / maxDist) * 7));
+          const py = Math.max(-3, Math.min(3, (dy / maxDist) * 5));
+
+          const pupils = document.querySelectorAll('.pupil-item');
+          pupils.forEach(p => {
+            p.setAttribute('transform', `translate(${px}, ${py})`);
+          });
+
+          // Reset pupils gently after 2.2s of inactivity
+          clearTimeout(trackingTimeout);
+          trackingTimeout = setTimeout(() => {
+            pupils.forEach(p => p.setAttribute('transform', 'translate(0, 0)'));
+          }, 2200);
+        };
+
+        window.addEventListener('touchmove', (e) => {
+          if (e.touches && e.touches[0]) {
+            updatePupils(e.touches[0].clientX, e.touches[0].clientY);
+          }
+        }, { passive: true });
+
+        window.addEventListener('mousemove', (e) => {
+          updatePupils(e.clientX, e.clientY);
+        });
+      }
+
+      // --- V3.0 INTERACTIVE BUBBLE BATH POPPING ---
+      spawnSoapBubbles() {
+        const app = document.getElementById('app-container');
+        if (!app) return;
+
+        const existing = document.getElementById('bubble-pop-container');
+        if (existing) existing.remove();
+
+        const container = document.createElement('div');
+        container.id = 'bubble-pop-container';
+        container.className = 'bubble-pop-container';
+        app.appendChild(container);
+
+        const wrapper = document.getElementById('pet-wrapper');
+        if (wrapper) wrapper.classList.add('soapy');
+
+        const bubbleCount = 12;
+        let poppedCount = 0;
+
+        for (let i = 0; i < bubbleCount; i++) {
+          const bubble = document.createElement('div');
+          bubble.className = 'soap-bubble';
+          const size = 32 + Math.floor(Math.random() * 22);
+          const leftPct = 12 + Math.random() * 76;
+          const animDelay = (i * 0.28) + (Math.random() * 0.2);
+
+          bubble.style.width = size + 'px';
+          bubble.style.height = size + 'px';
+          bubble.style.left = leftPct + '%';
+          bubble.style.bottom = '90px';
+          bubble.style.animationDelay = animDelay + 's';
+
+          // Click / Tap to POP
+          const popBubble = (e) => {
+            e.stopPropagation();
+            if (bubble._popped) return;
+            bubble._popped = true;
+
+            sounds.pop();
+            Haptic.impact('light');
+
+            // Splash droplets
+            const bRect = bubble.getBoundingClientRect();
+            const aRect = app.getBoundingClientRect();
+            const bX = bRect.left - aRect.left + size / 2;
+            const bY = bRect.top - aRect.top + size / 2;
+
+            for (let d = 0; d < 6; d++) {
+              const dot = document.createElement('div');
+              dot.className = 'bubble-splash-dot';
+              dot.style.left = bX + 'px';
+              dot.style.top = bY + 'px';
+              const angle = (d * Math.PI * 2) / 6;
+              const dist = 18 + Math.random() * 14;
+              dot.style.setProperty('--dx', (Math.cos(angle) * dist) + 'px');
+              dot.style.setProperty('--dy', (Math.sin(angle) * dist) + 'px');
+              container.appendChild(dot);
+              setTimeout(() => dot.remove(), 400);
+            }
+
+            // Coin reward for popping!
+            poppedCount++;
+            const coinGain = Math.random() > 0.4 ? 1 : 2;
+            this.coins += coinGain;
+            this.showEffectAt(`+${coinGain} 🪙`, bX - 10, bY - 15);
+            this.renderHUD();
+
+            if (bubble.parentNode) bubble.parentNode.removeChild(bubble);
+            else bubble.remove();
+
+            if (poppedCount >= 6) {
+              this.showEffect('🫧 Чистюля! +10 XP');
+              this.addXP(10);
+            }
+          };
+
+          bindTouch(bubble, popBubble);
+          bubble.addEventListener('mousedown', popBubble);
+          bubble.addEventListener('click', popBubble);
+          bubble.addEventListener('mousedown', popBubble);
+
+          container.appendChild(bubble);
+        }
+
+        // Clean up soap lather and container after 6 seconds
+        setTimeout(() => {
+          if (wrapper) wrapper.classList.remove('soapy');
+          if (container && container.parentNode) container.remove();
+        }, 6200);
+      }
+
+      // --- V3.0 LASER POINTER TOY ---
+      initLaserToy() {
+        this.laserActive = false;
+        const btn = document.getElementById('toy-laser-btn');
+        const dot = document.getElementById('laser-dot');
+        const ground = document.getElementById('ground-tap-layer');
+
+        if (btn) {
+          bindTouch(btn, () => {
+            this.laserActive = !this.laserActive;
+            btn.classList.toggle('active', this.laserActive);
+            sounds.click();
+            Haptic.impact('medium');
+
+            if (dot) dot.style.display = this.laserActive ? 'block' : 'none';
+
+            if (this.laserActive) {
+              this.showEffect('🔴 Лазер включен! Веди по экрану!');
+              sounds.laserBeep();
+            } else {
+              this.showEffect('Лазер выключен');
+            }
+          });
+        }
+
+        const moveLaser = (clientX, clientY) => {
+          if (!this.laserActive || this.isSleeping || this.isDead) return;
+          const app = document.getElementById('app-container');
+          if (!app || !dot) return;
+
+          const rect = app.getBoundingClientRect();
+          const relX = clientX - rect.left;
+          const relY = clientY - rect.top;
+
+          dot.style.left = relX + 'px';
+          dot.style.top = relY + 'px';
+
+          // Pet runs towards laser position horizontally!
+          const targetX = Math.max(30, Math.min(410, relX));
+          const dist = Math.abs(targetX - this.posX);
+
+          if (dist > 35) {
+            this.moveTo(targetX, () => {
+              if (this.laserActive) {
+                this.hop();
+                sounds.petVoice(this.petType);
+                Haptic.impact('light');
+                this.happiness = Math.min(100, this.happiness + 2);
+                this.renderHUD();
+              }
+            });
+          }
+        };
+
+        if (ground) {
+          ground.addEventListener('touchmove', (e) => {
+            if (this.laserActive && e.touches && e.touches[0]) {
+              moveLaser(e.touches[0].clientX, e.touches[0].clientY);
+            }
+          }, { passive: true });
+
+          ground.addEventListener('mousemove', (e) => {
+            if (this.laserActive) moveLaser(e.clientX, e.clientY);
+          });
+        }
+      }
+
+      // --- V3.0 IDLE GARDEN & CROP HARVESTING ---
+      initGarden() {
+        this.gardenPlots = this.gardenPlots || [
+          { crop: 'carrot', plantTime: Date.now() - 200000 }, // Ready initially!
+          { crop: 'strawberry', plantTime: Date.now() },
+          { crop: 'money_tree', plantTime: null }
+        ];
+
+        // Periodically refresh garden UI if modal is open
+        setInterval(() => {
+          const gModal = document.getElementById('garden-modal');
+          if (gModal && gModal.classList.contains('open')) {
+            this.renderGardenModal();
+          }
+        }, 1000);
+      }
+
+      openGardenModal() {
+        this.closeSettings();
+        closeModal('game-hub-modal');
+        this.renderGardenModal();
+        openModal('garden-modal');
+      }
+
+      closeGardenModal() {
+        closeModal('garden-modal');
+      }
+
+      renderGardenModal() {
+        const container = document.getElementById('garden-plots-container');
+        if (!container) return;
+        container.innerHTML = '';
+
+        const cropsInfo = {
+          carrot: { name: 'Морковка', icon: '🥕', growSec: 180, rewardCoins: 15, rewardFood: 30, xp: 10 },
+          strawberry: { name: 'Клубника', icon: '🍓', growSec: 480, rewardCoins: 35, rewardFood: 45, xp: 20 },
+          money_tree: { name: 'Денежное дерево', icon: '🌳', growSec: 1200, rewardCoins: 85, rewardFood: 0, xp: 45 }
+        };
+
+        const now = Date.now();
+
+        this.gardenPlots.forEach((plot, idx) => {
+          const card = document.createElement('div');
+          const crop = plot.crop ? cropsInfo[plot.crop] : null;
+
+          if (!plot.crop || !plot.plantTime) {
+            // EMPTY PLOT
+            card.className = 'garden-plot-card';
+            card.innerHTML = `
+              <span style="font-size: 11px; font-weight: 800; color: #94A3B8;">Грядка ${idx + 1}</span>
+              <span class="plot-crop-icon" style="opacity: 0.4;">🟫</span>
+              <span style="font-size: 10px; color: #64748B;">Пусто</span>
+              <button class="menu-btn btn-primary" style="font-size: 10px; padding: 4px 6px; margin-top: 4px; background: #10B981;">🌱 Посадить</button>
+            `;
+            const btnPlant = card.querySelector('button');
+            bindTouch(btnPlant, () => {
+              const types = ['carrot', 'strawberry', 'money_tree'];
+              plot.crop = types[idx % types.length];
+              plot.plantTime = Date.now();
+              sounds.click();
+              Haptic.impact('medium');
+              this.showEffect('🌱 Семя посажено!');
+              this.saveState();
+              this.renderGardenModal();
+            });
+          } else {
+            // GROWING OR READY PLOT
+            const elapsed = Math.floor((now - plot.plantTime) / 1000);
+            const remaining = Math.max(0, crop.growSec - elapsed);
+            const isReady = remaining <= 0;
+            const pct = Math.min(100, Math.floor((elapsed / crop.growSec) * 100));
+
+            card.className = 'garden-plot-card' + (isReady ? ' ready' : '');
+            const min = Math.floor(remaining / 60);
+            const sec = remaining % 60;
+            const timeStr = `${min}:${sec < 10 ? '0' : ''}${sec}`;
+
+            card.innerHTML = `
+              <span style="font-size: 10px; font-weight: 800; color: ${isReady ? '#FCD34D' : '#38BDF8'};">
+                ${isReady ? '✨ Созрело!' : crop.name}
+              </span>
+              <span class="plot-crop-icon">${isReady ? crop.icon : '🌱'}</span>
+              <span style="font-size: 10px; font-weight: 700; color: #FFF;">
+                ${isReady ? `+${crop.rewardCoins} 🪙` : timeStr}
+              </span>
+              <div class="plot-progress-bar">
+                <div class="plot-progress-fill" style="width: ${pct}%;"></div>
+              </div>
+              <button class="menu-btn ${isReady ? 'btn-primary' : ''}" style="font-size: 10px; padding: 4px 6px; margin-top: 4px; ${isReady ? 'background: linear-gradient(135deg, #F59E0B, #EF4444); font-weight: 800;' : 'background: rgba(255,255,255,0.08); font-size: 9px;'}">
+                ${isReady ? 'Собрать!' : '💧 Полить'}
+              </button>
+            `;
+
+            const btnAction = card.querySelector('button');
+            bindTouch(btnAction, () => {
+              if (isReady) {
+                // HARVEST!
+                this.coins += crop.rewardCoins;
+                this.addXP(crop.xp);
+                if (crop.rewardFood > 0) {
+                  this.hunger = Math.min(100, this.hunger + crop.rewardFood);
+                  this.happiness = Math.min(100, this.happiness + 15);
+                }
+                sounds.fanfare();
+                Haptic.notification('success');
+                this.showEffect(`🎉 Урожай собран! +${crop.rewardCoins} 🪙`);
+                this.say(`Ням-ням, свежий урожай ${crop.name}! ❤️`);
+
+                // Auto replant with next crop
+                plot.plantTime = Date.now();
+                const cropList = ['carrot', 'strawberry', 'money_tree'];
+                plot.crop = cropList[(cropList.indexOf(plot.crop) + 1) % cropList.length];
+
+                this.saveState();
+                this.render();
+                this.renderGardenModal();
+              } else {
+                // WATERING BOOST: speeds up by 45 seconds!
+                sounds.clean();
+        this.spawnSoapBubbles();
+                Haptic.impact('light');
+                plot.plantTime -= 45000;
+                this.showEffect('💧 Полили! (-45 сек)');
+                this.saveState();
+                this.renderGardenModal();
+              }
+            });
+          }
+
+          container.appendChild(card);
+        });
       }
 
       initDOM() {
