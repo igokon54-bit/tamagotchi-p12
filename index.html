@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Tamagotchi P12</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#060913">
@@ -1899,6 +1902,7 @@
           <button class="menu-btn" style="background: rgba(168,85,247,0.25); color: #D8B4FE;" id="btn-trigger-song">🎵 Спеть песенку (Тест)</button>
                     <button class="menu-btn" style="background: rgba(239,68,68,0.2); color: #F87171;" id="btn-reset-game">⚠️ Сбросить прогресс</button>
         </div>
+        <button class="menu-btn" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #FCA5A5; font-size: 11px; margin-top: 4px;" id="btn-force-refresh">🔄 Перезагрузить страницу (Очистить кэш)</button>
         <button class="menu-btn btn-close" id="btn-close-settings">✖ Закрыть</button>
       </div>
     </div>
@@ -2003,15 +2007,7 @@
       </div>
     </div>
 
-    <!-- THERMAL RECEIPT / DIPLOMA MODAL -->
-    <div class="modal-overlay" id="receipt-modal">
-      <div class="modal-card" style="padding: 10px 12px; max-height: 450px;">
-        <div class="modal-title">🖨️ СВИДЕТЕЛЬСТВО (58мм)</div>
-        <div class="receipt-paper" id="receipt-paper-content"></div>
-        <button class="menu-btn btn-primary" style="margin-bottom: 4px;" id="btn-print-receipt">🖨️ Распечатать чек (58мм)</button>
-        <button class="menu-btn btn-close" id="btn-close-receipt">✖ Закрыть</button>
-      </div>
-    </div>
+    
 
     <!-- DEATH / TOMBSTONE MODAL -->
     <div class="modal-overlay" id="death-modal">
@@ -4385,7 +4381,15 @@
       }
 
       // --- OUTDOOR ENVIRONMENT & WEATHER SWITCHING ---
-      selectLocation(id) {
+            setLocation(id) {
+        this.locationId = id;
+        this.updateLocationView();
+        const loc = OUTDOOR_LOCATIONS.find(l => l.id === id);
+        this.showEffect("🌍 " + (loc ? loc.name : "Локация"));
+        this.saveState();
+      }
+
+selectLocation(id) {
         sounds.click();
         this.locationId = id;
         this.updateLocationView();
@@ -6116,6 +6120,14 @@
 
         // Modals
         bindTouch('btn-close-food', () => this.closeFeedMenu());
+                bindTouch('btn-force-refresh', () => {
+          sounds.click();
+          if ('caches' in window) {
+            caches.keys().then(names => names.forEach(n => caches.delete(n)));
+          }
+          const base = window.location.origin + window.location.pathname;
+          window.location.replace(base + '?v=' + Date.now());
+        });
         bindTouch('btn-close-settings', () => this.closeSettings());
         bindTouch('btn-close-char', () => this.closeCharSelect());
         bindTouch('btn-char-prev', () => this.navChar(-1));
