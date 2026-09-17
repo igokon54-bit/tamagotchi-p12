@@ -763,6 +763,136 @@
       filter: drop-shadow(0 0 16px rgba(245, 158, 11, 0.65));
     }
 
+    /* CELESTIAL ORBITING RELICS & SATELLITE ORBS */
+    @keyframes orbitOrbs {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .celestial-orbit-group {
+      animation: orbitOrbs 8s linear infinite;
+      transform-origin: 100px 110px;
+    }
+    @keyframes celestialPulse {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.1); opacity: 1; }
+    }
+    .orbit-orb-left, .orbit-orb-right {
+      animation: celestialPulse 2.4s ease-in-out infinite;
+    }
+
+    /* TICKLE SQUIRM ANIMATION */
+    @keyframes tickleSquirm {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      25% { transform: rotate(-8deg) scale(0.96); }
+      75% { transform: rotate(8deg) scale(1.04); }
+    }
+    .pet-wrapper.tickling #pet-svg-container {
+      animation: tickleSquirm 0.16s ease-in-out infinite !important;
+    }
+
+    /* BALL COMBO MULTIPLIER BADGE */
+    .ball-combo-badge {
+      position: absolute;
+      bottom: 38px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #F59E0B, #EF4444);
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 3px 8px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.45);
+      border: 1.5px solid #FEF08A;
+      pointer-events: none;
+      z-index: 30;
+      white-space: nowrap;
+      animation: comboPop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes comboPop {
+      0% { transform: translateX(-50%) scale(0.6); opacity: 0; }
+      100% { transform: translateX(-50%) scale(1); opacity: 1; }
+    }
+
+    /* LAWN FORTUNE COOKIE */
+    .lawn-fortune-cookie {
+      position: absolute;
+      bottom: 13px;
+      left: 128px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #FDE68A, #D97706);
+      border: 2px solid #FEF08A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      box-shadow: 0 4px 10px rgba(217, 119, 6, 0.35);
+      cursor: pointer;
+      pointer-events: auto;
+      z-index: 10;
+      transition: transform 0.15s ease;
+      animation: cookieBounce 3.2s ease-in-out infinite;
+    }
+    .lawn-fortune-cookie:active {
+      transform: scale(0.88);
+    }
+    @keyframes cookieBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    /* SLEEP SNORER POPPABLE BUBBLE */
+    .sleep-snorer-bubble {
+      position: absolute;
+      top: -12px;
+      right: 12px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.95), rgba(167, 139, 250, 0.5));
+      border: 1.5px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 4px 12px rgba(167, 139, 250, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      cursor: pointer;
+      pointer-events: auto;
+      z-index: 25;
+      animation: snorerFloat 2.2s ease-in-out infinite;
+    }
+    @keyframes snorerFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-7px) scale(1.12); }
+    }
+
+    /* HIGH-FIVE CALL-TO-ACTION BADGE */
+    .highfive-badge {
+      position: absolute;
+      top: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.45);
+      border: 1.5px solid #A7F3D0;
+      cursor: pointer;
+      pointer-events: auto;
+      z-index: 30;
+      white-space: nowrap;
+      animation: highfivePulse 1.2s ease-in-out infinite;
+    }
+    @keyframes highfivePulse {
+      0%, 100% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.12); }
+    }
+
     /* KAWAII LIVING EYES ANIMATION & STYLES */
     .pet-eyes-group {
       transform-origin: 100px 92px;
@@ -1774,7 +1904,7 @@
     }
 
   
-    /* V3.2 ANIMATIONS & ENGAGEMENT: LIVING EYES, BUBBLES, LASER, GARDEN */
+    /* V4.0 ANIMATIONS & ENGAGEMENT: LIVING EYES, BUBBLES, LASER, GARDEN */
     .pet-eyes-group.blinking {
       transform: scaleY(0.08) !important;
       transition: transform 0.08s ease-in-out;
@@ -2135,7 +2265,11 @@
                 <!-- Laser Pointer Toy -->
         <div class="toy-laser-btn" id="toy-laser-btn" title="Включить лазерную указку!">🔴</div>
         <div class="laser-dot" id="laser-dot" style="display: none;"></div>
-        <div class="toy-ball" id="toy-ball" title="Бросить мячик питомцу!"></div>
+        <!-- Lawn Fortune Cookie -->
+        <div class="lawn-fortune-cookie" id="lawn-fortune-cookie" title="Печенье с предсказанием! Разломи и узнай судьбу!">🥠</div>
+        <div class="toy-ball" id="toy-ball" title="Бросить мячик питомцу!">
+          <div class="ball-combo-badge" id="ball-combo-badge" style="display: none;"></div>
+        </div>
 
         <!-- Poops -->
         <div id="poop-container"></div>
@@ -2153,6 +2287,10 @@
           <div class="pet-desire-timer-bar"><div class="pet-desire-timer-fill" id="pet-desire-timer-fill"></div></div>
         </div>
         <div id="pet-speech" class="pet-speech">Привет! 🐾</div>
+        <!-- High-Five Interactive Badge -->
+        <div id="highfive-badge" class="highfive-badge" style="display: none;">🖐️ Дай пять!</div>
+        <!-- Poppable Sleep Snorer Bubble -->
+        <div id="sleep-snorer-bubble" class="sleep-snorer-bubble" style="display: none;" title="Лопни сонный пузырь!">💤</div>
         <!-- Protective Umbrella -->
         <div id="pet-umbrella" class="pet-umbrella">
           <svg viewBox="0 0 120 70" width="100%" height="100%">
@@ -2371,6 +2509,20 @@
         </div>
 
         <button class="menu-btn btn-close" id="btn-close-garden">✕ Закрыть</button>
+      </div>
+    </div>
+
+    <!-- FORTUNE COOKIE MODAL -->
+    <div class="modal-overlay" id="fortune-modal">
+      <div class="modal-card" style="max-width: 360px; padding: 18px 16px; text-align: center;">
+        <div style="font-size: 38px; margin-bottom: 6px; animation: cookieBounce 2s ease-in-out infinite;">🥠✨</div>
+        <div class="modal-title" style="margin-bottom: 4px;">Печенье Судьбы</div>
+        <div style="font-size: 11px; color: #94A3B8; margin-bottom: 14px;">Древняя мудрость твоего питомца</div>
+        <div style="background: rgba(30, 41, 59, 0.7); border: 1.5px dashed #F59E0B; border-radius: 12px; padding: 12px; margin-bottom: 14px;">
+          <div id="fortune-text" style="font-size: 13px; font-weight: 700; color: #FEF08A; line-height: 1.4;">«Сегодня отличный день для великих открытий!»</div>
+          <div id="fortune-reward-badge" style="display: inline-block; margin-top: 8px; background: rgba(16, 185, 129, 0.2); border: 1px solid #10B981; color: #6EE7B7; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 8px;">+25 🪙 Монет &nbsp; +15 ⚡ Опыта</div>
+        </div>
+        <button class="menu-btn btn-primary" id="btn-claim-fortune" style="background: linear-gradient(135deg, #F59E0B, #D97706); border-color: #FCD34D; font-weight: 800; padding: 10px; font-size: 13px; margin-bottom: 6px;">✨ Принять предсказание</button>
       </div>
     </div>
 
@@ -2650,9 +2802,33 @@
         this.beep(880, 0.10, 'sine', 0.12);
         setTimeout(() => this.beep(1174, 0.12, 'sine', 0.12), 90);
       }
-      ballBounce() {
-        this.beep(260, 0.05, 'sine', 0.14);
-        setTimeout(() => this.beep(340, 0.06, 'sine', 0.12), 180);
+      ballBounce(combo = 0) {
+        const baseFreq = Math.min(680, 260 + (combo * 45));
+        this.beep(baseFreq, 0.05, 'sine', 0.15);
+        setTimeout(() => this.beep(baseFreq + 65, 0.06, 'sine', 0.12), 100);
+      }
+
+      cookieCrack() {
+        this.beep(780, 0.04, 'triangle', 0.14);
+        setTimeout(() => this.beep(520, 0.05, 'sawtooth', 0.12), 35);
+        setTimeout(() => this.beep(980, 0.07, 'sine', 0.15), 80);
+      }
+
+      bubblePop() {
+        this.beep(850, 0.04, 'sine', 0.13);
+        setTimeout(() => this.beep(1280, 0.06, 'triangle', 0.14), 30);
+      }
+
+      giggle() {
+        [620, 780, 920, 800].forEach((f, i) => {
+          setTimeout(() => this.beep(f, 0.04, 'sine', 0.12), i * 45);
+        });
+      }
+
+      highFive() {
+        this.beep(440, 0.05, 'triangle', 0.16);
+        setTimeout(() => this.beep(880, 0.08, 'sine', 0.15), 35);
+        setTimeout(() => this.beep(1320, 0.12, 'triangle', 0.14), 85);
       }
       drink() {
         this.beep(650, 0.04, 'sine', 0.12);
@@ -3878,52 +4054,81 @@
         }
 
         const colors = {
-          cat:    { main: '#5856D6', mainDark: '#4745B8', belly: '#F4EEFF', accent: '#FFD166', earInner: '#FF70A6', eyeIris: '#10B981' },
-          dragon: { main: '#E63946', mainDark: '#B91C1C', belly: '#FDE047', accent: '#F97316', earInner: '#EA580C', eyeIris: '#F59E0B' },
-          dog:    { main: '#F4A261', mainDark: '#E76F51', belly: '#FFF1E6', accent: '#FFD166', earInner: '#F28482', eyeIris: '#92400E' },
-          panda:  { main: '#2B2D42', mainDark: '#1E2030', belly: '#FFFFFF', accent: '#22C55E', earInner: '#1E2030', eyeIris: '#1E293B' },
-          bunny:  { main: '#90E0EF', mainDark: '#48CAE4', belly: '#FFFFFF', accent: '#E0AAFF', earInner: '#FFB5A7', eyeIris: '#8B5CF6' },
-          robot:  { main: '#00B4D8', mainDark: '#0077B6', belly: '#E0F2FE', accent: '#00F5D4', earInner: '#03045E', eyeIris: '#00F5D4' }
-        }[type] || { main: '#5856D6', mainDark: '#4745B8', belly: '#F4EEFF', accent: '#FFD166', earInner: '#FF70A6', eyeIris: '#10B981' };
+          cat:    { main: '#5856D6', mainDark: '#4745B8', belly: '#F4EEFF', accent: '#FFD166', earInner: '#FF70A6', eyeIris: '#10B981', glow: '#A78BFA' },
+          dragon: { main: '#E63946', mainDark: '#B91C1C', belly: '#FDE047', accent: '#F97316', earInner: '#EA580C', eyeIris: '#F59E0B', glow: '#F97316' },
+          dog:    { main: '#F4A261', mainDark: '#E76F51', belly: '#FFF1E6', accent: '#FFD166', earInner: '#F28482', eyeIris: '#92400E', glow: '#FBBF24' },
+          panda:  { main: '#2B2D42', mainDark: '#1E2030', belly: '#FFFFFF', accent: '#22C55E', earInner: '#1E2030', eyeIris: '#1E293B', glow: '#34D399' },
+          bunny:  { main: '#90E0EF', mainDark: '#48CAE4', belly: '#FFFFFF', accent: '#E0AAFF', earInner: '#FFB5A7', eyeIris: '#8B5CF6', glow: '#C084FC' },
+          robot:  { main: '#00B4D8', mainDark: '#0077B6', belly: '#E0F2FE', accent: '#00F5D4', earInner: '#03045E', eyeIris: '#00F5D4', glow: '#38BDF8' }
+        }[type] || { main: '#5856D6', mainDark: '#4745B8', belly: '#F4EEFF', accent: '#FFD166', earInner: '#FF70A6', eyeIris: '#10B981', glow: '#A78BFA' };
 
-        const isTitan = (stage >= 5);
+        const isCelestial = (stage >= 5);
+        const isChampion  = (stage >= 4);
+        const isAdept     = (stage >= 3);
+        const isScout     = (stage >= 2);
+        const isBaby      = (stage <= 1);
+
         const pawFill = (type === 'panda') ? '#212529' : colors.mainDark;
-        const irisColor = colors.eyeIris || '#10B981';
-        const rimColor = colors.accent || '#A7F3D0';
+        const irisColor = colors.eyeIris;
+        const rimColor = colors.accent;
 
         let svg = `<svg class="pet-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <radialGradient id="titanAura" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#FCD34D" stop-opacity="0.85"/>
-              <stop offset="55%" stop-color="#F59E0B" stop-opacity="0.45"/>
-              <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
+            <radialGradient id="celestialAura" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="${colors.glow}" stop-opacity="0.85"/>
+              <stop offset="50%" stop-color="${colors.accent}" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="${colors.mainDark}" stop-opacity="0"/>
             </radialGradient>
-            <radialGradient id="frostAura" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#00F5D4" stop-opacity="0.85"/>
-              <stop offset="60%" stop-color="#0077B6" stop-opacity="0.35"/>
-              <stop offset="100%" stop-color="#03045E" stop-opacity="0"/>
+            <radialGradient id="orbGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1"/>
+              <stop offset="40%" stop-color="${colors.accent}" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="${colors.glow}" stop-opacity="0"/>
             </radialGradient>
+            <linearGradient id="wingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="${colors.accent}" stop-opacity="0.95"/>
+              <stop offset="100%" stop-color="${colors.mainDark}" stop-opacity="0.75"/>
+            </linearGradient>
           </defs>`;
 
-        // STAGE 5: MEGA-TITAN RADIANT AURA & ENERGY SPARKS
-        if (isTitan) {
-          const auraGrad = (type === 'bunny' || type === 'robot') ? 'url(#frostAura)' : 'url(#titanAura)';
+        // STAGE 5: CELESTIAL RADIANCE & ORBITING SATELLITE RELICS / DRONES
+        if (isCelestial) {
           svg += `
-            <circle cx="100" cy="110" r="92" fill="${auraGrad}" />
-            <path d="M 20 75 L 25 80 L 31 82 L 25 84 L 20 89 L 16 84 L 10 82 L 16 80 Z" fill="#FCD34D" opacity="0.85"/>
-            <path d="M 180 75 L 185 80 L 191 82 L 185 84 L 180 89 L 176 84 L 170 82 L 176 80 Z" fill="#FCD34D" opacity="0.85"/>
-            <path d="M 100 10 L 103 17 L 110 19 L 103 21 L 100 28 L 97 21 L 90 19 L 97 17 Z" fill="#FCD34D"/>
+            <!-- CELESTIAL COSMIC AURA -->
+            <circle cx="100" cy="110" r="92" fill="url(#celestialAura)" />
+            <!-- Orbiting Satellite Relics / Celestial Orbs with animated continuous rotation -->
+            <g class="celestial-orbit-group">
+              <!-- Left Orbiting Orb -->
+              <g class="orbit-orb-left" style="transform-origin: 100px 110px;">
+                <circle cx="22" cy="76" r="9" fill="url(#orbGlow)"/>
+                <circle cx="22" cy="76" r="4.5" fill="#FFFFFF"/>
+                <circle cx="22" cy="76" r="14" fill="${colors.accent}" opacity="0.3"/>
+              </g>
+              <!-- Right Orbiting Orb -->
+              <g class="orbit-orb-right" style="transform-origin: 100px 110px;">
+                <circle cx="178" cy="76" r="9" fill="url(#orbGlow)"/>
+                <circle cx="178" cy="76" r="4.5" fill="#FFFFFF"/>
+                <circle cx="178" cy="76" r="14" fill="${colors.accent}" opacity="0.3"/>
+              </g>
+              <!-- Floating Energy Stars -->
+              <polygon points="100,10 103,17 110,19 103,21 100,28 97,21 90,19 97,17" fill="#FCD34D" filter="drop-shadow(0 0 5px #F59E0B)"/>
+              <polygon points="36,46 38,50 42,51 38,52 36,56 34,52 30,51 34,50" fill="#FCD34D" opacity="0.85"/>
+              <polygon points="164,46 166,50 170,51 166,52 164,56 162,52 158,51 162,50" fill="#FCD34D" opacity="0.85"/>
+            </g>
           `;
         }
 
-        // WINGS (Dragon or Titan)
-        if (type === 'dragon' || (isTitan && type !== 'robot')) {
-          if (stage >= 3 || isTitan) {
-            const wingColor = type === 'dragon' ? '#DC2626' : colors.accent;
+        // WINGS: Dragon has wings from Stage 3; Celestial (Stage 5) all pets get ethereal wings
+        if (type === 'dragon' || isCelestial || (isChampion && type !== 'robot')) {
+          if (isAdept || isCelestial || isChampion) {
+            const wY = isCelestial ? 22 : (isChampion ? 38 : 52);
             svg += `
               <g class="wings">
-                <path d="M 44 85 Q 0 ${isTitan ? 22 : 46} 4 ${isTitan ? 104 : 95} Q 24 100 44 104 Z" fill="${wingColor}" opacity="0.95" stroke="${colors.mainDark}" stroke-width="2"/>
-                <path d="M 156 85 Q 200 ${isTitan ? 22 : 46} 196 ${isTitan ? 104 : 95} Q 176 100 156 104 Z" fill="${wingColor}" opacity="0.95" stroke="${colors.mainDark}" stroke-width="2"/>
+                <!-- Left Ethereal Wing -->
+                <path d="M 44 86 Q 0 ${wY} 4 104 Q 24 98 44 102 Z" fill="url(#wingGrad)" stroke="${colors.mainDark}" stroke-width="2"/>
+                <path d="M 12 78 Q 28 86 44 92" stroke="#FFFFFF" stroke-width="1.8" fill="none" opacity="0.6"/>
+                <!-- Right Ethereal Wing -->
+                <path d="M 156 86 Q 200 ${wY} 196 104 Q 176 98 156 102 Z" fill="url(#wingGrad)" stroke="${colors.mainDark}" stroke-width="2"/>
+                <path d="M 188 78 Q 172 86 156 92" stroke="#FFFFFF" stroke-width="1.8" fill="none" opacity="0.6"/>
               </g>
             `;
           }
@@ -3931,27 +4136,31 @@
 
         // EARS / HORNS / ANTENNAS
         if (type === 'cat') {
-          const earTipExtra = isTitan ? 12 : 0;
+          const eTip = isCelestial ? 14 : (isChampion ? 8 : 0);
           svg += `
-            <polygon points="40,88 ${22-earTipExtra},${25-earTipExtra} 85,55" fill="${colors.main}" stroke="${colors.mainDark}" stroke-width="2"/>
-            <polygon points="43,84 ${28-earTipExtra},${34-earTipExtra} 78,58" fill="${colors.earInner}"/>
-            <polygon points="160,88 ${178+earTipExtra},${25-earTipExtra} 115,55" fill="${colors.main}" stroke="${colors.mainDark}" stroke-width="2"/>
-            <polygon points="157,84 ${172+earTipExtra},${34-earTipExtra} 122,58" fill="${colors.earInner}"/>
+            <polygon points="40,88 ${22-eTip},${25-eTip} 85,55" fill="${colors.main}" stroke="${colors.mainDark}" stroke-width="2"/>
+            <polygon points="43,84 ${28-eTip},${34-eTip} 78,58" fill="${colors.earInner}"/>
+            <polygon points="160,88 ${178+eTip},${25-eTip} 115,55" fill="${colors.main}" stroke="${colors.mainDark}" stroke-width="2"/>
+            <polygon points="157,84 ${172+eTip},${34-eTip} 122,58" fill="${colors.earInner}"/>
           `;
-          if (isTitan || stage >= 3) {
+          if (isAdept || isChampion || isCelestial) {
             svg += `
-              <polygon points="${22-earTipExtra},${25-earTipExtra} ${16-earTipExtra},${14-earTipExtra} ${28-earTipExtra},${19-earTipExtra}" fill="#FFD166"/>
-              <polygon points="${178+earTipExtra},${25-earTipExtra} ${184+earTipExtra},${14-earTipExtra} ${172+earTipExtra},${19-earTipExtra}" fill="#FFD166"/>
+              <polygon points="${22-eTip},${25-eTip} ${16-eTip},${14-eTip} ${28-eTip},${19-eTip}" fill="#FFD166"/>
+              <polygon points="${178+eTip},${25-eTip} ${184+eTip},${14-eTip} ${172+eTip},${19-eTip}" fill="#FFD166"/>
             `;
           }
+          if (isCelestial) {
+            // Crescent Moon Celestial Diadem
+            svg += `<path d="M 94 38 Q 100 32 106 38 Q 103 44 100 44 Q 97 44 94 38 Z" fill="#FCD34D" filter="drop-shadow(0 0 4px #F59E0B)"/>`;
+          }
         } else if (type === 'dragon') {
-          const hornLen = isTitan ? 15 : 0;
+          const hLen = isCelestial ? 16 : (isChampion ? 10 : 0);
           svg += `
-            <path d="M 50 70 Q ${18-hornLen} ${15-hornLen} 45 10 Q 55 35 68 60 Z" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
-            <path d="M 150 70 Q ${182+hornLen} ${15-hornLen} 155 10 Q 145 35 132 60 Z" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+            <path d="M 50 70 Q ${18-hLen} ${15-hLen} 45 10 Q 55 35 68 60 Z" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+            <path d="M 150 70 Q ${182+hLen} ${15-hLen} 155 10 Q 145 35 132 60 Z" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
             <polygon points="100,24 90,44 110,44" fill="#DC2626"/>
           `;
-          if (isTitan || stage >= 3) {
+          if (isAdept || isChampion || isCelestial) {
             svg += `
               <polygon points="85,38 80,50 90,50" fill="#F59E0B" />
               <polygon points="115,38 110,50 120,50" fill="#F59E0B" />
@@ -3963,13 +4172,13 @@
             <path d="M 162 75 C 188 75 192 122 170 138 C 154 142 144 105 148 82 Z" fill="${colors.mainDark}" />
           `;
         } else if (type === 'panda') {
-          const rEar = isTitan ? 24 : 21;
+          const rEar = isCelestial ? 24 : 21;
           svg += `
             <circle cx="46" cy="48" r="${rEar}" fill="#1E2030" stroke="${colors.main}" stroke-width="2"/>
             <circle cx="154" cy="48" r="${rEar}" fill="#1E2030" stroke="${colors.main}" stroke-width="2"/>
           `;
         } else if (type === 'bunny') {
-          const earLen = isTitan ? 20 : (stage >= 3 ? 12 : 0);
+          const earLen = isCelestial ? 22 : (isChampion ? 14 : (isAdept ? 8 : 0));
           svg += `
             <ellipse cx="65" cy="40" rx="14" ry="${45 + earLen}" fill="${colors.main}" stroke="${colors.mainDark}" stroke-width="2" transform="rotate(-15 65 40)" />
             <ellipse cx="65" cy="40" rx="7" ry="${35 + earLen}" fill="${colors.earInner}" transform="rotate(-15 65 40)" />
@@ -3977,7 +4186,7 @@
             <ellipse cx="135" cy="40" rx="7" ry="${35 + earLen}" fill="${colors.earInner}" transform="rotate(15 135 40)" />
           `;
         } else if (type === 'robot') {
-          if (isTitan) {
+          if (isCelestial) {
             svg += `
               <rect x="94" y="16" width="12" height="34" rx="4" fill="#0077B6" />
               <circle cx="100" cy="14" r="10" fill="#00F5D4" filter="drop-shadow(0 0 8px #00F5D4)"/>
@@ -3994,178 +4203,147 @@
           }
         }
 
-        // TAIL
+        // TAILS
         if (type === 'cat') {
-          const tailThick = isTitan ? 15 : (stage >= 3 ? 12 : 9);
-          svg += `<path d="M 148 140 Q 192 145 186 100 Q 180 85 170 92" stroke="${colors.main}" stroke-width="${tailThick}" stroke-linecap="round" fill="none"/>`;
+          const tThick = isCelestial ? 14 : (isChampion ? 12 : 10);
+          svg += `<path d="M 148 140 Q 192 145 186 100 Q 180 85 170 92" stroke="${colors.main}" stroke-width="${tThick}" stroke-linecap="round" fill="none"/>`;
         } else if (type === 'dragon') {
-          const tailThick = isTitan ? 18 : 13;
+          const tThick = isCelestial ? 16 : 13;
           svg += `
-            <path d="M 148 142 Q 194 158 196 115" stroke="${colors.main}" stroke-width="${tailThick}" stroke-linecap="round" fill="none"/>
+            <path d="M 148 142 Q 194 158 196 115" stroke="${colors.main}" stroke-width="${tThick}" stroke-linecap="round" fill="none"/>
             <polygon points="196,115 186,96 205,104" fill="#F59E0B"/>
           `;
         } else if (type === 'dog') {
-          const tailThick = isTitan ? 16 : 11;
-          svg += `<path d="M 148 138 Q 180 120 184 95" stroke="${colors.mainDark}" stroke-width="${tailThick}" stroke-linecap="round" fill="none"/>`;
+          const tThick = isCelestial ? 15 : 11;
+          svg += `<path d="M 148 138 Q 180 120 184 95" stroke="${colors.mainDark}" stroke-width="${tThick}" stroke-linecap="round" fill="none"/>`;
         } else if (type === 'bunny') {
-          svg += `<circle cx="156" cy="142" r="${isTitan ? 18 : 14}" fill="#FFFFFF" stroke="${colors.mainDark}" stroke-width="1.5"/>`;
+          svg += `<circle cx="156" cy="142" r="${isCelestial ? 17 : 14}" fill="#FFFFFF" stroke="${colors.mainDark}" stroke-width="1.5"/>`;
         }
 
-        // ==========================================
-        // BODY & MUSCLES: STAGE 5 (TITAN GIGACHAD) VS STAGES 1-4
-        // ==========================================
-        if (isTitan && type !== 'robot') {
-          // --- STAGE 5: MASSIVE MUSCULAR BODYBUILDER ---
+        // SLEEK AESTHETIC BODY & PROGRESSIVE COSTUMES
+        const bRadX = isBaby ? 50 : (isScout ? 56 : (isAdept ? 62 : (isChampion ? 68 : 72)));
+        const bRadY = isBaby ? 46 : (isScout ? 52 : (isAdept ? 56 : (isChampion ? 60 : 64)));
+        const bPosY = isBaby ? 122 : (isScout ? 118 : (isAdept ? 116 : 114));
+
+        if (type === 'robot') {
+          const rW = isBaby ? 112 : (isScout ? 122 : (isAdept ? 128 : (isChampion ? 134 : 140)));
+          const rH = isBaby ? 96 : (isScout ? 104 : (isAdept ? 110 : (isChampion ? 116 : 122)));
+          const rX = 100 - rW / 2;
+          const rY = 168 - rH;
           svg += `
-            <!-- Trapezius Muscle Slope -->
-            <path d="M 44 88 Q 100 58 156 88 L 165 110 L 35 110 Z" fill="${colors.mainDark}" opacity="0.75"/>
-            
-            <!-- Massive Deltoid Shoulders -->
-            <ellipse cx="40" cy="94" rx="22" ry="20" fill="${colors.main}" stroke="${colors.mainDark}" stroke-width="3"/>
-            <ellipse cx="160" cy="94" rx="22" ry="20" fill="${colors.main}" stroke="${colors.mainDark}" stroke-width="3"/>
-
-            <!-- Giant V-Taper Muscular Torso -->
-            <path d="M 40 96 Q 36 135 62 170 L 138 170 Q 164 135 160 96 Z" fill="${colors.main}" stroke="${colors.mainDark}" stroke-width="3"/>
-
-            <!-- Bulging Left Bicep (Flexing Arm) -->
-            <g class="titan-bicep-left">
-              <ellipse cx="24" cy="120" rx="16" ry="24" transform="rotate(20 24 120)" fill="${colors.main}" stroke="${colors.mainDark}" stroke-width="3"/>
-              <path d="M 18 112 Q 25 106 31 116" stroke="${colors.mainDark}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-              <ellipse cx="23" cy="116" rx="9" ry="14" fill="#FFFFFF" opacity="0.2"/>
-              <circle cx="18" cy="144" r="13" fill="${pawFill}" stroke="${colors.mainDark}" stroke-width="2.5"/>
-              <circle cx="11" cy="142" r="3.5" fill="#FDE047"/>
-              <circle cx="18" cy="136" r="3.5" fill="#FDE047"/>
-              <circle cx="25" cy="142" r="3.5" fill="#FDE047"/>
-            </g>
-
-            <!-- Bulging Right Bicep (Flexing Arm) -->
-            <g class="titan-bicep-right">
-              <ellipse cx="176" cy="120" rx="16" ry="24" transform="rotate(-20 176 120)" fill="${colors.main}" stroke="${colors.mainDark}" stroke-width="3"/>
-              <path d="M 182 112 Q 175 106 169 116" stroke="${colors.mainDark}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-              <ellipse cx="177" cy="116" rx="9" ry="14" fill="#FFFFFF" opacity="0.2"/>
-              <circle cx="182" cy="144" r="13" fill="${pawFill}" stroke="${colors.mainDark}" stroke-width="2.5"/>
-              <circle cx="175" cy="142" r="3.5" fill="#FDE047"/>
-              <circle cx="182" cy="136" r="3.5" fill="#FDE047"/>
-              <circle cx="189" cy="142" r="3.5" fill="#FDE047"/>
-            </g>
-
-            <!-- SCULPTED PECTORAL CHEST (PECS) -->
-            <path d="M 52 98 Q 76 94 98 98 Q 100 128 75 132 Q 48 126 52 98 Z" fill="${colors.belly}" stroke="${colors.mainDark}" stroke-width="2.8"/>
-            <path d="M 102 98 Q 124 94 148 98 Q 152 126 125 132 Q 100 128 102 98 Z" fill="${colors.belly}" stroke="${colors.mainDark}" stroke-width="2.8"/>
-            <line x1="100" y1="94" x2="100" y2="132" stroke="${colors.mainDark}" stroke-width="3" stroke-linecap="round"/>
-
-            <!-- SHREDDED 6-PACK ABS (КУБИКИ ПРЕССА) -->
-            <line x1="100" y1="132" x2="100" y2="168" stroke="${colors.mainDark}" stroke-width="2.8" stroke-linecap="round"/>
-            
-            <!-- Upper Abs -->
-            <path d="M 74 142 Q 100 145 126 142" stroke="${colors.mainDark}" stroke-width="2.8" fill="none" stroke-linecap="round"/>
-            <ellipse cx="86" cy="137" rx="10" ry="4" fill="#FFFFFF" opacity="0.18"/>
-            <ellipse cx="114" cy="137" rx="10" ry="4" fill="#FFFFFF" opacity="0.18"/>
-
-            <!-- Mid Abs -->
-            <path d="M 76 154 Q 100 157 124 154" stroke="${colors.mainDark}" stroke-width="2.8" fill="none" stroke-linecap="round"/>
-            <ellipse cx="87" cy="148" rx="9" ry="4" fill="#FFFFFF" opacity="0.18"/>
-            <ellipse cx="113" cy="148" rx="9" ry="4" fill="#FFFFFF" opacity="0.18"/>
-
-            <!-- Lower Abs -->
-            <path d="M 80 165 Q 100 168 120 165" stroke="${colors.mainDark}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-
-            <!-- Obliques / Serratus Ridges -->
-            <line x1="56" y1="136" x2="68" y2="142" stroke="${colors.mainDark}" stroke-width="2.2" stroke-linecap="round"/>
-            <line x1="58" y1="148" x2="70" y2="154" stroke="${colors.mainDark}" stroke-width="2.2" stroke-linecap="round"/>
-            <line x1="144" y1="136" x2="132" y2="142" stroke="${colors.mainDark}" stroke-width="2.2" stroke-linecap="round"/>
-            <line x1="142" y1="148" x2="130" y2="154" stroke="${colors.mainDark}" stroke-width="2.2" stroke-linecap="round"/>
+            <rect x="${rX}" y="${rY}" width="${rW}" height="${rH}" rx="24" fill="${colors.main}" stroke="${colors.mainDark}" stroke-width="3.5" />
+            <rect x="${rX + 12}" y="${rY + 12}" width="${rW - 24}" height="${rH * 0.54}" rx="12" fill="#020617" stroke="#0077B6" stroke-width="2" />
           `;
-
-          if (type === 'panda') {
-            // Red Martial Arts Champion Belt
-            svg += `<rect x="64" y="162" width="72" height="8" rx="2" fill="#DC2626" stroke="#991B1B" stroke-width="1.5"/>
-                    <circle cx="100" cy="166" r="6" fill="#FCD34D"/>`;
-          } else if (type === 'dog') {
-            // Champion Studded Collar
+          if (isCelestial) {
+            // Cyber Quantum Arc-Reactor
             svg += `
-              <rect x="52" y="86" width="96" height="8" rx="3" fill="#D97706" stroke="#92400E" stroke-width="1.5"/>
-              <circle cx="64" cy="90" r="2.5" fill="#FFFFFF"/>
-              <circle cx="82" cy="90" r="2.5" fill="#FFFFFF"/>
-              <circle cx="100" cy="90" r="4" fill="#FCD34D" stroke="#92400E" stroke-width="1"/>
-              <circle cx="118" cy="90" r="2.5" fill="#FFFFFF"/>
-              <circle cx="136" cy="90" r="2.5" fill="#FFFFFF"/>
+              <circle cx="100" cy="144" r="16" fill="#020617" stroke="#0077B6" stroke-width="2.5"/>
+              <circle cx="100" cy="144" r="11" fill="#00F5D4" filter="drop-shadow(0 0 8px #00F5D4)"/>
+              <polygon points="100,136 107,148 93,148" fill="#FFFFFF"/>
             `;
           }
-
-          // Broad Champion Quads & Paws
-          svg += `
-            <ellipse cx="64" cy="172" rx="18" ry="10" fill="${pawFill}" stroke="${colors.mainDark}" stroke-width="2.5"/>
-            <ellipse cx="136" cy="172" rx="18" ry="10" fill="${pawFill}" stroke="${colors.mainDark}" stroke-width="2.5"/>
-          `;
-
-        } else if (isTitan && type === 'robot') {
-          // --- STAGE 5: ROBOT MECHA-TITAN CYBER COLOSSUS ---
-          svg += `
-            <!-- Titanium Shoulder Pauldrons -->
-            <rect x="16" y="68" width="38" height="34" rx="8" fill="${colors.mainDark}" stroke="#00F5D4" stroke-width="3"/>
-            <rect x="146" y="68" width="38" height="34" rx="8" fill="${colors.mainDark}" stroke="#00F5D4" stroke-width="3"/>
-            
-            <!-- Heavy Piston Arm Cannons -->
-            <rect x="14" y="104" width="28" height="42" rx="6" fill="${colors.main}" stroke="${colors.mainDark}" stroke-width="3"/>
-            <circle cx="28" cy="144" r="10" fill="#00F5D4"/>
-            <rect x="158" y="104" width="28" height="42" rx="6" fill="${colors.main}" stroke="${colors.mainDark}" stroke-width="3"/>
-            <circle cx="172" cy="144" r="10" fill="#00F5D4"/>
-
-            <!-- Heavy Armor Torso Frame -->
-            <rect x="36" y="58" width="128" height="114" rx="24" fill="${colors.main}" stroke="${colors.mainDark}" stroke-width="4"/>
-            <rect x="46" y="66" width="108" height="54" rx="14" fill="#020617" stroke="#0077B6" stroke-width="2.5"/>
-
-            <!-- Glowing Plasma Arc-Reactor Core -->
-            <circle cx="100" cy="142" r="16" fill="#020617" stroke="#0077B6" stroke-width="3"/>
-            <circle cx="100" cy="142" r="12" fill="#00F5D4" filter="drop-shadow(0 0 10px #00F5D4)"/>
-            <polygon points="100,134 107,146 93,146" fill="#FFFFFF"/>
-
-            <!-- Heavy Reinforced Mech Feet -->
-            <rect x="48" y="166" width="36" height="16" rx="5" fill="#03045E" stroke="#00F5D4" stroke-width="2"/>
-            <rect x="116" y="166" width="36" height="16" rx="5" fill="#03045E" stroke="#00F5D4" stroke-width="2"/>
-          `;
         } else {
-          // --- STAGES 1 TO 4: BABY TO ADULT PROGRESSION ---
-          const bRadX = stage === 1 ? 52 : (stage === 2 ? 57 : (stage === 3 ? 62 : 66));
-          const bRadY = stage === 1 ? 46 : (stage === 2 ? 52 : (stage === 3 ? 56 : 60));
-          const bPosY = stage === 1 ? 122 : (stage === 2 ? 120 : (stage === 3 ? 116 : 114));
+          // Elegant sleek organic body
+          svg += `<ellipse cx="100" cy="${bPosY}" rx="${bRadX}" ry="${bRadY}" fill="${colors.main}" stroke="${colors.mainDark}" stroke-width="3"/>`;
+          const bellyRx = isBaby ? 30 : (isScout ? 36 : (isAdept ? 42 : 46));
+          const bellyRy = isBaby ? 24 : (isScout ? 28 : (isAdept ? 32 : 36));
+          svg += `<ellipse cx="100" cy="${bPosY + 8}" rx="${bellyRx}" ry="${bellyRy}" fill="${colors.belly}" />`;
+        }
 
-          if (type === 'robot') {
-            const rW = stage === 1 ? 112 : (stage === 2 ? 122 : (stage === 3 ? 128 : 134));
-            const rH = stage === 1 ? 96 : (stage === 2 ? 104 : (stage === 3 ? 110 : 116));
-            const rX = 100 - rW / 2;
-            const rY = 168 - rH;
-            svg += `
-              <rect x="${rX}" y="${rY}" width="${rW}" height="${rH}" rx="24" fill="${colors.main}" stroke="${colors.mainDark}" stroke-width="3.5" />
-              <rect x="${rX + 12}" y="${rY + 12}" width="${rW - 24}" height="${rH * 0.54}" rx="12" fill="#020617" stroke="#0077B6" stroke-width="2" />
-            `;
-          } else {
-            svg += `<ellipse cx="100" cy="${bPosY}" rx="${bRadX}" ry="${bRadY}" fill="${colors.main}" stroke="${colors.mainDark}" stroke-width="3"/>`;
-            
-            const bellyRx = stage === 1 ? 32 : (stage === 2 ? 37 : 42);
-            const bellyRy = stage === 1 ? 26 : (stage === 2 ? 30 : 34);
-            svg += `<ellipse cx="100" cy="${bPosY + 8}" rx="${bellyRx}" ry="${bellyRy}" fill="${colors.belly}" />`;
-          }
-
-          // Paws for stages 1-4
-          const pawRx = stage === 1 ? 10 : (stage === 2 ? 12 : (stage === 3 ? 14 : 16));
-          const pawRy = stage === 1 ? 6 : (stage === 2 ? 7 : (stage === 3 ? 8 : 9));
+        // STAGE 2 (SCOUT): Stylish scout neck bandana / scarf
+        if (isScout && !isBaby && !isAdept && !isChampion && !isCelestial && type !== 'robot') {
           svg += `
-            <ellipse cx="68" cy="168" rx="${pawRx}" ry="${pawRy}" fill="${pawFill}" />
-            <ellipse cx="132" cy="168" rx="${pawRx}" ry="${pawRy}" fill="${pawFill}" />
+            <g class="scout-bandana">
+              <path d="M 68 112 Q 100 124 132 112 Q 100 134 68 112 Z" fill="${colors.accent}" stroke="${colors.mainDark}" stroke-width="1.8"/>
+              <polygon points="98,124 106,124 102,136" fill="${colors.accent}"/>
+            </g>
           `;
         }
+
+        // STAGE 3 (ADEPT): Elemental rune cuffs on paws & sleek collar
+        if (isAdept && !isBaby && type !== 'robot') {
+          svg += `
+            <g class="adept-markings">
+              <circle cx="68" cy="160" r="4" fill="${colors.accent}" opacity="0.85"/>
+              <circle cx="132" cy="160" r="4" fill="${colors.accent}" opacity="0.85"/>
+            </g>
+          `;
+        }
+
+        // STAGE 4 (CHAMPION): Regal crest / armor plate
+        if (isChampion && type !== 'robot') {
+          svg += `
+            <g class="champion-crest">
+              <path d="M 84 108 L 100 100 L 116 108 L 100 126 Z" fill="${colors.accent}" stroke="${colors.mainDark}" stroke-width="1.5" opacity="0.95"/>
+              <circle cx="100" cy="112" r="3.5" fill="#FFFFFF"/>
+            </g>
+          `;
+        }
+
+        // STAGE 5 (CELESTIAL TITAN): Glowing constellation/runic tattoos
+        if (isCelestial) {
+          if (type === 'cat') {
+            svg += `
+              <g class="celestial-tattoos">
+                <!-- Glowing Constellation Runes on Shoulders -->
+                <line x1="58" y1="94" x2="68" y2="88" stroke="${colors.accent}" stroke-width="2" stroke-linecap="round"/>
+                <line x1="68" y1="88" x2="78" y2="92" stroke="${colors.accent}" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="58" cy="94" r="2.5" fill="#FFFFFF"/>
+                <circle cx="68" cy="88" r="3.2" fill="#FFFFFF"/>
+                <circle cx="78" cy="92" r="2.5" fill="#FFFFFF"/>
+
+                <line x1="142" y1="94" x2="132" y2="88" stroke="${colors.accent}" stroke-width="2" stroke-linecap="round"/>
+                <line x1="132" y1="88" x2="122" y2="92" stroke="${colors.accent}" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="142" cy="94" r="2.5" fill="#FFFFFF"/>
+                <circle cx="132" cy="88" r="3.2" fill="#FFFFFF"/>
+                <circle cx="122" cy="92" r="2.5" fill="#FFFFFF"/>
+              </g>
+            `;
+          } else if (type === 'dragon') {
+            svg += `
+              <g class="magma-runes">
+                <path d="M 88 118 L 100 128 L 112 118" stroke="#F59E0B" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <path d="M 92 134 L 100 142 L 108 134" stroke="#F59E0B" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              </g>
+            `;
+          } else if (type === 'dog') {
+            svg += `
+              <g class="thunder-collar">
+                <rect x="56" y="90" width="88" height="9" rx="3" fill="${colors.accent}" stroke="${colors.mainDark}" stroke-width="1.5"/>
+                <circle cx="100" cy="94" r="5" fill="#FFFFFF" stroke="${colors.mainDark}" stroke-width="1.5"/>
+              </g>
+            `;
+          } else if (type === 'panda') {
+            svg += `
+              <g class="jade-monk">
+                <circle cx="82" cy="116" r="5.5" fill="#10B981" stroke="#064E3B" stroke-width="1.5"/>
+                <circle cx="94" cy="120" r="6" fill="#10B981" stroke="#064E3B" stroke-width="1.5"/>
+                <circle cx="106" cy="120" r="6" fill="#10B981" stroke="#064E3B" stroke-width="1.5"/>
+                <circle cx="118" cy="116" r="5.5" fill="#10B981" stroke="#064E3B" stroke-width="1.5"/>
+              </g>
+            `;
+          }
+        }
+
+        // PAWS (Sleek, rounded, charming)
+        const pRx = isBaby ? 9 : (isScout ? 11 : (isAdept ? 13 : (isChampion ? 15 : 17)));
+        const pRy = isBaby ? 6 : (isScout ? 7 : (isAdept ? 8 : (isChampion ? 9 : 10)));
+        svg += `
+          <ellipse cx="68" cy="168" rx="${pRx}" ry="${pRy}" fill="${pawFill}" stroke="${colors.mainDark}" stroke-width="2"/>
+          <ellipse cx="132" cy="168" rx="${pRx}" ry="${pRy}" fill="${pawFill}" stroke="${colors.mainDark}" stroke-width="2"/>
+        `;
 
         // DOG / PANDA EYE PATCHES
         if (type === 'dog') {
           svg += `<ellipse cx="68" cy="92" rx="16" ry="14" fill="${colors.mainDark}" opacity="0.6" />`;
         } else if (type === 'panda') {
-          svg += `<ellipse cx="70" cy="92" rx="18" ry="15" fill="#1E2030" transform="rotate(-15 70 92)" />
-                  <ellipse cx="130" cy="92" rx="18" ry="15" fill="#1E2030" transform="rotate(15 130 92)" />`;
+          svg += `
+            <ellipse cx="70" cy="92" rx="18" ry="15" fill="#1E2030" transform="rotate(-15 70 92)" />
+            <ellipse cx="130" cy="92" rx="18" ry="15" fill="#1E2030" transform="rotate(15 130 92)" />
+          `;
         }
 
-        // KAWAII BLUSH CHEEKS (Soft pink glow with anime stripes ///)
+        // KAWAII BLUSH CHEEKS
         if (type !== 'robot') {
           svg += `
             <g class="kawaii-blush-group" style="transform-origin: 100px 110px;">
@@ -4181,10 +4359,12 @@
 
         // BUNNY WHISKERS
         if (type === 'bunny') {
-          svg += `<line x1="32" y1="104" x2="52" y2="106" stroke="#48CAE4" stroke-width="2" stroke-linecap="round"/>
-                  <line x1="30" y1="112" x2="50" y2="110" stroke="#48CAE4" stroke-width="2" stroke-linecap="round"/>
-                  <line x1="168" y1="104" x2="148" y2="106" stroke="#48CAE4" stroke-width="2" stroke-linecap="round"/>
-                  <line x1="170" y1="112" x2="150" y2="110" stroke="#48CAE4" stroke-width="2" stroke-linecap="round"/>`;
+          svg += `
+            <line x1="32" y1="104" x2="52" y2="106" stroke="#48CAE4" stroke-width="2" stroke-linecap="round"/>
+            <line x1="30" y1="112" x2="50" y2="110" stroke="#48CAE4" stroke-width="2" stroke-linecap="round"/>
+            <line x1="168" y1="104" x2="148" y2="106" stroke="#48CAE4" stroke-width="2" stroke-linecap="round"/>
+            <line x1="170" y1="112" x2="150" y2="110" stroke="#48CAE4" stroke-width="2" stroke-linecap="round"/>
+          `;
         }
 
         // NOSE
@@ -4196,42 +4376,31 @@
           svg += `<ellipse cx="100" cy="102" rx="6" ry="4" fill="#1E2030" />`;
         }
 
-        // CUTE MOUTH
+        // MOUTH
         if (expression === 'sick') {
           svg += `<path d="M 92 116 Q 100 108 108 116" stroke="#1C1A3A" stroke-width="3" stroke-linecap="round" fill="none" />`;
         } else if (expression === 'happy') {
           svg += `<path d="M 93 108 Q 97 114 100 108 Q 103 114 107 108" stroke="#1C1A3A" stroke-width="2.8" stroke-linecap="round" fill="none" />`;
-        } else if (isTitan) {
-          // Confident titan smirk
-          svg += `<path d="M 91 107 Q 100 116 109 107" stroke="#1C1A3A" stroke-width="3" stroke-linecap="round" fill="none" />
-                  <path d="M 108 108 L 112 105" stroke="#1C1A3A" stroke-width="2.5" stroke-linecap="round"/>`;
         } else {
           svg += `<path d="M 92 108 Q 100 115 108 108" stroke="#1C1A3A" stroke-width="2.8" stroke-linecap="round" fill="none" />`;
         }
 
-        // --- KAWAII LIVING EYES SYSTEM ---
+        // KAWAII LIVING EYES
         if (type === 'robot') {
           if (expression === 'sleep') {
             svg += `
               <g class="pet-eyes-group">
                 <line x1="60" y1="94" x2="84" y2="94" stroke="#00F5D4" stroke-width="4.5" stroke-linecap="round" opacity="0.75" filter="drop-shadow(0 0 4px #00F5D4)"/>
                 <line x1="116" y1="94" x2="140" y2="94" stroke="#00F5D4" stroke-width="4.5" stroke-linecap="round" opacity="0.75" filter="drop-shadow(0 0 4px #00F5D4)"/>
-              </g>`;
+              </g>
+            `;
           } else if (expression === 'happy') {
             svg += `
               <g class="pet-eyes-group pet-eyes-happy">
-                <!-- Kawaii Glowing Heart Eyes -->
                 <path d="M 64 90 A 5 5 0 0 1 72 90 A 5 5 0 0 1 80 90 Q 72 102 64 90 Z" fill="#00F5D4" filter="drop-shadow(0 0 5px #00F5D4)"/>
                 <path d="M 120 90 A 5 5 0 0 1 128 90 A 5 5 0 0 1 136 90 Q 128 102 120 90 Z" fill="#00F5D4" filter="drop-shadow(0 0 5px #00F5D4)"/>
-              </g>`;
-          } else if (expression === 'sick') {
-            svg += `
-              <g class="pet-eyes-group">
-                <line x1="64" y1="86" x2="80" y2="98" stroke="#EF4444" stroke-width="4" stroke-linecap="round" filter="drop-shadow(0 0 4px #EF4444)"/>
-                <line x1="80" y1="86" x2="64" y2="98" stroke="#EF4444" stroke-width="4" stroke-linecap="round" filter="drop-shadow(0 0 4px #EF4444)"/>
-                <line x1="120" y1="86" x2="138" y2="98" stroke="#EF4444" stroke-width="4" stroke-linecap="round" filter="drop-shadow(0 0 4px #EF4444)"/>
-                <line x1="138" y1="86" x2="120" y2="98" stroke="#EF4444" stroke-width="4" stroke-linecap="round" filter="drop-shadow(0 0 4px #EF4444)"/>
-              </g>`;
+              </g>
+            `;
           } else {
             const pX = Math.max(-4, Math.min(4, lookX));
             const pY = Math.max(-3, Math.min(3, lookY));
@@ -4241,7 +4410,6 @@
                   <rect x="62" y="82" width="22" height="22" rx="7" fill="#00F5D4" filter="drop-shadow(0 0 6px rgba(0, 245, 212, 0.8))"/>
                   <circle cx="73" cy="93" r="5" fill="#03045E"/>
                   <circle cx="70.5" cy="89.5" r="2.5" fill="#FFFFFF"/>
-                  
                   <rect x="116" y="82" width="22" height="22" rx="7" fill="#00F5D4" filter="drop-shadow(0 0 6px rgba(0, 245, 212, 0.8))"/>
                   <circle cx="127" cy="93" r="5" fill="#03045E"/>
                   <circle cx="124.5" cy="89.5" r="2.5" fill="#FFFFFF"/>
@@ -4251,7 +4419,7 @@
             `;
           }
         } else {
-          // KAWAII ANIMAL LIVING EYES
+          // Animal Living Eyes
           if (expression === 'sleep') {
             svg += `
               <g class="pet-eyes-group">
@@ -4259,7 +4427,8 @@
                 <path d="M 114 94 Q 128 105 142 94" stroke="#1C1A3A" stroke-width="3.8" stroke-linecap="round" fill="none" />
                 <text x="146" y="75" font-size="12" font-weight="900" fill="#A78BFA" opacity="0.85">z</text>
                 <text x="158" y="64" font-size="15" font-weight="900" fill="#8B5CF6">Z</text>
-              </g>`;
+              </g>
+            `;
           } else if (expression === 'happy') {
             svg += `
               <g class="pet-eyes-group pet-eyes-happy">
@@ -4269,24 +4438,14 @@
                 <path d="M 113 86 L 109 82" stroke="#1C1A3A" stroke-width="2.5" stroke-linecap="round" />
                 <path d="M 46 80 L 48 83 L 51 84 L 48 85 L 46 88 L 44 85 L 41 84 L 44 83 Z" fill="#FCD34D" />
                 <path d="M 152 80 L 154 83 L 157 84 L 154 85 L 152 88 L 150 85 L 147 84 L 150 83 Z" fill="#FCD34D" />
-              </g>`;
-          } else if (expression === 'sick') {
-            svg += `
-              <g class="pet-eyes-group">
-                <line x1="62" y1="84" x2="80" y2="98" stroke="#1C1A3A" stroke-width="3.5" stroke-linecap="round"/>
-                <line x1="80" y1="84" x2="62" y2="98" stroke="#1C1A3A" stroke-width="3.5" stroke-linecap="round"/>
-                <line x1="120" y1="84" x2="138" y2="98" stroke="#1C1A3A" stroke-width="3.5" stroke-linecap="round"/>
-                <line x1="138" y1="84" x2="120" y2="98" stroke="#1C1A3A" stroke-width="3.5" stroke-linecap="round"/>
-                <path d="M 86 102 C 86 106 82 109 78 109 C 74 109 70 106 70 102 C 70 99 78 94 78 94 C 78 94 86 99 86 102 Z" fill="#38BDF8" opacity="0.85"/>
-              </g>`;
+              </g>
+            `;
           } else {
-            // NORMAL / ALIVE ANIME EYES WITH TRIPLE SPARKLE GLOSS & PUPIL TRACKING
             const pX = Math.max(-4, Math.min(4, lookX));
             const pY = Math.max(-3, Math.min(3, lookY));
-
             svg += `
               <g class="pet-eyes-group">
-                <!-- LEFT KAWAII EYE -->
+                <!-- LEFT KAWAII LIVING EYE -->
                 <g class="kawaii-eye-left">
                   <ellipse cx="72" cy="92" rx="14" ry="16" fill="#FFFFFF" stroke="#1C1A3A" stroke-width="2.2"/>
                   <path d="M 58 88 Q 72 74 86 88" stroke="#1C1A3A" stroke-width="3.2" stroke-linecap="round" fill="none"/>
@@ -4302,7 +4461,7 @@
                   </g>
                 </g>
 
-                <!-- RIGHT KAWAII EYE -->
+                <!-- RIGHT KAWAII LIVING EYE -->
                 <g class="kawaii-eye-right">
                   <ellipse cx="128" cy="92" rx="14" ry="16" fill="#FFFFFF" stroke="#1C1A3A" stroke-width="2.2"/>
                   <path d="M 114 88 Q 128 74 142 88" stroke="#1C1A3A" stroke-width="3.2" stroke-linecap="round" fill="none"/>
@@ -4987,6 +5146,7 @@
         this.setupEyeTracking();
         this.initLaserToy();
         this.initGarden();
+        this.initMicroInteractions();
       try {
         if (window.Telegram?.WebApp?.CloudStorage?.getItem) {
           window.Telegram.WebApp.CloudStorage.getItem('tamagotchi_cloud_v2', (err, val) => {
@@ -5364,37 +5524,92 @@ selectLocation(id) {
 
       kickBall() {
         const ball = document.getElementById('toy-ball');
-        sounds.ballBounce();
+        const badge = document.getElementById('ball-combo-badge');
+        const now = Date.now();
+        if (!this.lastBallTap) this.lastBallTap = 0;
+        const diff = now - this.lastBallTap;
+        this.lastBallTap = now;
 
-        // Move ball to opposite side within visible play area
-        const b = this.getPlayAreaBounds();
-        const leftSpot = Math.max(16, b.minX);
-        const rightSpot = Math.max(leftSpot + 40, b.width - 48);
-        this.ballX = (this.ballX > b.width / 2) ? leftSpot : rightSpot;
+        // Juggle combo: if tapped again within 1.35 seconds, increment combo!
+        if (diff < 1350 && this.ballCombo > 0) {
+          this.ballCombo++;
+        } else {
+          this.ballCombo = 1;
+        }
+
+        clearTimeout(this.ballComboTimer);
+        sounds.ballBounce(this.ballCombo);
+        Haptic.impact('light');
+
         if (ball) {
-          ball.style.left = this.ballX + 'px';
+          ball.classList.remove('bouncing');
+          void ball.offsetWidth; // Trigger reflow for snappy animation restart
           ball.classList.add('bouncing');
-          setTimeout(() => ball.classList.remove('bouncing'), 1200);
+
+          if (badge) {
+            let comboText = `⚽ ${this.ballCombo}x Чеканка!`;
+            if (this.ballCombo >= 10) {
+              comboText = `👑 ${this.ballCombo}x ЛЕГЕНДА! +50🪙`;
+              sounds.fanfare();
+              this.addCoins(50);
+              this.addXP(25);
+              this.happiness = Math.min(100, this.happiness + 25);
+              this.spawnConfetti();
+            } else if (this.ballCombo >= 7) {
+              comboText = `🌈 ${this.ballCombo}x НЕВЕРОЯТНО! +25🪙`;
+              this.addCoins(25);
+              this.addXP(15);
+              this.happiness = Math.min(100, this.happiness + 15);
+            } else if (this.ballCombo >= 5) {
+              comboText = `⭐ ${this.ballCombo}x МАСТЕР! +15🪙`;
+              this.addCoins(15);
+              this.addXP(10);
+              this.happiness = Math.min(100, this.happiness + 10);
+            } else if (this.ballCombo >= 3) {
+              comboText = `🔥 ${this.ballCombo}x ТРЮК! +5🪙`;
+              this.addCoins(5);
+              this.addXP(5);
+              this.happiness = Math.min(100, this.happiness + 6);
+            }
+            badge.textContent = comboText;
+            badge.style.display = 'block';
+          }
         }
 
         if (this.stage === 0) {
-          // Egg wiggles towards ball
           this.wobbleEgg();
           this.addXP(4);
           return;
         }
 
-        // Pet runs after ball
-        this.say("Мячик! 🎾");
-        setTimeout(() => {
+        this.hop();
+        if (this.ballCombo >= 3) {
+          this.cheer(900);
+          this.say(this.ballCombo >= 5 ? "Ого! Настоящий трюкач! 🤩⚽" : "Чекань еще! ⚽🔥");
+        } else {
+          this.say("Мячик! 🎾");
+        }
+
+        // Ball settles on ground after combo timeout
+        this.ballComboTimer = setTimeout(() => {
+          this.ballCombo = 0;
+          if (badge) badge.style.display = 'none';
+          if (ball) ball.classList.remove('bouncing');
+
+          // Pet runs to ball
+          const b = this.getPlayAreaBounds();
+          const leftSpot = Math.max(16, b.minX);
+          const rightSpot = Math.max(leftSpot + 40, b.width - 48);
+          this.ballX = (this.ballX > b.width / 2) ? leftSpot : rightSpot;
+          if (ball) ball.style.left = this.ballX + 'px';
+
           this.moveTo(this.ballX - (this.facing * 35), () => {
             this.hop();
-            this.cheer(1800);
-            this.happiness = Math.min(100, this.happiness + 8);
-            this.addXP(6);
-            this.render();
+            this.cheer(1400);
+            this.happiness = Math.min(100, this.happiness + 5);
+            this.renderHUD();
           });
-        }, 300);
+        }, 1350);
       }
 
       wobbleEgg() {
@@ -5577,8 +5792,9 @@ selectLocation(id) {
 
       feedFood(type) {
         let price = 1;
-        if (type === 'meat') price = 3;
-        else if (type === 'cake') price = 6;
+        let foodEmoji = '🍎';
+        if (type === 'meat') { price = 3; foodEmoji = '🍗'; }
+        else if (type === 'cake') { price = 6; foodEmoji = '🍰'; }
 
         if (this.coins < price) {
           sounds.noMoney();
@@ -5590,20 +5806,38 @@ selectLocation(id) {
         this.closeFeedMenu();
         this.coins -= price;
         sounds.eat();
+        Haptic.impact('medium');
+
+        // Spawn flying food and crumbs to pet's mouth
+        const petWrapper = document.getElementById('pet-wrapper');
+        if (petWrapper) {
+          const rect = petWrapper.getBoundingClientRect();
+          const targetX = rect.left + rect.width / 2;
+          const targetY = rect.top + rect.height * 0.45;
+          this.spawnParticle(targetX, targetY - 20, foodEmoji);
+          for (let i = 0; i < 4; i++) {
+            setTimeout(() => {
+              this.spawnParticle(targetX + (Math.random() * 24 - 12), targetY + (Math.random() * 20 - 10), '✨');
+            }, i * 70);
+          }
+        }
 
         if (type === 'apple') {
           this.hunger = Math.min(100, this.hunger + 20);
           this.addXP(5);
           this.showEffect("🍎 Ням! -1 🪙 +5 XP");
+          this.say("Хрум-хрум! Сочное яблочко! 🍎😋");
         } else if (type === 'meat') {
           this.hunger = Math.min(100, this.hunger + 35);
           this.addXP(8);
           this.showEffect("🍗 Вкусно! -3 🪙 +8 XP");
+          this.say("М-м-м! Вкуснейшее мясцо! 🍗✨");
         } else if (type === 'cake') {
           this.hunger = Math.min(100, this.hunger + 50);
           this.happiness = Math.min(100, this.happiness + 20);
           this.addXP(15);
           this.showEffect("🍰 Объедение! -6 🪙 +15 XP");
+          this.say("Вау! Сладкий праздничный тортик! 🍰🎉");
         }
         this.hop();
         this.cheer(2200);
@@ -6277,6 +6511,11 @@ selectLocation(id) {
         this.render();
       }
 
+      addCoins(amount) {
+        this.coins = Math.max(0, (this.coins || 0) + amount);
+        this.renderHUD();
+      }
+
       // --- XP & EVOLUTION PROGRESSION ---
       addXP(amount) {
         if (this.isDead) return;
@@ -6693,6 +6932,11 @@ selectLocation(id) {
         });
 
         // Autonomous idle wandering (every few ticks)
+        // Random idle High-Five opportunity
+        if (Date.now() - this.lastInteraction > 5000 && !this.highFiveActive && Math.random() < 0.15) {
+          this.triggerHighFivePrompt();
+        }
+
         if (Date.now() - this.lastInteraction > 4000 && Math.random() < 0.35) {
           const r = Math.random();
           if (r < 0.45) {
@@ -6800,6 +7044,179 @@ selectLocation(id) {
         this.render();
       }
 
+      
+      spawnConfetti() {
+        const app = document.getElementById('app-container') || document.body;
+        const colors = ['#F59E0B', '#EF4444', '#10B981', '#3B82F6', '#EC4899', '#8B5CF6'];
+        for (let i = 0; i < 16; i++) {
+          const c = document.createElement('div');
+          c.className = 'confetti-particle';
+          c.style.position = 'absolute';
+          c.style.width = (Math.random() * 6 + 4) + 'px';
+          c.style.height = (Math.random() * 8 + 6) + 'px';
+          c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          c.style.borderRadius = '2px';
+          c.style.left = (Math.random() * 70 + 15) + '%';
+          c.style.top = (Math.random() * 30 + 20) + '%';
+          c.style.zIndex = '100';
+          c.style.pointerEvents = 'none';
+          c.style.transform = `rotate(${Math.random() * 360}deg)`;
+          c.style.transition = 'all 1.2s cubic-bezier(0.25, 1, 0.5, 1)';
+          app.appendChild(c);
+
+          requestAnimationFrame(() => {
+            c.style.top = (parseInt(c.style.top, 10) + 120 + Math.random() * 60) + 'px';
+            c.style.opacity = '0';
+            c.style.transform = `rotate(${Math.random() * 720}deg) scale(0.5)`;
+          });
+
+          setTimeout(() => c.remove(), 1250);
+        }
+      }
+
+      spawnParticle(x, y, emoji = '✨') {
+        const p = document.createElement('div');
+        p.className = 'floating-heart-particle';
+        p.innerText = emoji;
+        const offsetX = (Math.random() - 0.5) * 36;
+        const offsetY = (Math.random() - 0.5) * 20;
+        p.style.left = (x + offsetX) + 'px';
+        p.style.top = (y + offsetY) + 'px';
+        const app = document.getElementById('app-container') || document.body;
+        app.appendChild(p);
+        setTimeout(() => p.remove(), 1200);
+      }
+
+      initMicroInteractions() {
+        this.ballCombo = 0;
+        this.ballComboTimer = null;
+        this.highFiveActive = false;
+        this.highFiveDismissTimer = null;
+
+        // Fortune cookie click
+        bindTouch('lawn-fortune-cookie', () => this.crackFortuneCookie());
+        bindTouch('btn-claim-fortune', () => this.claimFortune());
+
+        // Sleep snorer bubble click
+        bindTouch('sleep-snorer-bubble', () => this.popSleepBubble());
+
+        // High-five badge click
+        bindTouch('highfive-badge', () => this.fulfillHighFive());
+      }
+
+      crackFortuneCookie() {
+        const now = Date.now();
+        const lastFortune = parseInt(SafeStorage.get('tamagotchi_last_fortune', '0'), 10);
+        const cooldown = 2 * 60 * 60 * 1000; // 2 hours cooldown
+        const diff = now - lastFortune;
+
+        if (diff < cooldown && lastFortune > 0) {
+          const remMins = Math.ceil((cooldown - diff) / 60000);
+          sounds.click();
+          this.showEffect(`⏳ Печенька печется: ${remMins} мин.`);
+          this.say(`Печенька остывает! Заходи через ${remMins} мин. 🍪`);
+          return;
+        }
+
+        sounds.cookieCrack();
+        Haptic.notification('success');
+        this.spawnConfetti();
+
+        const fortunes = [
+          "Твой питомец станет великим небесным хранителем! 🌟",
+          "Любовь и забота творят настоящие чудеса! 💖",
+          "Сегодня тебя ждет двойная удача в мини-играх! 🎮",
+          "Почеши питомцу животик — радость умножится втрое! ✨",
+          "Урожай в огороде принесет небывалое богатство! 🍓🥕",
+          "Звезды шепчут: впереди встреча с новым другом! 🐾",
+          "Твой питомец невероятно счастлив рядом с тобой! 🥰",
+          "Смелость и упорство открывают любые двери и сундуки! 🗝️",
+          "Улыбнись — впереди только самые яркие приключения! ☀️",
+          "Великий титан просыпается внутри твоего малыша! ⚡"
+        ];
+        const fortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+        const textEl = document.getElementById('fortune-text');
+        if (textEl) textEl.textContent = `«${fortune}»`;
+
+        openModal('fortune-modal');
+      }
+
+      claimFortune() {
+        closeModal('fortune-modal');
+        sounds.fanfare();
+        Haptic.notification('success');
+        this.addCoins(25);
+        this.addXP(15);
+        this.happiness = Math.min(100, this.happiness + 20);
+        SafeStorage.set('tamagotchi_last_fortune', Date.now().toString());
+        this.showEffect('🥠 Предсказание принято! +25 🪙 +15 ⚡');
+        this.hop();
+        this.cheer(2000);
+        this.say("Какое чудесное предсказание! Спасибо! 💖");
+        this.renderHUD();
+      }
+
+      popSleepBubble() {
+        const bubble = document.getElementById('sleep-snorer-bubble');
+        if (!bubble) return;
+        sounds.bubblePop();
+        Haptic.impact('light');
+        const rect = bubble.getBoundingClientRect();
+        this.spawnHeart(rect.left + 16, rect.top + 16);
+        this.energy = Math.min(100, this.energy + 5);
+        this.happiness = Math.min(100, this.happiness + 2);
+        this.addCoins(2);
+        this.showEffect('💤 Лопнул сон! +5 ⚡ +2 🪙');
+        this.say("Хрр... Сладкие сны... 💤💖");
+        bubble.style.display = 'none';
+        this.renderHUD();
+
+        setTimeout(() => {
+          if (this.isSleeping) {
+            const b = document.getElementById('sleep-snorer-bubble');
+            if (b) b.style.display = 'flex';
+          }
+        }, 4000);
+      }
+
+      triggerHighFivePrompt() {
+        if (this.highFiveActive || this.isSleeping || this.isDead || this.stage === 0) return;
+        this.highFiveActive = true;
+        const badge = document.getElementById('highfive-badge');
+        if (badge) badge.style.display = 'block';
+
+        this.say("Дай пять, друг! 🐾🖐️");
+        sounds.chime();
+
+        clearTimeout(this.highFiveDismissTimer);
+        this.highFiveDismissTimer = setTimeout(() => {
+          this.dismissHighFive();
+        }, 9000);
+      }
+
+      fulfillHighFive() {
+        if (!this.highFiveActive) return;
+        this.dismissHighFive();
+        sounds.highFive();
+        Haptic.notification('success');
+        this.hop();
+        this.cheer(1600);
+        this.addCoins(10);
+        this.addXP(12);
+        this.happiness = Math.min(100, this.happiness + 15);
+        this.showEffect('🖐️ ДАЙ ПЯТЬ! +10 🪙 +12 ⚡ +15 ❤️');
+        this.say("Держи пять! Мы супер-команда! 💖🐾");
+        this.spawnConfetti();
+        this.renderHUD();
+      }
+
+      dismissHighFive() {
+        this.highFiveActive = false;
+        clearTimeout(this.highFiveDismissTimer);
+        const badge = document.getElementById('highfive-badge');
+        if (badge) badge.style.display = 'none';
+      }
+
       render() {
         const stageInfo = this.getCurrentStageInfo();
 
@@ -6846,6 +7263,11 @@ selectLocation(id) {
 
         document.getElementById('icon-sleep').innerText = this.isSleeping ? "☀️" : "💡";
         document.getElementById('text-sleep').innerText = this.isSleeping ? "Будить" : "Спать";
+
+        const snorerBubble = document.getElementById('sleep-snorer-bubble');
+        if (snorerBubble) {
+          snorerBubble.style.display = (this.isSleeping && !this.isDead) ? 'flex' : 'none';
+        }
 
         // Pet Wrapper positioning & SVG
         const wrapper = document.getElementById('pet-wrapper');
@@ -6937,8 +7359,14 @@ selectLocation(id) {
         let isTouching = false;
         let strokeCount = 0;
         let strokeCooldown = 0;
+        let isBellyTickle = false;
 
         const onStart = (clientX, clientY) => {
+          if (this.highFiveActive) {
+            this.fulfillHighFive();
+            return;
+          }
+
           startX = clientX;
           startY = clientY;
           lastStrokeX = clientX;
@@ -6946,6 +7374,10 @@ selectLocation(id) {
           totalStrokeDistance = 0;
           strokeCount = 0;
           isTouching = true;
+
+          const rect = wrapper.getBoundingClientRect();
+          const relY = (clientY - rect.top) / (rect.height || 1);
+          isBellyTickle = (relY > 0.52);
         };
 
         const onMove = (clientX, clientY) => {
@@ -6958,20 +7390,38 @@ selectLocation(id) {
           lastStrokeY = clientY;
 
           const now = Date.now();
-          if (dist > 18 && now - strokeCooldown > 160) {
+          if (dist > 16 && now - strokeCooldown > 140) {
             strokeCooldown = now;
             strokeCount++;
 
-            this.spawnHeart(clientX, clientY);
-            Haptic.impact('light');
-            sounds.purr();
+            if (isBellyTickle && strokeCount >= 2) {
+              // BELLY TICKLING!
+              sounds.giggle();
+              Haptic.impact('medium');
+              wrapper.classList.add('tickling');
+              this.spawnParticle(clientX, clientY, '😂');
+              this.spawnParticle(clientX + (Math.random() * 20 - 10), clientY + (Math.random() * 20 - 10), '💖');
 
-            if (strokeCount <= 6) {
-              this.happiness = Math.min(100, this.happiness + 3);
-              this.addXP(1);
+              if (strokeCount <= 8) {
+                this.happiness = Math.min(100, this.happiness + 4);
+                this.addXP(2);
+              }
+            } else {
+              // HEAD / EAR SCRATCHING
+              sounds.purr();
+              Haptic.impact('light');
+              this.spawnHeart(clientX, clientY);
+              if (Math.random() < 0.3) {
+                this.spawnParticle(clientX, clientY - 10, '🎵');
+              }
+
+              if (strokeCount <= 6) {
+                this.happiness = Math.min(100, this.happiness + 3);
+                this.addXP(1);
+              }
             }
 
-            if (this.stage > 0) {
+            if (this.stage > 0 && !isBellyTickle) {
               wrapper.classList.remove('idle');
               wrapper.classList.add('hopping');
               setTimeout(() => {
@@ -6979,7 +7429,7 @@ selectLocation(id) {
                   wrapper.classList.remove('hopping');
                   wrapper.classList.add('idle');
                 }
-              }, 400);
+              }, 350);
             }
           }
         };
@@ -6987,12 +7437,18 @@ selectLocation(id) {
         const onEnd = () => {
           if (!isTouching) return;
           isTouching = false;
+          wrapper.classList.remove('tickling');
 
           if (totalStrokeDistance < 15) {
             this.petTouch();
           } else if (strokeCount >= 2) {
             sounds.happy();
-            this.say("Мурр-мяу! Люблю ласку! ❤️");
+            if (isBellyTickle) {
+              this.say("Хи-хи-хи! Животик щекотно! 😂🤣");
+              this.cheer(1400);
+            } else {
+              this.say("Муррр... За ушком так приятно! 😻💖");
+            }
             this.checkDesireFulfilled('pet');
             this.saveState();
             this.render();
@@ -7011,7 +7467,7 @@ selectLocation(id) {
         }, { passive: true });
 
         window.addEventListener('touchend', () => onEnd(), { passive: true });
-        window.addEventListener('touchcancel', () => { isTouching = false; }, { passive: true });
+        window.addEventListener('touchcancel', () => { isTouching = false; wrapper.classList.remove('tickling'); }, { passive: true });
 
         wrapper.addEventListener('mousedown', (e) => {
           onStart(e.clientX, e.clientY);
@@ -7526,7 +7982,7 @@ selectLocation(id) {
       }
 
       
-      // --- V3.2 LIVING FACE & PROCEDURAL BLINKING ---
+      // --- V4.0 LIVING FACE & PROCEDURAL BLINKING ---
       initBlinking() {
         const scheduleBlink = () => {
           const delay = 3000 + Math.random() * 2600; // Blink every 3.0 - 5.6 sec
@@ -7599,7 +8055,7 @@ selectLocation(id) {
         });
       }
 
-      // --- V3.2 INTERACTIVE BUBBLE BATH POPPING ---
+      // --- V4.0 INTERACTIVE BUBBLE BATH POPPING ---
       spawnSoapBubbles() {
         const app = document.getElementById('app-container');
         if (!app) return;
@@ -7690,7 +8146,7 @@ selectLocation(id) {
         }, 6200);
       }
 
-      // --- V3.2 LASER POINTER TOY (RESPONSIVE & CHASE MECHANIC) ---
+      // --- V4.0 LASER POINTER TOY (RESPONSIVE & CHASE MECHANIC) ---
       initLaserToy() {
         this.laserActive = false;
         const btn = document.getElementById('toy-laser-btn');
@@ -7792,7 +8248,7 @@ selectLocation(id) {
         }
       }
 
-      // --- V3.2 IDLE GARDEN & CROP HARVESTING ---
+      // --- V4.0 IDLE GARDEN & CROP HARVESTING ---
       initGarden() {
         if (!this.gardenPlots || !Array.isArray(this.gardenPlots) || this.gardenPlots.length < 3) {
           this.gardenPlots = [
@@ -8051,7 +8507,7 @@ selectLocation(id) {
           this.openDailyModal();
         });
 
-        // V3.2 GARDEN & ORCHARD BINDINGS (Settings, Hub, Lawn, Header)
+        // V4.0 GARDEN & ORCHARD BINDINGS (Settings, Hub, Lawn, Header)
         bindTouch('btn-open-garden-from-settings', () => this.openGardenModal());
         bindTouch('card-play-garden', () => this.openGardenModal());
         bindTouch('btn-close-garden', () => this.closeGardenModal());
