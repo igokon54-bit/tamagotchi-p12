@@ -1598,6 +1598,120 @@
       box-shadow: 0 4px 22px rgba(239, 68, 68, 0.9);
     }
 
+  
+    /* V2.5 ENHANCEMENTS: PETTING, DESIRES, DAILY STREAK, LUCKY WHEEL */
+    .floating-heart-particle {
+      position: absolute;
+      font-size: 22px;
+      pointer-events: none;
+      z-index: 999;
+      animation: heartParticleFloat 1.1s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
+    }
+    @keyframes heartParticleFloat {
+      0% {
+        opacity: 1;
+        transform: scale(0.6) translateY(0);
+      }
+      50% {
+        transform: scale(1.25) translateY(-28px);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.9) translateY(-65px);
+      }
+    }
+
+    .pet-desire {
+      position: absolute;
+      top: -46px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(30, 41, 59, 0.96));
+      border: 1.5px solid #38BDF8;
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 10px;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(56, 189, 248, 0.35);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      z-index: 25;
+      animation: desireFloat 2s ease-in-out infinite alternate;
+      cursor: pointer;
+    }
+    @keyframes desireFloat {
+      0% { transform: translateX(-50%) translateY(0); }
+      100% { transform: translateX(-50%) translateY(-4px); }
+    }
+    .pet-desire::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 6px solid #38BDF8;
+    }
+    .pet-desire-timer-bar {
+      width: 28px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .pet-desire-timer-fill {
+      width: 100%;
+      height: 100%;
+      background: #38BDF8;
+      transition: width 0.5s linear;
+    }
+
+    .daily-card {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 8px 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      transition: all 0.2s ease;
+    }
+    .daily-card.active {
+      border-color: #FCD34D;
+      background: rgba(245, 158, 11, 0.18);
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+      transform: scale(1.03);
+    }
+    .daily-card.claimed {
+      border-color: #10B981;
+      background: rgba(16, 185, 129, 0.15);
+      opacity: 0.85;
+    }
+    .daily-card.grand {
+      grid-column: span 4;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(239, 68, 68, 0.25));
+      border: 1.5px solid #F59E0B;
+      padding: 10px 8px;
+      flex-direction: row;
+      justify-content: space-around;
+    }
+
+    @keyframes pulseGiftBadge {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+    .pulse-badge {
+      animation: pulseGiftBadge 1.2s infinite ease-in-out;
+    }
+
   </style>
 </head>
 <body>
@@ -1671,6 +1785,7 @@
         <div class="coin-badge">
           <span>🪙</span><span id="coin-count">25</span>
         </div>
+                <button class="header-btn" id="btn-daily-gift" title="Ежедневные награды и Колесо" style="position: relative; background: linear-gradient(135deg, #F59E0B, #EF4444); border-color: #FCD34D;">🎁<span id="daily-gift-badge" class="pulse-badge" style="display: none; position: absolute; top: -3px; right: -3px; width: 8px; height: 8px; background: #EF4444; border: 1.5px solid #FFF; border-radius: 50%;"></span></button>
         <div class="day-badge" id="pet-day-badge" title="Возраст (1 день = 5 мин)">🗓️ 1д</div>
         <button class="header-btn" id="btn-toggle-time" title="Время суток (Рассвет/День/Закат/Ночь)">☀️</button>
         <button class="header-btn" id="btn-toggle-weather" title="Погода (Ясно/Облачно/Дождь/Листопад)">⛅</button>
@@ -1763,6 +1878,12 @@
 
       <!-- PET WRAPPER (DYNAMIC LIVING EGG / PET) -->
       <div id="pet-wrapper" class="pet-wrapper stage-0 idle">
+                <!-- PET DESIRE / THOUGHT BUBBLE -->
+        <div id="pet-desire" class="pet-desire" style="display: none;">
+          <span class="pet-desire-icon" id="pet-desire-icon">🍎</span>
+          <span class="pet-desire-text" id="pet-desire-text">Хочу яблочко!</span>
+          <div class="pet-desire-timer-bar"><div class="pet-desire-timer-fill" id="pet-desire-timer-fill"></div></div>
+        </div>
         <div id="pet-speech" class="pet-speech">Привет! 🐾</div>
         <!-- Protective Umbrella -->
         <div id="pet-umbrella" class="pet-umbrella">
@@ -1890,6 +2011,7 @@
       <div class="modal-card">
         <div class="modal-title">⚙️ НАСТРОЙКИ ИГРЫ</div>
         <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <button class="menu-btn" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(239, 68, 68, 0.25)); border-color: #FCD34D; font-weight: 800; color: #FEF08A;" id="btn-open-daily-from-settings">🎁 Ежедневные награды и Колесо Фортуны</button>
           <button class="menu-btn btn-primary" id="btn-open-char-modal">🐾 Сменить персонажа (Яйцо)</button>
           <button class="menu-btn btn-primary" style="background: linear-gradient(135deg, #0284C7, #0D9488); border-color: #38BDF8; font-weight: 800;" id="btn-open-env-modal">🌍 Локация, Погода и Время суток</button>
           <button class="menu-btn" style="background: rgba(255,255,255,0.08); color: #FFF;" id="btn-toggle-sound">🔊 Звуки: ВКЛ</button>
@@ -1961,10 +2083,53 @@
     </div>
 
     <!-- GAME HUB MODAL -->
+    
+    <!-- DAILY REWARDS & STREAK MODAL -->
+    <div class="modal-overlay" id="daily-modal">
+      <div class="modal-card" style="max-width: 380px; padding: 14px 12px; text-align: center;">
+        <div class="modal-title" style="margin-bottom: 2px;">🎁 Ежедневные награды</div>
+        <div style="font-size: 11px; color: #94A3B8; margin-bottom: 12px;" id="daily-streak-subtitle">Заходи каждый день за ценными призами!</div>
+
+        <!-- 7 Days Grid -->
+        <div id="daily-days-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px;">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <button class="menu-btn btn-primary" id="btn-claim-daily" style="background: linear-gradient(135deg, #10B981, #059669); border-color: #34D399; font-weight: 800; padding: 10px; font-size: 13px; margin-bottom: 8px;">🎁 Забрать награду</button>
+        <button class="menu-btn" id="btn-open-wheel-from-daily" style="background: linear-gradient(135deg, #F59E0B, #EF4444); border-color: #FCD34D; font-weight: 800; font-size: 12px; margin-bottom: 8px;">🎡 Крутить Колесо Фортуны</button>
+        <button class="menu-btn btn-close" id="btn-close-daily">✕ Закрыть</button>
+      </div>
+    </div>
+
+    <!-- LUCKY WHEEL MODAL -->
+    <div class="modal-overlay" id="wheel-modal">
+      <div class="modal-card" style="text-align: center; max-width: 360px; padding: 16px 14px;">
+        <div class="modal-title" style="margin-bottom: 4px;">🎡 Колесо Фортуны</div>
+        <div style="font-size: 11px; color: #94A3B8; margin-bottom: 12px;" id="wheel-subtitle">Крути рулетку и выигрывай призы!</div>
+        
+        <!-- Wheel Canvas Container with Pointer -->
+        <div style="position: relative; width: 260px; height: 260px; margin: 0 auto 14px auto;">
+          <div style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); z-index: 10; width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 20px solid #EF4444; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));"></div>
+          <canvas id="wheel-canvas" width="260" height="260" style="width: 260px; height: 260px; border-radius: 50%; box-shadow: 0 0 24px rgba(56, 189, 248, 0.3); border: 3px solid #FCD34D;"></canvas>
+          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 44px; height: 44px; background: radial-gradient(circle, #FDE047, #D97706); border: 3px solid #FFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.4); pointer-events: none;">⭐</div>
+        </div>
+
+        <div id="wheel-result-banner" style="min-height: 28px; font-weight: 800; font-size: 14px; color: #FCD34D; margin-bottom: 10px;"></div>
+
+        <button class="menu-btn btn-primary" id="btn-spin-wheel" style="background: linear-gradient(135deg, #F59E0B, #EF4444); border-color: #FCD34D; font-size: 14px; font-weight: 800; padding: 10px; margin-bottom: 8px;">🎡 Крутить (Бесплатно)</button>
+        <button class="menu-btn btn-close" id="btn-close-wheel">✕ Закрыть</button>
+      </div>
+    </div>
+
     <div class="modal-overlay" id="game-hub-modal">
       <div class="modal-card">
         <div class="modal-title">🎮 ВЫБЕРИТЕ ИГРУ</div>
         <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div class="menu-card" id="card-play-wheel" style="border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.1);">
+            <span class="menu-card-icon">🎡</span>
+            <span class="menu-card-name">Колесо Фортуны</span>
+            <span class="menu-card-desc">Вращай рулетку и выигрывай монеты, еду и джекпот! (+Призы)</span>
+          </div>
           <div class="menu-card" id="card-play-apple">
             <span class="menu-card-icon">🍎</span>
             <span class="menu-card-name">Ловец яблок</span>
@@ -2124,6 +2289,38 @@
         this.beep(600, 0.05, 'sine', 0.1);
         setTimeout(() => this.beep(800, 0.06, 'sine', 0.1), 50);
       }
+      
+      purr() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const now = this.ctx.currentTime;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(160, now);
+          osc.frequency.exponentialRampToValueAtTime(230, now + 0.12);
+          gain.gain.setValueAtTime(0.09, now);
+          gain.gain.linearRampToValueAtTime(0.001, now + 0.14);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.14);
+        } catch(e) {}
+      }
+
+      wheelTick() {
+        this.beep(820, 0.02, 'sine', 0.06);
+      }
+
+      fanfare() {
+        const notes = [523, 659, 784, 1046];
+        notes.forEach((freq, idx) => {
+          setTimeout(() => this.beep(freq, 0.14, 'triangle', 0.13), idx * 105);
+        });
+      }
+
       heal() {
       Haptic.notification('success');
         this.beep(400, 0.06, 'sine', 0.1);
@@ -4194,6 +4391,12 @@
         // V4: MINI-GAMES CONTROLLER
         this.activeMiniGame = null;
 
+        // V2.5: DAILY STREAK & LUCKY WHEEL
+        this.dailyStreak = 1;
+        this.lastDailyClaim = null;
+        this.lastDailyLogin = null;
+        this.lastWheelSpinDate = null;
+
 
         // OUTDOOR ENVIRONMENT & WEATHER
         this.locationId = 'meadow';
@@ -4227,6 +4430,24 @@
         this.loadState();
         this.initDOM();
         this.updateLocationView();
+      try {
+        if (window.Telegram?.WebApp?.CloudStorage?.getItem) {
+          window.Telegram.WebApp.CloudStorage.getItem('tamagotchi_cloud_v2', (err, val) => {
+            if (!err && val) {
+              try {
+                const cs = JSON.parse(val);
+                if (cs && cs.savedAt && (!this.savedAt || cs.savedAt > this.savedAt)) {
+                  this.coins = cs.coins !== undefined ? cs.coins : this.coins;
+                  this.xp = cs.xp !== undefined ? cs.xp : this.xp;
+                  this.dailyStreak = cs.dailyStreak || this.dailyStreak;
+                  this.lastDailyClaim = cs.lastDailyClaim || this.lastDailyClaim;
+                  this.render();
+                }
+              } catch(e) {}
+            }
+          });
+        }
+      } catch(e) {}
         this.updateTimeOfDayView();
         this.updateWeatherView();
         this.render();
@@ -4258,6 +4479,10 @@
             this.hygiene = s.hygiene !== undefined ? s.hygiene : 95;
             this.birthTimestamp = s.birthTimestamp || Date.now();
             this.locationId = s.locationId || 'meadow';
+            this.dailyStreak = s.dailyStreak || 1;
+            this.lastDailyClaim = s.lastDailyClaim || null;
+            this.lastDailyLogin = s.lastDailyLogin || null;
+            this.lastWheelSpinDate = s.lastWheelSpinDate || null;
             this.timeOfDayIndex = s.timeOfDayIndex !== undefined ? s.timeOfDayIndex : 1;
             this.weatherIndex = s.weatherIndex !== undefined ? s.weatherIndex : 0;
             this.lastCelebratedDay = this.getAgeDays();
@@ -4309,6 +4534,10 @@
             unlockedAccessories: this.unlockedAccessories,
             achievements: this.achievements,
             stats: this.stats,
+            dailyStreak: this.dailyStreak,
+            lastDailyClaim: this.lastDailyClaim,
+            lastDailyLogin: this.lastDailyLogin,
+            lastWheelSpinDate: this.lastWheelSpinDate,
 
             lastSaved: Date.now()
           };
@@ -4384,6 +4613,24 @@
             setLocation(id) {
         this.locationId = id;
         this.updateLocationView();
+      try {
+        if (window.Telegram?.WebApp?.CloudStorage?.getItem) {
+          window.Telegram.WebApp.CloudStorage.getItem('tamagotchi_cloud_v2', (err, val) => {
+            if (!err && val) {
+              try {
+                const cs = JSON.parse(val);
+                if (cs && cs.savedAt && (!this.savedAt || cs.savedAt > this.savedAt)) {
+                  this.coins = cs.coins !== undefined ? cs.coins : this.coins;
+                  this.xp = cs.xp !== undefined ? cs.xp : this.xp;
+                  this.dailyStreak = cs.dailyStreak || this.dailyStreak;
+                  this.lastDailyClaim = cs.lastDailyClaim || this.lastDailyClaim;
+                  this.render();
+                }
+              } catch(e) {}
+            }
+          });
+        }
+      } catch(e) {}
         const loc = OUTDOOR_LOCATIONS.find(l => l.id === id);
         this.showEffect("🌍 " + (loc ? loc.name : "Локация"));
         this.saveState();
@@ -4393,6 +4640,24 @@ selectLocation(id) {
         sounds.click();
         this.locationId = id;
         this.updateLocationView();
+      try {
+        if (window.Telegram?.WebApp?.CloudStorage?.getItem) {
+          window.Telegram.WebApp.CloudStorage.getItem('tamagotchi_cloud_v2', (err, val) => {
+            if (!err && val) {
+              try {
+                const cs = JSON.parse(val);
+                if (cs && cs.savedAt && (!this.savedAt || cs.savedAt > this.savedAt)) {
+                  this.coins = cs.coins !== undefined ? cs.coins : this.coins;
+                  this.xp = cs.xp !== undefined ? cs.xp : this.xp;
+                  this.dailyStreak = cs.dailyStreak || this.dailyStreak;
+                  this.lastDailyClaim = cs.lastDailyClaim || this.lastDailyClaim;
+                  this.render();
+                }
+              } catch(e) {}
+            }
+          });
+        }
+      } catch(e) {}
         this.closeLocationModal();
         const loc = OUTDOOR_LOCATIONS.find(l => l.id === id);
         this.showEffect("🗺️ " + (loc ? loc.name : "Локация"));
@@ -4952,6 +5217,7 @@ selectLocation(id) {
         sounds.click();
         this.renderWardrobe();
         openModal('wardrobe-modal');
+        this.checkDesireFulfilled('dress');
       }
 
       closeWardrobe() {
@@ -6080,6 +6346,620 @@ selectLocation(id) {
       }
 
       // --- DOM INITIALIZATION ---
+      
+      // --- V2.5 PETTING WITH HAPTICS & HEARTS ---
+      spawnHeart(x, y) {
+        const heart = document.createElement('div');
+        heart.className = 'floating-heart-particle';
+        const hearts = ['❤️', '💖', '💕', '✨', '🥰'];
+        heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+        const offsetX = (Math.random() - 0.5) * 36;
+        const offsetY = (Math.random() - 0.5) * 20;
+        heart.style.left = (x + offsetX) + 'px';
+        heart.style.top = (y + offsetY) + 'px';
+        const app = document.getElementById('app-container');
+        if (app) app.appendChild(heart);
+        setTimeout(() => heart.remove(), 1100);
+      }
+
+      setupPettingInteraction() {
+        const wrapper = document.getElementById('pet-wrapper');
+        if (!wrapper) return;
+
+        let startX = 0, startY = 0;
+        let lastStrokeX = 0, lastStrokeY = 0;
+        let totalStrokeDistance = 0;
+        let isTouching = false;
+        let strokeCount = 0;
+        let strokeCooldown = 0;
+
+        const onStart = (clientX, clientY) => {
+          startX = clientX;
+          startY = clientY;
+          lastStrokeX = clientX;
+          lastStrokeY = clientY;
+          totalStrokeDistance = 0;
+          strokeCount = 0;
+          isTouching = true;
+        };
+
+        const onMove = (clientX, clientY) => {
+          if (!isTouching) return;
+          const dx = clientX - lastStrokeX;
+          const dy = clientY - lastStrokeY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          totalStrokeDistance += dist;
+          lastStrokeX = clientX;
+          lastStrokeY = clientY;
+
+          const now = Date.now();
+          if (dist > 18 && now - strokeCooldown > 160) {
+            strokeCooldown = now;
+            strokeCount++;
+
+            this.spawnHeart(clientX, clientY);
+            Haptic.impact('light');
+            sounds.purr();
+
+            if (strokeCount <= 6) {
+              this.happiness = Math.min(100, this.happiness + 3);
+              this.addXP(1);
+            }
+
+            if (this.stage > 0) {
+              wrapper.classList.remove('idle');
+              wrapper.classList.add('hopping');
+              setTimeout(() => {
+                if (wrapper.classList.contains('hopping')) {
+                  wrapper.classList.remove('hopping');
+                  wrapper.classList.add('idle');
+                }
+              }, 400);
+            }
+          }
+        };
+
+        const onEnd = () => {
+          if (!isTouching) return;
+          isTouching = false;
+
+          if (totalStrokeDistance < 15) {
+            this.petTouch();
+          } else if (strokeCount >= 2) {
+            sounds.happy();
+            this.say("Мурр-мяу! Люблю ласку! ❤️");
+            this.checkDesireFulfilled('pet');
+            this.saveState();
+            this.render();
+          }
+        };
+
+        wrapper.addEventListener('touchstart', (e) => {
+          const t = e.touches[0];
+          onStart(t.clientX, t.clientY);
+        }, { passive: true });
+
+        window.addEventListener('touchmove', (e) => {
+          if (!isTouching) return;
+          const t = e.touches[0];
+          onMove(t.clientX, t.clientY);
+        }, { passive: true });
+
+        window.addEventListener('touchend', () => onEnd(), { passive: true });
+        window.addEventListener('touchcancel', () => { isTouching = false; }, { passive: true });
+
+        wrapper.addEventListener('mousedown', (e) => {
+          onStart(e.clientX, e.clientY);
+        });
+        window.addEventListener('mousemove', (e) => {
+          if (isTouching) onMove(e.clientX, e.clientY);
+        });
+        window.addEventListener('mouseup', () => onEnd());
+      }
+
+      // --- V2.5 PET DESIRES / THOUGHT BUBBLE ---
+      initDesires() {
+        this.activeDesire = null;
+        this.desireTimerId = null;
+        setTimeout(() => this.scheduleNextDesire(), 18000);
+        setInterval(() => this.scheduleNextDesire(), 120000);
+
+        const desireBubble = document.getElementById('pet-desire');
+        if (desireBubble) {
+          bindTouch(desireBubble, () => {
+            sounds.click();
+            if (this.activeDesire) {
+              this.showEffect("Подсказка: " + (this.activeDesire.hint || this.activeDesire.text));
+            }
+          });
+        }
+      }
+
+      scheduleNextDesire() {
+        if (this.activeDesire || this.isDead || this.stage === 0 || this.isSleeping || this.activeMiniGame) return;
+
+        const DESIRE_TYPES = [
+          { id: 'feed', icon: '🍎', text: 'Хочу яблочко!', hint: 'Покорми питомца' },
+          { id: 'sleep', icon: '💤', text: 'Хочу спать...', hint: 'Включи режим сна' },
+          { id: 'sing', icon: '🎵', text: 'Спой мне!', hint: 'Нажми Спеть песенку' },
+          { id: 'game', icon: '🎮', text: 'Давай играть!', hint: 'Сыграй в мини-игру' },
+          { id: 'clean', icon: '🧼', text: 'Хочу купаться!', hint: 'Искупай питомца' },
+          { id: 'pet', icon: '🐾', text: 'Погладь меня!', hint: 'Погладь пальцем' },
+          { id: 'dress', icon: '👑', text: 'Хочу наряд!', hint: 'Открой гардероб' }
+        ];
+
+        const desire = DESIRE_TYPES[Math.floor(Math.random() * DESIRE_TYPES.length)];
+        this.startDesire(desire);
+      }
+
+      startDesire(desire) {
+        this.activeDesire = desire;
+        const bubble = document.getElementById('pet-desire');
+        const iconEl = document.getElementById('pet-desire-icon');
+        const textEl = document.getElementById('pet-desire-text');
+        const fillEl = document.getElementById('pet-desire-timer-fill');
+
+        if (!bubble || !iconEl || !textEl) return;
+        iconEl.innerText = desire.icon;
+        textEl.innerText = desire.text;
+        bubble.style.display = 'flex';
+        bubble.style.opacity = '1';
+
+        sounds.chime();
+        Haptic.selection();
+
+        const duration = 90;
+        let elapsed = 0;
+
+        if (this.desireTimerId) clearInterval(this.desireTimerId);
+        this.desireTimerId = setInterval(() => {
+          elapsed++;
+          const pct = Math.max(0, 100 - (elapsed / duration) * 100);
+          if (fillEl) fillEl.style.width = pct + '%';
+
+          if (elapsed >= duration) {
+            this.clearDesire();
+          }
+        }, 1000);
+      }
+
+      clearDesire() {
+        if (this.desireTimerId) {
+          clearInterval(this.desireTimerId);
+          this.desireTimerId = null;
+        }
+        this.activeDesire = null;
+        const bubble = document.getElementById('pet-desire');
+        if (bubble) {
+          bubble.style.opacity = '0';
+          setTimeout(() => {
+            if (!this.activeDesire && bubble) bubble.style.display = 'none';
+          }, 400);
+        }
+      }
+
+      checkDesireFulfilled(actionType) {
+        if (!this.activeDesire || this.activeDesire.id !== actionType) return;
+
+        const bonusCoins = 25;
+        const bonusXP = 20;
+        this.coins += bonusCoins;
+        this.addXP(bonusXP);
+        this.happiness = Math.min(100, this.happiness + 20);
+
+        sounds.fanfare();
+        Haptic.notification('success');
+
+        this.showEffect(`🎉 Желание исполнено! +${bonusCoins} 🪙 +${bonusXP} XP`);
+        this.say("Ураа! Спасибочки! ❤️");
+        this.cheer(2200);
+        this.hop(3);
+
+        this.clearDesire();
+        this.saveState();
+        this.render();
+      }
+
+      // --- V2.5 DAILY STREAK REWARDS (7 DAYS) ---
+      initDailyStreak() {
+        this.dailyStreak = this.dailyStreak || 1;
+        this.checkDailyStreak();
+      }
+
+      checkDailyStreak() {
+        const today = new Date().toISOString().slice(0, 10);
+        if (this.lastDailyLogin === today) {
+          this.updateDailyBadge();
+          return;
+        }
+
+        if (this.lastDailyLogin) {
+          const lastDate = new Date(this.lastDailyLogin);
+          const currDate = new Date(today);
+          const diffDays = Math.round((currDate - lastDate) / (1000 * 60 * 60 * 24));
+          if (diffDays === 1) {
+            if (this.lastDailyClaim === this.lastDailyLogin) {
+              this.dailyStreak = (this.dailyStreak % 7) + 1;
+            }
+          } else if (diffDays > 1) {
+            this.dailyStreak = 1;
+          }
+        } else {
+          this.dailyStreak = 1;
+        }
+
+        this.lastDailyLogin = today;
+        this.saveState();
+        this.updateDailyBadge();
+
+        if (this.lastDailyClaim !== today) {
+          setTimeout(() => this.openDailyModal(), 1200);
+        }
+      }
+
+      updateDailyBadge() {
+        const today = new Date().toISOString().slice(0, 10);
+        const badge = document.getElementById('daily-gift-badge');
+        if (badge) {
+          badge.style.display = (this.lastDailyClaim !== today) ? 'block' : 'none';
+        }
+      }
+
+      openDailyModal() {
+        this.renderDailyModal();
+        openModal('daily-modal');
+      }
+
+      closeDailyModal() {
+        closeModal('daily-modal');
+      }
+
+      renderDailyModal() {
+        const grid = document.getElementById('daily-days-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        const today = new Date().toISOString().slice(0, 10);
+        const isClaimedToday = this.lastDailyClaim === today;
+        const curDay = this.dailyStreak;
+
+        const rewards = [
+          { day: 1, type: 'coins', amount: 15, icon: '🪙', label: '15 🪙' },
+          { day: 2, type: 'coins', amount: 25, icon: '🪙', label: '25 🪙' },
+          { day: 3, type: 'food', amount: 1, icon: '🍎', label: 'Золотое яблоко' },
+          { day: 4, type: 'coins', amount: 40, icon: '🪙', label: '40 🪙' },
+          { day: 5, type: 'elixir', amount: 1, icon: '⚡', label: 'Эликсир' },
+          { day: 6, type: 'coins', amount: 60, icon: '🪙', label: '60 🪙' },
+          { day: 7, type: 'crown', amount: 150, icon: '👑', label: 'Корона + 150 🪙' }
+        ];
+
+        rewards.forEach(r => {
+          const card = document.createElement('div');
+          const isCurrent = r.day === curDay;
+          const isPast = r.day < curDay || (isCurrent && isClaimedToday);
+          const isGrand = r.day === 7;
+
+          let cardClass = 'daily-card' + (isGrand ? ' grand' : '');
+          if (isPast) cardClass += ' claimed';
+          else if (isCurrent && !isClaimedToday) cardClass += ' active';
+
+          card.className = cardClass;
+          card.innerHTML = `
+            <span style="font-size: 10px; font-weight: 800; color: ${isPast ? '#10B981' : (isCurrent ? '#FCD34D' : '#94A3B8')};">День ${r.day}</span>
+            <span style="font-size: ${isGrand ? '24px' : '20px'};">${r.icon}</span>
+            <span style="font-size: 10px; font-weight: 700; color: #FFF;">${r.label}</span>
+            <span style="font-size: 9px; color: ${isPast ? '#10B981' : (isCurrent ? (isClaimedToday ? '#10B981' : '#FBBF24') : '#64748B')}; font-weight: bold;">
+              ${isPast ? '✓ Получено' : (isCurrent ? (isClaimedToday ? '✓ Получено' : '✨ Забрать!') : '🔒 Завтра')}
+            </span>
+          `;
+          grid.appendChild(card);
+        });
+
+        const sub = document.getElementById('daily-streak-subtitle');
+        if (sub) {
+          sub.innerText = `Текущая серия: ${this.dailyStreak}-й день из 7! 🔥`;
+        }
+
+        const btnClaim = document.getElementById('btn-claim-daily');
+        if (btnClaim) {
+          if (isClaimedToday) {
+            btnClaim.disabled = true;
+            btnClaim.innerText = "✓ Награда на сегодня получена";
+            btnClaim.style.background = 'rgba(255, 255, 255, 0.1)';
+            btnClaim.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            btnClaim.style.color = '#94A3B8';
+          } else {
+            btnClaim.disabled = false;
+            btnClaim.innerText = `🎁 Забрать награду (День ${curDay})`;
+            btnClaim.style.background = 'linear-gradient(135deg, #10B981, #059669)';
+            btnClaim.style.borderColor = '#34D399';
+            btnClaim.style.color = '#FFFFFF';
+          }
+        }
+      }
+
+      claimDailyReward() {
+        const today = new Date().toISOString().slice(0, 10);
+        if (this.lastDailyClaim === today) return;
+
+        const curDay = this.dailyStreak;
+        let effectMsg = "";
+
+        if (curDay === 1) {
+          this.coins += 15;
+          effectMsg = "+15 🪙 монет!";
+        } else if (curDay === 2) {
+          this.coins += 25;
+          effectMsg = "+25 🪙 монет!";
+        } else if (curDay === 3) {
+          this.hunger = Math.min(100, this.hunger + 40);
+          this.happiness = Math.min(100, this.happiness + 20);
+          effectMsg = "🍎 Золотое яблоко съедено!";
+        } else if (curDay === 4) {
+          this.coins += 40;
+          effectMsg = "+40 🪙 монет!";
+        } else if (curDay === 5) {
+          this.energy = Math.min(100, this.energy + 50);
+          this.health = Math.min(100, this.health + 30);
+          effectMsg = "⚡ Эликсир бодрости!";
+        } else if (curDay === 6) {
+          this.coins += 60;
+          effectMsg = "+60 🪙 монет!";
+        } else if (curDay === 7) {
+          this.coins += 150;
+          if (!this.unlockedAccessories.includes('crown_gold')) {
+            this.unlockedAccessories.push('crown_gold');
+          }
+          this.accessory = 'crown_gold';
+          effectMsg = "👑 Корона Монарха + 150 🪙!";
+        }
+
+        this.lastDailyClaim = today;
+        sounds.fanfare();
+        Haptic.notification('success');
+
+        this.showEffect("🎁 " + effectMsg);
+        this.say("Спасибо за ежедневный визит! ❤️");
+        this.cheer(2200);
+
+        this.saveState();
+        this.render();
+        this.renderDailyModal();
+        this.updateDailyBadge();
+      }
+
+      // --- V2.5 LUCKY WHEEL OF FORTUNE ---
+      initWheel() {
+        this.wheelAngle = 0;
+        this.isWheelSpinning = false;
+        this.drawWheel(0);
+      }
+
+      openWheelModal() {
+        this.closeDailyModal();
+        closeModal('game-hub-modal');
+        this.closeSettings();
+        openModal('wheel-modal');
+        this.updateWheelButton();
+        setTimeout(() => this.drawWheel(this.wheelAngle), 80);
+      }
+
+      closeWheelModal() {
+        closeModal('wheel-modal');
+      }
+
+      updateWheelButton() {
+        const today = new Date().toISOString().slice(0, 10);
+        const isFree = this.lastWheelSpinDate !== today;
+        const btn = document.getElementById('btn-spin-wheel');
+        const banner = document.getElementById('wheel-result-banner');
+
+        if (btn) {
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          if (isFree) {
+            btn.innerHTML = "🎡 Бесплатная попытка!";
+            btn.style.background = 'linear-gradient(135deg, #10B981, #059669)';
+            btn.style.borderColor = '#34D399';
+          } else {
+            btn.innerHTML = "🎡 Крутить за 20 🪙";
+            btn.style.background = 'linear-gradient(135deg, #F59E0B, #EF4444)';
+            btn.style.borderColor = '#FCD34D';
+          }
+        }
+        if (banner && !this.isWheelSpinning) {
+          banner.innerText = isFree ? "У вас есть 1 бесплатная попытка сегодня!" : "Крути ещё раз за 20 🪙!";
+        }
+      }
+
+      drawWheel(angleRad) {
+        const canvas = document.getElementById('wheel-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width;
+        const H = canvas.height;
+        const cx = W / 2;
+        const cy = H / 2;
+        const radius = W / 2 - 8;
+
+        ctx.clearRect(0, 0, W, H);
+
+        const sectors = [
+          { label: '10 🪙', color: '#1E3A8A' },
+          { label: '30 ⭐', color: '#065F46' },
+          { label: '25 🪙', color: '#9A3412' },
+          { label: '🍎 Еда', color: '#831843' },
+          { label: '50 🪙', color: '#5B21B6' },
+          { label: '⚡ Бодрость', color: '#155E75' },
+          { label: '75 🪙', color: '#C2410C' },
+          { label: '👑 100 🪙', color: '#B91C1C' }
+        ];
+
+        const numSectors = sectors.length;
+        const sliceAngle = (2 * Math.PI) / numSectors;
+
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(angleRad);
+
+        for (let i = 0; i < numSectors; i++) {
+          const sec = sectors[i];
+          const startA = i * sliceAngle;
+          const endA = startA + sliceAngle;
+
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.arc(0, 0, radius, startA, endA);
+          ctx.closePath();
+          ctx.fillStyle = sec.color;
+          ctx.fill();
+
+          ctx.strokeStyle = '#FFFFFF';
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+
+          ctx.save();
+          ctx.rotate(startA + sliceAngle / 2);
+          ctx.textAlign = 'right';
+          ctx.fillStyle = '#FFFFFF';
+          ctx.font = 'bold 12px sans-serif';
+          ctx.shadowColor = 'rgba(0,0,0,0.7)';
+          ctx.shadowBlur = 4;
+          ctx.fillText(sec.label, radius - 14, 4);
+          ctx.restore();
+        }
+
+        // Glowing outer studs
+        ctx.beginPath();
+        ctx.arc(0, 0, radius, 0, 2 * Math.PI);
+        ctx.strokeStyle = '#FCD34D';
+        ctx.lineWidth = 4;
+        ctx.stroke();
+
+        for (let i = 0; i < 16; i++) {
+          const a = (i * 2 * Math.PI) / 16;
+          const dotX = Math.cos(a) * (radius - 2);
+          const dotY = Math.sin(a) * (radius - 2);
+          ctx.beginPath();
+          ctx.arc(dotX, dotY, 2.5, 0, 2 * Math.PI);
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fill();
+        }
+
+        ctx.restore();
+      }
+
+      spinWheel() {
+        if (this.isWheelSpinning) return;
+
+        const today = new Date().toISOString().slice(0, 10);
+        const isFree = this.lastWheelSpinDate !== today;
+
+        if (!isFree && this.coins < 20) {
+          sounds.sad();
+          Haptic.notification('error');
+          this.showEffect("Нужно 20 🪙 монет!");
+          return;
+        }
+
+        if (!isFree) {
+          this.coins -= 20;
+          this.renderHUD();
+        }
+
+        this.lastWheelSpinDate = today;
+        this.isWheelSpinning = true;
+
+        const btn = document.getElementById('btn-spin-wheel');
+        if (btn) {
+          btn.disabled = true;
+          btn.innerText = "Вращение...";
+          btn.style.opacity = '0.6';
+        }
+
+        const banner = document.getElementById('wheel-result-banner');
+        if (banner) banner.innerText = "Колесо крутится...";
+
+        const winningIdx = Math.floor(Math.random() * 8);
+        const sliceAngle = (2 * Math.PI) / 8;
+
+        const targetSectorCenter = winningIdx * sliceAngle + sliceAngle / 2;
+        const topAngle = (3 * Math.PI) / 2;
+        let delta = (topAngle - targetSectorCenter) - (this.wheelAngle % (2 * Math.PI));
+        while (delta < 0) delta += 2 * Math.PI;
+
+        const fullSpins = 4 + Math.floor(Math.random() * 2);
+        const totalRotation = fullSpins * 2 * Math.PI + delta;
+        const startAngle = this.wheelAngle;
+        const durationMs = 4000;
+        const startTime = performance.now();
+
+        let lastTickSector = -1;
+
+        const animate = (now) => {
+          const elapsed = now - startTime;
+          const t = Math.min(1, elapsed / durationMs);
+
+          const easeOut = 1 - Math.pow(1 - t, 4);
+          this.wheelAngle = startAngle + totalRotation * easeOut;
+          this.drawWheel(this.wheelAngle);
+
+          const currentSec = Math.floor(((this.wheelAngle + Math.PI / 2) % (2 * Math.PI)) / sliceAngle);
+          if (currentSec !== lastTickSector) {
+            lastTickSector = currentSec;
+            sounds.wheelTick();
+            Haptic.selection();
+          }
+
+          if (t < 1) {
+            requestAnimationFrame(animate);
+          } else {
+            this.isWheelSpinning = false;
+            this.handleWheelWin(winningIdx);
+            this.saveState();
+            this.updateWheelButton();
+          }
+        };
+
+        requestAnimationFrame(animate);
+      }
+
+      handleWheelWin(winningIdx) {
+        const prizes = [
+          { name: '+10 🪙 монет', type: 'coins', val: 10 },
+          { name: '+30 ⭐ опыта', type: 'xp', val: 30 },
+          { name: '+25 🪙 монет', type: 'coins', val: 25 },
+          { name: '🍎 Вкусная еда (+35 сытости)', type: 'food', val: 35 },
+          { name: '+50 🪙 монет', type: 'coins', val: 50 },
+          { name: '⚡ Заряд бодрости (+40 энергии)', type: 'energy', val: 40 },
+          { name: '+75 🪙 монет', type: 'coins', val: 75 },
+          { name: '👑 СУПЕР ДЖЕКПОТ! +100 🪙', type: 'jackpot', val: 100 }
+        ];
+
+        const prize = prizes[winningIdx];
+        if (prize.type === 'coins' || prize.type === 'jackpot') {
+          this.coins += prize.val;
+        } else if (prize.type === 'xp') {
+          this.addXP(prize.val);
+        } else if (prize.type === 'food') {
+          this.hunger = Math.min(100, this.hunger + prize.val);
+          this.happiness = Math.min(100, this.happiness + 15);
+        } else if (prize.type === 'energy') {
+          this.energy = Math.min(100, this.energy + prize.val);
+        }
+
+        sounds.fanfare();
+        Haptic.notification('success');
+
+        const banner = document.getElementById('wheel-result-banner');
+        if (banner) banner.innerText = "Вы выиграли: " + prize.name + "!";
+
+        this.showEffect("🎉 " + prize.name);
+        this.say("Вот это удача! 🎉");
+        this.cheer(2200);
+        this.render();
+      }
+
       initDOM() {
         // Bottom Action Dock
         bindTouch('btn-feed', () => this.openFeedMenu());
