@@ -22,6 +22,10 @@
       touch-action: manipulation;
     }
 
+    :root {
+      --tg-top-offset: 84px;
+    }
+
     html, body {
       width: 100%;
       height: 100%;
@@ -44,6 +48,8 @@
       flex-direction: column;
       background: #0F172A;
       transition: background 1.2s ease;
+      padding-top: var(--tg-top-offset, 84px);
+      box-sizing: border-box;
     }
 
     /* Ambient Lighting Overlays by Time of Day */
@@ -70,11 +76,9 @@
 
     /* TOP HEADER */
     .header {
-      min-height: calc(54px + env(safe-area-inset-top, 0px));
-      padding-top: max(10px, env(safe-area-inset-top, 0px));
-      padding-bottom: 6px;
-      padding-left: max(10px, env(safe-area-inset-left, 0px));
-      padding-right: max(10px, env(safe-area-inset-right, 0px));
+      height: 52px;
+      min-height: 52px;
+      padding: 0 10px;
       background: rgba(15, 23, 42, 0.88);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
@@ -763,17 +767,17 @@
 
     /* BOTTOM CONTROLS DOCK */
     .controls-bar {
-      min-height: 64px;
+      min-height: 62px;
       height: auto;
       padding-bottom: max(6px, env(safe-area-inset-bottom, 0px));
-      background: rgba(15, 23, 42, 0.88);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-top: 1px solid rgba(255, 255, 255, 0.12);
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      padding: 6px 8px;
-      gap: 6px;
+      grid-template-columns: repeat(6, 1fr);
+      padding: 6px 6px;
+      gap: 4px;
       z-index: 30;
       flex-shrink: 0;
     }
@@ -821,6 +825,8 @@
     .modal-overlay {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
+      padding-top: calc(var(--tg-top-offset, 84px) + 8px);
+      box-sizing: border-box;
       background: rgba(2, 6, 23, 0.85);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
@@ -1081,7 +1087,7 @@
     /* FLOATING TOAST NOTIFICATION */
     .game-toast {
       position: absolute;
-      top: 52px;
+      top: calc(var(--tg-top-offset, 84px) + 54px);
       left: 50%;
       transform: translateX(-50%) translateY(-25px);
       background: linear-gradient(135deg, #1E1B4B, #312E81);
@@ -1118,6 +1124,8 @@
     #game-overlay {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
+      padding-top: var(--tg-top-offset, 84px);
+      box-sizing: border-box;
       background: #0B0F19;
       z-index: 60;
       display: none;
@@ -1791,6 +1799,10 @@
       <button class="action-btn" id="btn-med">
         <span class="btn-icon-inner" id="icon-med">💊</span>
         <span class="btn-text" id="text-med">Лечить</span>
+      </button>
+      <button class="action-btn" id="btn-dock-settings" style="border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.12);">
+        <span class="btn-icon-inner" id="icon-settings">⚙️</span>
+        <span class="btn-text" id="text-settings" style="color: #FDE68A;">Опции</span>
       </button>
     </footer>
 
@@ -3885,7 +3897,16 @@
     function initTelegramMiniApp() {
       try {
         var tg = window.Telegram && window.Telegram.WebApp;
-        if (tg) {
+        var isTg = !!(tg && (tg.initData || tg.platform || window.location.href.includes('tgWebAppData')));
+        var isKozen = (window.Android && typeof window.Android.printReceipt === 'function') ||
+                      (window.innerWidth === 480 && window.innerHeight === 480 && !isTg);
+
+        if (isKozen) {
+          // Hardware Kozen P12 square terminal - no Telegram top offset
+          document.documentElement.style.setProperty('--tg-top-offset', '0px');
+          document.body.classList.add('kozen-terminal');
+        } else if (isTg) {
+          document.body.classList.add('telegram-app');
           tg.ready();
           tg.expand();
           if (typeof tg.requestFullscreen === 'function') {
@@ -3901,11 +3922,31 @@
             tg.enableClosingConfirmation();
           }
 
+          // Ensure top boundary is strictly BELOW Telegram's '✕', '⌄', and '...' buttons
+          function updateTgOffset() {
+            var ct = (tg.contentSafeAreaInset && tg.contentSafeAreaInset.top) || 0;
+            var st = (tg.safeAreaInset && tg.safeAreaInset.top) || 0;
+            // Telegram mobile header bar (~56px) + status bar (~28-34px) = ~84-90px.
+            var effectiveOffset = Math.max(84, ct, st);
+            document.documentElement.style.setProperty('--tg-top-offset', effectiveOffset + 'px');
+          }
+          updateTgOffset();
+
+          if (typeof tg.onEvent === 'function') {
+            tg.onEvent('safeAreaChanged', updateTgOffset);
+            tg.onEvent('fullscreenChanged', updateTgOffset);
+            tg.onEvent('viewportChanged', updateTgOffset);
+          }
+
           var user = tg.initDataUnsafe && tg.initDataUnsafe.user;
           if (user && user.first_name) {
             window._telegramUserName = user.first_name;
             console.log("🎮 Hello Telegram User:", user.first_name);
           }
+        } else {
+          // Standard browser
+          var topMargin = (window.innerWidth <= 600) ? 12 : 0;
+          document.documentElement.style.setProperty('--tg-top-offset', topMargin + 'px');
         }
       } catch(e) {
         console.warn("Telegram WebApp init:", e);
@@ -5723,6 +5764,7 @@
         bindTouch('xp-text', () => this.addXP(25)); // Quick XP boost shortcut
         bindTouch('coin-badge', () => this.openLocationModal()); // Quick Location switch shortcut
         bindTouch('btn-settings', () => this.openSettings());
+        bindTouch('btn-dock-settings', () => this.openSettings());
         bindTouch('pet-day-badge', () => {
           sounds.chime();
           const days = this.getAgeDays();
