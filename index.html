@@ -70,18 +70,51 @@
 
     /* TOP HEADER */
     .header {
-      height: calc(52px + env(safe-area-inset-top, 0px));
-      padding-top: env(safe-area-inset-top, 0px);
-      background: rgba(15, 23, 42, 0.78);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      min-height: calc(54px + env(safe-area-inset-top, 0px));
+      padding-top: max(10px, env(safe-area-inset-top, 0px));
+      padding-bottom: 6px;
+      padding-left: max(10px, env(safe-area-inset-left, 0px));
+      padding-right: max(10px, env(safe-area-inset-right, 0px));
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.12);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 10px;
+      gap: 6px;
       z-index: 30;
       flex-shrink: 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .header-btn.btn-settings {
+      background: rgba(245, 158, 11, 0.25) !important;
+      border-color: rgba(245, 158, 11, 0.6) !important;
+      color: #FDE68A !important;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.25);
+    }
+
+    @media (max-width: 440px) {
+      #btn-toggle-time, #btn-toggle-weather {
+        display: none !important;
+      }
+      .pet-name {
+        max-width: 72px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .xp-container {
+        width: 48px;
+      }
+      .xp-text {
+        font-size: 8.5px;
+      }
+      .header-right {
+        gap: 5px;
+      }
     }
 
     .pet-info {
@@ -1624,13 +1657,13 @@
         </div>
       </div>
       <div class="header-right">
-        <div class="day-badge" id="pet-day-badge" title="Возраст (1 день = 5 мин)">🗓️ 1д</div>
-        <button class="header-btn" id="btn-toggle-time" title="Время суток (Рассвет/День/Закат/Ночь)">☀️</button>
-        <button class="header-btn" id="btn-toggle-weather" title="Погода (Ясно/Облачно/Дождь/Листопад)">⛅</button>
         <div class="coin-badge">
           <span>🪙</span><span id="coin-count">25</span>
         </div>
-        <button class="header-btn" id="btn-settings" title="Настройки">⚙️</button>
+        <div class="day-badge" id="pet-day-badge" title="Возраст (1 день = 5 мин)">🗓️ 1д</div>
+        <button class="header-btn" id="btn-toggle-time" title="Время суток (Рассвет/День/Закат/Ночь)">☀️</button>
+        <button class="header-btn" id="btn-toggle-weather" title="Погода (Ясно/Облачно/Дождь/Листопад)">⛅</button>
+        <button class="header-btn btn-settings" id="btn-settings" title="Настройки игры">⚙️</button>
       </div>
     </header>
 
@@ -1811,6 +1844,7 @@
         <div style="display: flex; flex-direction: column; gap: 8px;">
           <button class="menu-btn btn-primary" id="btn-open-char-modal">🐾 Сменить персонажа (Яйцо)</button>
           <button class="menu-btn btn-primary" id="btn-open-loc-modal">🗺️ Сменить локацию (Природа)</button>
+          <button class="menu-btn btn-primary" id="btn-settings-toggle-time">☀️ Сменить время суток (День/Ночь)</button>
           <button class="menu-btn btn-primary" id="btn-open-weather-modal">⛅ Сменить погоду</button>
           <button class="menu-btn" style="background: rgba(255,255,255,0.08); color: #FFF;" id="btn-toggle-sound">🔊 Звуки: ВКЛ</button>
 
@@ -3924,7 +3958,8 @@
         this.autoTimeCycle = true;
 
         // LOCOMOTION & KINEMATICS
-        this.posX = 170; // 50 to 410 px
+        const bInit = (typeof this.getPlayAreaBounds === 'function') ? this.getPlayAreaBounds() : { minX: 8, maxX: 212 };
+        this.posX = Math.round((bInit.minX + bInit.maxX) / 2);
         this.facing = 1; // 1 = right, -1 = left
         this.isBusyActing = false;
         this.lastInteraction = Date.now();
@@ -4168,10 +4203,10 @@
           // Rain streaks
           let rainHTML = '';
           for (let i = 0; i < 22; i++) {
-            const left = Math.random() * 460;
+            const left = (Math.random() * 95).toFixed(1);
             const delay = (Math.random() * 0.7).toFixed(2);
             const dur = (0.55 + Math.random() * 0.3).toFixed(2);
-            rainHTML += `<div class="rain-streak" style="left: ${left}px; animation-delay: ${delay}s; animation-duration: ${dur}s;"></div>`;
+            rainHTML += `<div class="rain-streak" style="left: ${left}%; animation-delay: ${delay}s; animation-duration: ${dur}s;"></div>`;
           }
           layer.innerHTML = rainHTML;
         } else if (this.weatherIndex === 3) {
@@ -4179,18 +4214,28 @@
           let petalHTML = '';
           const chars = ['🌸', '🍃', '🌸', '🍂'];
           for (let i = 0; i < 8; i++) {
-            const left = Math.random() * 380;
+            const left = (Math.random() * 92).toFixed(1);
             const delay = (Math.random() * 3.5).toFixed(2);
             const p = chars[i % chars.length];
-            petalHTML += `<div class="petal-item" style="left: ${left}px; animation-delay: ${delay}s;">${p}</div>`;
+            petalHTML += `<div class="petal-item" style="left: ${left}%; animation-delay: ${delay}s;">${p}</div>`;
           }
           layer.innerHTML = petalHTML;
         }
       }
 
       // --- PET LOCOMOTION & ACTIONS ---
+      getPlayAreaBounds() {
+        const area = document.getElementById('outdoor-area') || document.getElementById('app-container');
+        const width = area && area.clientWidth > 0 ? area.clientWidth : (window.innerWidth ? Math.min(window.innerWidth, 480) : 360);
+        const petWidth = 140;
+        const minX = 8;
+        const maxX = Math.max(minX, width - petWidth - 8);
+        return { width, minX, maxX, petWidth };
+      }
+
       moveTo(targetX, onArrival = null) {
-        targetX = Math.max(50, Math.min(410, targetX));
+        const b = this.getPlayAreaBounds();
+        targetX = Math.max(b.minX, Math.min(b.maxX, Math.round(targetX)));
         const dist = Math.abs(targetX - this.posX);
         if (dist < 8) {
           if (onArrival) onArrival();
@@ -4245,8 +4290,11 @@
         const ball = document.getElementById('toy-ball');
         sounds.ballBounce();
 
-        // Move ball to opposite side
-        this.ballX = this.ballX > 240 ? 60 : 380;
+        // Move ball to opposite side within visible play area
+        const b = this.getPlayAreaBounds();
+        const leftSpot = Math.max(16, b.minX);
+        const rightSpot = Math.max(leftSpot + 40, b.width - 48);
+        this.ballX = (this.ballX > b.width / 2) ? leftSpot : rightSpot;
         if (ball) {
           ball.style.left = this.ballX + 'px';
           ball.classList.add('bouncing');
@@ -4347,8 +4395,8 @@
           return;
         }
 
-        // Pet runs towards tap
-        this.moveTo(tapX);
+        // Pet runs towards tap (centered on tap location)
+        this.moveTo(tapX - 70);
       }
 
       // --- FEEDING & EGG CARING (PAID IN COINS) ---
@@ -5371,7 +5419,9 @@
       // --- POOP SYSTEM ---
       spawnPoop() {
         if (this.stage === 0 || this.poops.length >= 6) return;
-        const x = Math.floor(Math.random() * 320) + 40;
+        const b = this.getPlayAreaBounds();
+        const span = Math.max(30, b.width - 60);
+        const x = Math.floor(Math.random() * span) + 16;
         this.poops.push({ id: Date.now(), x, age: 0 });
         this.renderPoops();
       }
@@ -5445,8 +5495,10 @@
         if (Date.now() - this.lastInteraction > 4000 && Math.random() < 0.35) {
           const r = Math.random();
           if (r < 0.45) {
-            // Walk to new spot on grass
-            const newX = Math.floor(Math.random() * 320) + 70;
+            // Walk to new spot on grass within visible bounds
+            const b = this.getPlayAreaBounds();
+            const span = Math.max(20, b.maxX - b.minX);
+            const newX = b.minX + Math.floor(Math.random() * span);
             this.moveTo(newX);
           } else if (r < 0.70) {
             // Playful hop
@@ -5664,6 +5716,7 @@
 
         // Header controls
         bindTouch('btn-toggle-time', () => this.cycleTimeOfDay());
+        bindTouch('btn-settings-toggle-time', () => { this.cycleTimeOfDay(); this.closeSettings(); });
         bindTouch('btn-toggle-weather', () => this.cycleWeather());
         bindTouch('pet-name', () => this.openCharSelect());
         bindTouch('pet-stage-badge', () => this.openCharSelect());
@@ -5807,6 +5860,14 @@
     window.addEventListener('DOMContentLoaded', () => {
       initTelegramMiniApp();
       window.tamagotchi = new Tamagotchi();
+      window.addEventListener('resize', () => {
+        if (window.tamagotchi && typeof window.tamagotchi.getPlayAreaBounds === 'function') {
+          const b = window.tamagotchi.getPlayAreaBounds();
+          if (window.tamagotchi.posX > b.maxX || window.tamagotchi.posX < b.minX) {
+            window.tamagotchi.moveTo(Math.max(b.minX, Math.min(b.maxX, window.tamagotchi.posX)));
+          }
+        }
+      });
     });
   </script>
 </body>
