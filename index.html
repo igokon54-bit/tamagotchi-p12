@@ -1849,26 +1849,55 @@
       </div>
     </div>
 
+        <!-- UNIFIED ENVIRONMENT & WEATHER MODAL -->
+    <div class="modal-overlay" id="env-modal">
+      <div class="modal-card" style="max-height: 85dvh; overflow-y: auto;">
+        <div class="modal-title">🌍 ОКРУЖЕНИЕ И АТМОСФЕРА</div>
+        
+        <!-- SECTION 1: 10 LOCATIONS -->
+        <div style="font-size: 11px; font-weight: 800; color: #38BDF8; margin-top: 2px; display: flex; align-items: center; gap: 4px;">
+          <span>🗺️</span><span>ВЫБОР МИРА (10 ЛОКАЦИЙ)</span>
+        </div>
+        <div id="env-loc-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-top: 4px;">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <!-- SECTION 2: WEATHER (4 TYPES) -->
+        <div style="font-size: 11px; font-weight: 800; color: #FBBF24; margin-top: 10px; display: flex; align-items: center; gap: 4px;">
+          <span>⛅</span><span>ПОГОДНЫЕ ЭФФЕКТЫ</span>
+        </div>
+        <div id="env-weather-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-top: 4px;">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <!-- SECTION 3: TIME OF DAY (4 CYCLES) -->
+        <div style="font-size: 11px; font-weight: 800; color: #F472B6; margin-top: 10px; display: flex; align-items: center; gap: 4px;">
+          <span>🌅</span><span>ВРЕМЯ СУТОК</span>
+        </div>
+        <div id="env-time-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-top: 4px;">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <button class="menu-btn btn-close" id="btn-close-env" style="margin-top: 10px;">✖ Закрыть</button>
+      </div>
+    </div>
+
     <!-- SETTINGS MODAL -->
     <div class="modal-overlay" id="settings-modal">
       <div class="modal-card">
         <div class="modal-title">⚙️ НАСТРОЙКИ ИГРЫ</div>
         <div style="display: flex; flex-direction: column; gap: 8px;">
           <button class="menu-btn btn-primary" id="btn-open-char-modal">🐾 Сменить персонажа (Яйцо)</button>
-          <button class="menu-btn btn-primary" id="btn-open-loc-modal">🗺️ Сменить локацию (Природа)</button>
-          <button class="menu-btn btn-primary" id="btn-settings-toggle-time">☀️ Сменить время суток (День/Ночь)</button>
-          <button class="menu-btn btn-primary" id="btn-open-weather-modal">⛅ Сменить погоду</button>
+          <button class="menu-btn btn-primary" style="background: linear-gradient(135deg, #0284C7, #0D9488); border-color: #38BDF8; font-weight: 800;" id="btn-open-env-modal">🌍 Локация, Погода и Время суток</button>
           <button class="menu-btn" style="background: rgba(255,255,255,0.08); color: #FFF;" id="btn-toggle-sound">🔊 Звуки: ВКЛ</button>
 
           <button class="menu-btn" style="background: rgba(168,85,247,0.25); color: #E9D5FF;" id="btn-open-wardrobe">🎩 Гардероб и Скины</button>
           <button class="menu-btn" style="background: rgba(245,158,11,0.25); color: #FDE68A;" id="btn-open-achievements">🏆 Книга Достижений</button>
-          <button class="menu-btn" style="background: rgba(16,185,129,0.25); color: #A7F3D0;" id="btn-open-receipt">🖨️ Свидетельство (58мм)</button>
-          <button class="menu-btn" style="background: rgba(56,189,248,0.2); color: #BAE6FD;" id="btn-trigger-storm">⚡ Налёт: Гроза (Тест)</button>
+                    <button class="menu-btn" style="background: rgba(56,189,248,0.2); color: #BAE6FD;" id="btn-trigger-storm">⚡ Налёт: Гроза (Тест)</button>
           <button class="menu-btn" style="background: rgba(239,68,68,0.2); color: #FECACA;" id="btn-trigger-raccoon">🦝 Налёт: Воришка (Тест)</button>
           <button class="menu-btn" style="background: rgba(239,68,68,0.25); color: #FCA5A5;" id="btn-trigger-villain">🦇 Налёт тени (Тест)</button>
           <button class="menu-btn" style="background: rgba(168,85,247,0.25); color: #D8B4FE;" id="btn-trigger-song">🎵 Спеть песенку (Тест)</button>
-          <button class="menu-btn" style="background: rgba(56,189,248,0.15); color: #38BDF8;" id="btn-trigger-fullscreen">⛶ На весь экран</button>
-          <button class="menu-btn" style="background: rgba(239,68,68,0.2); color: #F87171;" id="btn-reset-game">⚠️ Сбросить прогресс</button>
+                    <button class="menu-btn" style="background: rgba(239,68,68,0.2); color: #F87171;" id="btn-reset-game">⚠️ Сбросить прогресс</button>
         </div>
         <button class="menu-btn btn-close" id="btn-close-settings">✖ Закрыть</button>
       </div>
@@ -2173,7 +2202,8 @@
           setTimeout(() => this.beep(n, 0.09, 'triangle', 0.16), i * 70);
         });
       }
-      singSong() { this.stats.songsSung = (this.stats.songsSung || 0) + 1; this.checkAchievements();
+      singSong() {
+        if (this.muted) return;
         const song = [
           { f: 523, d: 0.14, t: 'triangle' },
           { f: 659, d: 0.14, t: 'triangle' },
@@ -2453,6 +2483,194 @@
             <polygon points="380,215 383,222 390,222 384,226 386,233 380,228 374,233 376,226 370,222 377,222" fill="#F43F5E"/>
           </svg>`;
         }
+      },
+      {
+        id: 'space',
+        name: 'Открытый космос',
+        icon: '🚀',
+        desc: 'Лунная станция, кратеры, сияющая Земля и кольца Сатурна.',
+        renderSVG() {
+          return `<svg viewBox="0 0 480 250" width="100%" height="100%" preserveAspectRatio="none">
+            <!-- Cosmic Nebula Glow -->
+            <ellipse cx="240" cy="60" rx="200" ry="60" fill="#7C3AED" opacity="0.25"/>
+            <!-- Distant Planets in Sky -->
+            <ellipse cx="390" cy="50" rx="26" ry="26" fill="#0284C7"/>
+            <ellipse cx="390" cy="50" rx="36" ry="6" fill="none" stroke="#FDE047" stroke-width="2.5" opacity="0.8" transform="rotate(-20 390 50)"/>
+            <circle cx="80" cy="45" r="14" fill="#38BDF8" opacity="0.9"/>
+            <circle cx="76" cy="41" r="5" fill="#22C55E" opacity="0.85"/>
+            <!-- Lunar Mountain Range -->
+            <polygon points="0,130 50,110 110,125 180,95 250,120 320,105 400,125 480,110 480,250 0,250" fill="#1E1B4B" opacity="0.7"/>
+            <polygon points="0,145 70,128 150,142 220,120 300,138 380,122 480,135 480,250 0,250" fill="#312E81" opacity="0.85"/>
+            <!-- Moon Surface Ground -->
+            <path d="M 0 165 Q 120 155 240 162 T 480 158 L 480 250 L 0 250 Z" fill="#1E293B"/>
+            <rect y="215" width="480" height="35" fill="#0F172A" opacity="0.6"/>
+            <!-- Lunar Craters -->
+            <ellipse cx="70" cy="190" rx="28" ry="10" fill="#0F172A" stroke="#475569" stroke-width="2"/>
+            <ellipse cx="68" cy="188" rx="22" ry="7" fill="#020617"/>
+            <ellipse cx="280" cy="205" rx="34" ry="12" fill="#0F172A" stroke="#475569" stroke-width="2"/>
+            <ellipse cx="278" cy="203" rx="26" ry="8" fill="#020617"/>
+            <ellipse cx="410" cy="185" rx="20" ry="7" fill="#0F172A" stroke="#475569" stroke-width="1.5"/>
+            <!-- Sci-Fi Antenna Beacon -->
+            <line x1="360" y1="130" x2="360" y2="180" stroke="#94A3B8" stroke-width="3"/>
+            <circle cx="360" cy="128" r="4" fill="#EF4444"/>
+            <circle cx="360" cy="128" r="8" fill="#EF4444" opacity="0.4"/>
+          </svg>`;
+        }
+      },
+      {
+        id: 'winter',
+        name: 'Зимняя сказка',
+        icon: '⛄',
+        desc: 'Искрящиеся сугробы, ледяные пики гор и заснеженные ели.',
+        renderSVG() {
+          return `<svg viewBox="0 0 480 250" width="100%" height="100%" preserveAspectRatio="none">
+            <!-- Distant Icy Mountain Peaks -->
+            <polygon points="20,160 80,75 140,160" fill="#CBD5E1"/>
+            <polygon points="80,75 60,110 80,105 100,110" fill="#FFFFFF"/>
+            <polygon points="110,160 180,60 250,160" fill="#94A3B8"/>
+            <polygon points="180,60 160,100 180,95 200,100" fill="#FFFFFF"/>
+            <polygon points="280,160 360,70 440,160" fill="#CBD5E1"/>
+            <polygon points="360,70 340,105 360,100 380,105" fill="#FFFFFF"/>
+            <!-- Snow-Covered Pine Trees -->
+            <polygon points="40,180 55,140 70,180" fill="#0F766E"/>
+            <polygon points="43,155 55,130 67,155" fill="#FFFFFF"/>
+            <polygon points="410,180 430,130 450,180" fill="#0F766E"/>
+            <polygon points="415,150 430,120 445,150" fill="#FFFFFF"/>
+            <!-- Rolling Snow Drifts -->
+            <path d="M 0 160 Q 120 140 240 155 T 480 148 L 480 250 L 0 250 Z" fill="#E2E8F0"/>
+            <path d="M 0 180 Q 140 165 280 178 T 480 172 L 480 250 L 0 250 Z" fill="#F8FAFC"/>
+            <!-- Cute Little Snowman -->
+            <circle cx="340" cy="195" r="18" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+            <circle cx="340" cy="172" r="13" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+            <circle cx="340" cy="154" r="9" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+            <circle cx="337" cy="152" r="1.5" fill="#0F172A"/><circle cx="343" cy="152" r="1.5" fill="#0F172A"/>
+            <!-- Carrot Nose -->
+            <polygon points="340,154 348,156 340,157" fill="#EA580C"/>
+            <!-- Red Scarf -->
+            <rect x="333" y="161" width="14" height="4" rx="2" fill="#DC2626"/>
+            <rect x="342" y="163" width="4" height="10" rx="1" fill="#DC2626"/>
+            <!-- Snow Sparkles -->
+            <circle cx="80" cy="210" r="2" fill="#FFF"/><circle cx="170" cy="225" r="2.5" fill="#FFF"/>
+            <circle cx="230" cy="205" r="1.8" fill="#FFF"/><circle cx="390" cy="215" r="2.2" fill="#FFF"/>
+          </svg>`;
+        }
+      },
+      {
+        id: 'sakura',
+        name: 'Сад сакуры',
+        icon: '🌸',
+        desc: 'Цветущие вишни, деревянный мостик и лепестки на воде.',
+        renderSVG() {
+          return `<svg viewBox="0 0 480 250" width="100%" height="100%" preserveAspectRatio="none">
+            <!-- Distant Silhouette of Mt Fuji -->
+            <polygon points="140,150 240,80 340,150" fill="#93C5FD" opacity="0.6"/>
+            <polygon points="240,80 215,105 240,100 265,105" fill="#FFFFFF" opacity="0.85"/>
+            <!-- Lush Pink Blossom Tree Canopies -->
+            <circle cx="60" cy="70" r="55" fill="#F472B6" opacity="0.9"/>
+            <circle cx="110" cy="60" r="45" fill="#FBCFE8" opacity="0.95"/>
+            <circle cx="30" cy="85" r="40" fill="#EC4899" opacity="0.85"/>
+            <circle cx="420" cy="70" r="55" fill="#F472B6" opacity="0.9"/>
+            <circle cx="370" cy="65" r="45" fill="#FBCFE8" opacity="0.95"/>
+            <circle cx="450" cy="90" r="40" fill="#EC4899" opacity="0.85"/>
+            <!-- Twisted Dark Cherry Tree Trunks -->
+            <path d="M 55 110 Q 60 145 45 185" stroke="#451A03" stroke-width="12" fill="none" stroke-linecap="round"/>
+            <path d="M 425 110 Q 420 145 435 185" stroke="#451A03" stroke-width="12" fill="none" stroke-linecap="round"/>
+            <!-- Traditional Curved Wooden Bridge -->
+            <path d="M 170 175 Q 240 145 310 175" stroke="#B91C1C" stroke-width="8" fill="none"/>
+            <path d="M 170 170 Q 240 140 310 170" stroke="#DC2626" stroke-width="4" fill="none"/>
+            <line x1="205" y1="158" x2="205" y2="185" stroke="#7F1D1D" stroke-width="3"/>
+            <line x1="240" y1="153" x2="240" y2="185" stroke="#7F1D1D" stroke-width="3"/>
+            <line x1="275" y1="158" x2="275" y2="185" stroke="#7F1D1D" stroke-width="3"/>
+            <!-- Mossy Stone Lantern (Toro) -->
+            <rect x="135" y="170" width="10" height="25" fill="#64748B"/>
+            <rect x="130" y="165" width="20" height="6" rx="2" fill="#475569"/>
+            <polygon points="128,165 140,152 152,165" fill="#334155"/>
+            <circle cx="140" cy="168" r="2.5" fill="#FDE047"/>
+            <!-- Soft Grassy Bank with Fallen Petals -->
+            <path d="M 0 175 Q 120 160 240 170 T 480 165 L 480 250 L 0 250 Z" fill="#15803D"/>
+            <rect y="215" width="480" height="35" fill="#166534" opacity="0.6"/>
+            <!-- Petals Scattered on Grass -->
+            <ellipse cx="70" cy="195" rx="5" ry="3" fill="#FBCFE8" transform="rotate(25 70 195)"/>
+            <ellipse cx="110" cy="220" rx="5" ry="3" fill="#F472B6" transform="rotate(-15 110 220)"/>
+            <ellipse cx="220" cy="205" rx="4.5" ry="2.5" fill="#FBCFE8" transform="rotate(40 220 205)"/>
+            <ellipse cx="320" cy="225" rx="5" ry="3" fill="#F472B6" transform="rotate(10 320 225)"/>
+            <ellipse cx="390" cy="195" rx="4" ry="2.5" fill="#FBCFE8" transform="rotate(-30 390 195)"/>
+          </svg>`;
+        }
+      },
+      {
+        id: 'volcano',
+        name: 'Лавовый каньон',
+        icon: '🌋',
+        desc: 'Базальтовые скалы, магматические разломы и драгоценные рубины.',
+        renderSVG() {
+          return `<svg viewBox="0 0 480 250" width="100%" height="100%" preserveAspectRatio="none">
+            <!-- Jagged Dark Volcanic Ridge -->
+            <polygon points="0,150 40,95 90,130 150,85 220,120 290,75 360,115 420,80 480,125 480,250 0,250" fill="#18181B"/>
+            <polygon points="0,165 60,125 130,150 200,110 280,140 370,105 440,135 480,120 480,250 0,250" fill="#27272A"/>
+            <!-- Volcano Glowing Crater Smoke in Distance -->
+            <polygon points="250,75 270,40 310,75" fill="#EF4444" opacity="0.8"/>
+            <ellipse cx="280" cy="40" rx="25" ry="12" fill="#F97316" opacity="0.6"/>
+            <!-- Rocky Obsidian Ground -->
+            <path d="M 0 168 Q 120 155 240 165 T 480 160 L 480 250 L 0 250 Z" fill="#09090B"/>
+            <!-- Glowing Magma Cracks -->
+            <path d="M 30 185 L 85 195 L 140 188 L 190 205 L 240 192" stroke="#EF4444" stroke-width="4" fill="none"/>
+            <path d="M 32 185 L 85 195 L 140 188 L 190 205 L 240 192" stroke="#FDE047" stroke-width="1.8" fill="none"/>
+            <path d="M 270 215 L 330 208 L 390 220 L 450 212" stroke="#EF4444" stroke-width="3.5" fill="none"/>
+            <path d="M 272 215 L 330 208 L 390 220 L 450 212" stroke="#FEF08A" stroke-width="1.5" fill="none"/>
+            <!-- Ruby Crystals Protruding from Rocks -->
+            <polygon points="60,175 66,155 74,175" fill="#E11D48"/>
+            <polygon points="66,155 70,165 74,175" fill="#FB7185"/>
+            <polygon points="420,180 428,158 438,180" fill="#E11D48"/>
+            <polygon points="428,158 433,168 438,180" fill="#FB7185"/>
+            <!-- Floating Fiery Embers -->
+            <circle cx="110" cy="140" r="2" fill="#FDE047" opacity="0.9"/>
+            <circle cx="180" cy="125" r="2.5" fill="#F97316" opacity="0.85"/>
+            <circle cx="340" cy="135" r="2" fill="#FDE047" opacity="0.9"/>
+            <circle cx="390" cy="115" r="2.2" fill="#EF4444" opacity="0.8"/>
+          </svg>`;
+        }
+      },
+      {
+        id: 'castle',
+        name: 'Сказочный замок',
+        icon: '🏰',
+        desc: 'Каменные башни, лазурные шпили, мощёный двор и розы.',
+        renderSVG() {
+          return `<svg viewBox="0 0 480 250" width="100%" height="100%" preserveAspectRatio="none">
+            <!-- Grand Stone Castle Walls & Turrets -->
+            <!-- Left Tower -->
+            <rect x="40" y="85" width="40" height="90" fill="#64748B"/>
+            <polygon points="35,85 60,35 85,85" fill="#0284C7"/>
+            <line x1="60" y1="35" x2="60" y2="20" stroke="#334155" stroke-width="2"/>
+            <polygon points="60,20 72,25 60,30" fill="#EF4444"/>
+            <rect x="52" y="105" width="16" height="24" rx="8" fill="#1E293B"/>
+            <!-- Center Keep & Battlements -->
+            <rect x="140" y="95" width="200" height="80" fill="#475569"/>
+            <rect x="140" y="85" width="22" height="12" fill="#475569"/><rect x="175" y="85" width="22" height="12" fill="#475569"/>
+            <rect x="210" y="85" width="22" height="12" fill="#475569"/><rect x="245" y="85" width="22" height="12" fill="#475569"/>
+            <rect x="280" y="85" width="22" height="12" fill="#475569"/><rect x="318" y="85" width="22" height="12" fill="#475569"/>
+            <!-- Arched Castle Gate -->
+            <path d="M 215 175 L 215 130 C 215 110 265 110 265 130 L 265 175 Z" fill="#1E293B" stroke="#334155" stroke-width="3"/>
+            <!-- Right Tower -->
+            <rect x="400" y="85" width="40" height="90" fill="#64748B"/>
+            <polygon points="395,85 420,35 445,85" fill="#0284C7"/>
+            <line x1="420" y1="35" x2="420" y2="20" stroke="#334155" stroke-width="2"/>
+            <polygon points="420,20 432,25 420,30" fill="#EF4444"/>
+            <rect x="412" y="105" width="16" height="24" rx="8" fill="#1E293B"/>
+            <!-- Courtyard Cobblestones Ground -->
+            <path d="M 0 170 Q 120 160 240 168 T 480 162 L 480 250 L 0 250 Z" fill="#334155"/>
+            <rect y="215" width="480" height="35" fill="#1E293B" opacity="0.6"/>
+            <!-- Royal Red Carpet Runner -->
+            <polygon points="220,175 260,175 280,250 200,250" fill="#991B1B"/>
+            <polygon points="223,175 257,175 276,250 204,250" fill="#DC2626"/>
+            <!-- Golden Torches & Rose Bushes -->
+            <circle cx="205" cy="140" r="4" fill="#F59E0B"/>
+            <circle cx="275" cy="140" r="4" fill="#F59E0B"/>
+            <circle cx="105" cy="195" r="6" fill="#15803D"/><circle cx="103" cy="193" r="3" fill="#E11D48"/>
+            <circle cx="375" cy="195" r="6" fill="#15803D"/><circle cx="377" cy="193" r="3" fill="#E11D48"/>
+          </svg>`;
+        }
       }
     ];
 
@@ -2552,22 +2770,6 @@
           { id: 3, name: "🛡️ Спарк-Х", maxXP: 800 },
           { id: 4, name: "👑 Меха-Прайм", maxXP: 1600 },
           { id: 5, name: "🔥 Мега-Омегатрон", maxXP: 9999 }
-        ]
-      },
-      {
-        id: 'shark',
-        defaultName: 'Шарки',
-        title: 'Золотая Акула',
-        element: '🌊 Вода / Сила',
-        badgeClass: 'badge-water',
-        desc: 'От крапчатого морского яичка до легендарной накачанной Акулы-Гигачада! Обожает воду и силовые тренировки.',
-        stages: [
-          { id: 0, name: "🥚 Морское яйцо", maxXP: 60, desc: "Крапчатое яйцо акулы на песчаном постаменте." },
-          { id: 1, name: "🐾 Акулёнок", maxXP: 180, desc: "Малыш с желточным мешочком в кристальной воде." },
-          { id: 2, name: "⚡ Золотистый Шарки", maxXP: 400, desc: "Резвая молодая акула, плавающая под солнцем." },
-          { id: 3, name: "🛡️ Морской Охотник", maxXP: 800, desc: "Грозный хищник с острыми плавниками и зубами." },
-          { id: 4, name: "👑 Акулодон", maxXP: 1600, desc: "Древний титан океанских глубин." },
-          { id: 5, name: "🔥 Акула-Гигачад", maxXP: 9999, desc: "Титан морей с нереальной мускулатурой и мощью!" }
         ]
       }
     ];
@@ -2799,6 +3001,8 @@
           ${patternSVG}
           <!-- Cracks Overlay -->
           ${cracksSVG}
+          <!-- Equipped Accessory on Egg -->
+          ${this.getAccessorySVG(accessory, 0)}
         </svg>`;
       }
 
@@ -3137,7 +3341,7 @@
       // 2. GENERATE LIVING PET SVG (STAGES 1 - 5) WITH ANIMATED EYES
       static generateSVG(type, stage = 1, expression = 'normal', isDead = false, lookX = 0, lookY = 0, accessory = "none") {
         if (stage === 0) {
-          return this.generateEggSVG(type, 0);
+          return this.generateEggSVG(type, 0, accessory);
         }
 
         if (isDead) {
@@ -3374,6 +3578,9 @@
         const pawFill = (type === 'panda') ? '#212529' : colors.mainDark;
         svg += `<ellipse cx="68" cy="168" rx="14" ry="8" fill="${pawFill}" />
                 <ellipse cx="132" cy="168" rx="14" ry="8" fill="${pawFill}" />`;
+
+        // EQUIPPED ACCESSORY / WARDROBE ITEM
+        svg += this.getAccessorySVG(accessory, stage);
 
         svg += `</svg>`;
         return svg;
@@ -4072,7 +4279,7 @@
           if (petParam) {
             const found = PET_CHARACTERS.find(c => c.id === petParam);
             if (found) {
-              this.petType = found.id;
+              this.petType = (found.id === 'shark') ? 'cat' : found.id;
               this.name = found.defaultName;
             }
           }
@@ -5345,6 +5552,128 @@
       }
 
       // --- LOCATION PICKER ---
+            // --- UNIFIED ENVIRONMENT (LOCATION, WEATHER, TIME) ---
+      openEnvModal() {
+        this.closeSettings();
+        sounds.click();
+        this.renderEnvModal();
+        openModal('env-modal');
+      }
+
+      closeEnvModal() {
+        closeModal('env-modal');
+      }
+
+      renderEnvModal() {
+        // 1. Render Locations Grid
+        const locGrid = document.getElementById('env-loc-grid');
+        if (locGrid) {
+          locGrid.innerHTML = '';
+          OUTDOOR_LOCATIONS.forEach(loc => {
+            const isCur = loc.id === this.locationId;
+            const card = document.createElement('div');
+            card.className = 'menu-card' + (isCur ? ' active' : '');
+            card.style.padding = '8px 6px';
+            card.style.cursor = 'pointer';
+            if (isCur) {
+              card.style.borderColor = '#38BDF8';
+              card.style.background = 'rgba(56, 189, 248, 0.22)';
+            }
+            card.innerHTML = `
+              <span class="menu-card-icon" style="font-size: 22px;">${loc.icon}</span>
+              <span class="menu-card-name" style="font-size: 11px;">${loc.name}</span>
+              <span class="menu-card-desc" style="font-size: 9px; color: ${isCur ? '#38BDF8' : '#94A3B8'};">${isCur ? '✅ Активно' : 'Нажмите'}</span>
+            `;
+            bindTouch(card, () => {
+              sounds.click();
+              this.setLocation(loc.id);
+              this.renderEnvModal();
+            });
+            locGrid.appendChild(card);
+          });
+        }
+
+        // 2. Render Weather Grid
+        const weatherGrid = document.getElementById('env-weather-grid');
+        if (weatherGrid) {
+          weatherGrid.innerHTML = '';
+          const weathers = [
+            { id: 0, icon: '☀️', name: 'Ясно' },
+            { id: 1, icon: '⛅', name: 'Облачно' },
+            { id: 2, icon: '🌧️', name: 'Дождик' },
+            { id: 3, icon: '🌸', name: 'Цветение' }
+          ];
+          weathers.forEach(w => {
+            const isCur = this.weatherIndex === w.id;
+            const btn = document.createElement('button');
+            btn.className = 'menu-btn';
+            btn.style.padding = '6px';
+            btn.style.fontSize = '11px';
+            btn.style.display = 'flex';
+            btn.style.alignItems = 'center';
+            btn.style.justifyContent = 'center';
+            btn.style.gap = '4px';
+            if (isCur) {
+              btn.style.background = 'rgba(251, 191, 36, 0.25)';
+              btn.style.borderColor = '#FBBF24';
+              btn.style.color = '#FEF08A';
+              btn.innerHTML = `${w.icon} <b>${w.name} ✅</b>`;
+            } else {
+              btn.style.background = 'rgba(255, 255, 255, 0.08)';
+              btn.style.color = '#E2E8F0';
+              btn.innerHTML = `${w.icon} ${w.name}`;
+            }
+            bindTouch(btn, () => {
+              sounds.click();
+              this.weatherIndex = w.id;
+              this.applyWeather();
+              this.renderEnvModal();
+            });
+            weatherGrid.appendChild(btn);
+          });
+        }
+
+        // 3. Render Time of Day Grid
+        const timeGrid = document.getElementById('env-time-grid');
+        if (timeGrid) {
+          timeGrid.innerHTML = '';
+          const times = [
+            { id: 0, icon: '🌅', name: 'Рассвет' },
+            { id: 1, icon: '☀️', name: 'День' },
+            { id: 2, icon: '🌇', name: 'Закат' },
+            { id: 3, icon: '🌙', name: 'Ночь' }
+          ];
+          times.forEach(t => {
+            const isCur = this.timeOfDayIndex === t.id;
+            const btn = document.createElement('button');
+            btn.className = 'menu-btn';
+            btn.style.padding = '6px';
+            btn.style.fontSize = '11px';
+            btn.style.display = 'flex';
+            btn.style.alignItems = 'center';
+            btn.style.justifyContent = 'center';
+            btn.style.gap = '4px';
+            if (isCur) {
+              btn.style.background = 'rgba(244, 114, 182, 0.25)';
+              btn.style.borderColor = '#F472B6';
+              btn.style.color = '#FDF2F8';
+              btn.innerHTML = `${t.icon} <b>${t.name} ✅</b>`;
+            } else {
+              btn.style.background = 'rgba(255, 255, 255, 0.08)';
+              btn.style.color = '#E2E8F0';
+              btn.innerHTML = `${t.icon} ${t.name}`;
+            }
+            bindTouch(btn, () => {
+              sounds.click();
+              this.timeOfDayIndex = t.id;
+              this.applyTimeOfDay();
+              this.renderEnvModal();
+            });
+            timeGrid.appendChild(btn);
+          });
+        }
+      }
+
       openLocationModal() {
         this.closeSettings();
         const container = document.getElementById('location-cards-container');
@@ -5839,6 +6168,8 @@
         });
 
         // V4 WARDROBE BINDINGS
+                bindTouch('btn-open-env-modal', () => this.openEnvModal());
+        bindTouch('btn-close-env', () => this.closeEnvModal());
         bindTouch('btn-open-wardrobe', () => this.openWardrobe());
         bindTouch('btn-close-wardrobe', () => this.closeWardrobe());
 
