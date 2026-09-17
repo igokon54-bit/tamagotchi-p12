@@ -4430,6 +4430,9 @@
         this.loadState();
         this.initDOM();
         this.updateLocationView();
+        this.initDailyStreak();
+        this.initDesires();
+        this.initWheel();
       try {
         if (window.Telegram?.WebApp?.CloudStorage?.getItem) {
           window.Telegram.WebApp.CloudStorage.getItem('tamagotchi_cloud_v2', (err, val) => {
@@ -6978,6 +6981,20 @@ selectLocation(id) {
         bindTouch('coin-badge', () => this.openLocationModal()); // Quick Location switch shortcut
         bindTouch('btn-settings', () => this.openSettings());
         bindTouch('btn-dock-settings', () => this.openSettings());
+
+        // V2.5 DAILY STREAK & LUCKY WHEEL BINDINGS
+        bindTouch('btn-daily-gift', () => this.openDailyModal());
+        bindTouch('btn-claim-daily', () => this.claimDailyReward());
+        bindTouch('btn-open-wheel-from-daily', () => this.openWheelModal());
+        bindTouch('btn-close-daily', () => this.closeDailyModal());
+        bindTouch('card-play-wheel', () => this.openWheelModal());
+        bindTouch('btn-spin-wheel', () => this.spinWheel());
+        bindTouch('btn-close-wheel', () => this.closeWheelModal());
+        bindTouch('btn-open-daily-from-settings', () => {
+          this.closeSettings();
+          this.openDailyModal();
+        });
+
         bindTouch('pet-day-badge', () => {
           sounds.chime();
           const days = this.getAgeDays();
@@ -6986,7 +7003,7 @@ selectLocation(id) {
         });
 
         // Pet and Ground interactions
-        bindTouch('pet-wrapper', () => this.petTouch());
+        this.setupPettingInteraction();
         bindTouch('ground-tap-layer', (e) => this.handleGroundTap(e));
         bindTouch('toy-ball', () => this.kickBall());
         bindTouch('outdoor-water', () => this.drinkWater());
