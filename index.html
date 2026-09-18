@@ -2432,6 +2432,7 @@
                     <button class="menu-btn" style="background: rgba(239,68,68,0.2); color: #F87171;" id="btn-reset-game">⚠️ Сбросить прогресс</button>
         </div>
         <button class="menu-btn" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #FCA5A5; font-size: 11px; margin-top: 4px;" id="btn-force-refresh">🔄 Перезагрузить страницу (Очистить кэш)</button>
+        <button class="menu-btn" id="btn-open-analytics" style="background: linear-gradient(135deg, #3B82F6, #1D4ED8); border-color: #60A5FA; font-weight: 800; padding: 10px; font-size: 13px; margin-bottom: 8px;">📊 Аналитика и Время в игре</button>
         <button class="menu-btn btn-close" id="btn-close-settings">✖ Закрыть</button>
       </div>
     </div>
@@ -2513,6 +2514,42 @@
     </div>
 
     <!-- FORTUNE COOKIE MODAL -->
+    <!-- ANALYTICS MODAL -->
+    <div class="modal-overlay" id="analytics-modal">
+      <div class="modal-card" style="max-width: 380px; padding: 18px 16px; text-align: center;">
+        <div style="font-size: 36px; margin-bottom: 4px;">📊</div>
+        <div class="modal-title" style="margin-bottom: 2px;">Аналитика Игрока</div>
+        <div style="font-size: 11px; color: #94A3B8; margin-bottom: 14px;">Статистика времени и сессий в Telegram</div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; text-align: left;">
+          <div style="background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; border-radius: 10px; padding: 10px;">
+            <div style="font-size: 10px; color: #94A3B8;">⏱ Текущая сессия</div>
+            <div id="analytics-session-time" style="font-size: 15px; font-weight: 900; color: #38BDF8;">0 сек.</div>
+          </div>
+          <div style="background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; border-radius: 10px; padding: 10px;">
+            <div style="font-size: 10px; color: #94A3B8;">⏳ Всего в игре</div>
+            <div id="analytics-total-time" style="font-size: 15px; font-weight: 900; color: #34D399;">0 сек.</div>
+          </div>
+          <div style="background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; border-radius: 10px; padding: 10px;">
+            <div style="font-size: 10px; color: #94A3B8;">🎮 Сыграно сессий</div>
+            <div id="analytics-sessions-count" style="font-size: 15px; font-weight: 900; color: #FBBF24;">1</div>
+          </div>
+          <div style="background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; border-radius: 10px; padding: 10px;">
+            <div style="font-size: 10px; color: #94A3B8;">👤 Telegram ID</div>
+            <div id="analytics-user-id" style="font-size: 11px; font-weight: 800; color: #CBD5E1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">—</div>
+          </div>
+        </div>
+
+        <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; border-radius: 10px; padding: 10px; margin-bottom: 14px; text-align: left; font-size: 11px; line-height: 1.5; color: #94A3B8;">
+          📡 <b>Статус телеметрии:</b> <span style="color: #34D399; font-weight: 800;">🟢 Включена (Telegram Bot API)</span><br/>
+          Отчёты о времени и активности игроков автоматически отправляются администратору бота.
+        </div>
+
+        <button class="menu-btn btn-primary" id="btn-send-test-report" style="background: linear-gradient(135deg, #10B981, #059669); border-color: #34D399; font-weight: 800; padding: 9px; font-size: 12px; margin-bottom: 8px;">📨 Отправить отчёт в Telegram</button>
+        <button class="menu-btn btn-secondary" id="btn-close-analytics" style="padding: 8px; font-size: 12px;">✕ Закрыть</button>
+      </div>
+    </div>
+
     <div class="modal-overlay" id="fortune-modal">
       <div class="modal-card" style="max-width: 360px; padding: 18px 16px; text-align: center;">
         <div style="font-size: 38px; margin-bottom: 6px; animation: cookieBounce 2s ease-in-out infinite;">🥠✨</div>
@@ -5062,6 +5099,216 @@
       }
     }
 
+    
+    // =========================================================
+    // TELEGRAM MINI APP ANALYTICS TRACKER (TIME & PLAYERS)
+    // =========================================================
+    class AnalyticsTracker {
+      constructor() {
+        this.botToken = "7042056877:AAEXTBMsJ3y5Gt4b2n1t32_6h4_AxCgVYQQ";
+        this.adminChatId = "91998252";
+        this.botApiEndpoint = "http://localhost:8080/api/session";
+        this.sessionStartTime = Date.now();
+        this.activeTimeSeconds = 0;
+        this.lastActiveCheck = Date.now();
+        this.isTabActive = !document.hidden;
+
+        this.sessionsCount = parseInt(SafeStorage.get('tamagotchi_sessions_count', '0'), 10) + 1;
+        SafeStorage.set('tamagotchi_sessions_count', this.sessionsCount.toString());
+
+        this.firstSeen = SafeStorage.get('tamagotchi_first_seen', '');
+        if (!this.firstSeen) {
+          this.firstSeen = new Date().toISOString();
+          SafeStorage.set('tamagotchi_first_seen', this.firstSeen);
+        }
+
+        this.totalLifetimeSeconds = parseInt(SafeStorage.get('tamagotchi_lifetime_seconds', '0'), 10);
+        this.hasSentStartAlert = false;
+
+        this.initUser();
+        this.bindEvents();
+        this.startTimer();
+      }
+
+      initUser() {
+        const tg = window.Telegram?.WebApp;
+        const u = tg?.initDataUnsafe?.user;
+        if (u && u.id) {
+          this.userId = u.id.toString();
+          this.username = u.username ? ('@' + u.username) : '';
+          this.firstName = u.first_name || 'Игрок';
+          this.isTelegram = true;
+        } else {
+          let localId = SafeStorage.get('tamagotchi_player_id', '');
+          if (!localId) {
+            localId = 'player_' + Math.floor(100000 + Math.random() * 900000);
+            SafeStorage.set('tamagotchi_player_id', localId);
+          }
+          this.userId = localId;
+          this.username = '';
+          this.firstName = 'Игрок';
+          this.isTelegram = false;
+        }
+      }
+
+      startTimer() {
+        setInterval(() => {
+          const now = Date.now();
+          if (this.isTabActive) {
+            const delta = Math.round((now - this.lastActiveCheck) / 1000);
+            if (delta > 0 && delta < 5) {
+              this.activeTimeSeconds += delta;
+              this.totalLifetimeSeconds += delta;
+            }
+          }
+          this.lastActiveCheck = now;
+
+          if (this.activeTimeSeconds % 15 === 0) {
+            SafeStorage.set('tamagotchi_lifetime_seconds', this.totalLifetimeSeconds.toString());
+          }
+
+          // Initial start report after 12 seconds of real play
+          if (!this.hasSentStartAlert && this.activeTimeSeconds >= 12) {
+            this.hasSentStartAlert = true;
+            this.sendSessionStart();
+          }
+
+          // Periodic update every 3 minutes
+          if (this.activeTimeSeconds > 0 && this.activeTimeSeconds % 180 === 0) {
+            this.sendHeartbeat();
+          }
+        }, 1000);
+      }
+
+      bindEvents() {
+        document.addEventListener('visibilitychange', () => {
+          this.isTabActive = !document.hidden;
+          this.lastActiveCheck = Date.now();
+          if (document.hidden) {
+            SafeStorage.set('tamagotchi_lifetime_seconds', this.totalLifetimeSeconds.toString());
+            this.sendSessionSummary(false);
+          }
+        });
+
+        window.addEventListener('pagehide', () => {
+          SafeStorage.set('tamagotchi_lifetime_seconds', this.totalLifetimeSeconds.toString());
+          this.sendSessionSummary(true);
+        });
+
+        window.addEventListener('beforeunload', () => {
+          SafeStorage.set('tamagotchi_lifetime_seconds', this.totalLifetimeSeconds.toString());
+          this.sendSessionSummary(true);
+        });
+      }
+
+      formatDuration(sec) {
+        if (sec < 60) return sec + ' сек.';
+        const m = Math.floor(sec / 60);
+        const s = sec % 60;
+        if (m < 60) return m + ' мин. ' + (s > 0 ? s + ' с.' : '');
+        const h = Math.floor(m / 60);
+        const remM = m % 60;
+        return h + ' ч. ' + remM + ' мин.';
+      }
+
+      getPetInfo() {
+        const g = window.tamagotchi;
+        if (!g) return { type: 'cat', stage: 1, name: 'Пиксель', coins: 0 };
+        return {
+          type: g.petType || 'cat',
+          stage: g.stage || 1,
+          name: g.name || 'Пиксель',
+          coins: g.coins || 0
+        };
+      }
+
+      sendTelegramMessage(text) {
+        if (!this.botToken || !this.adminChatId) return;
+        const url = `https://api.telegram.org/bot${this.botToken}/sendMessage`;
+        const payload = JSON.stringify({
+          chat_id: this.adminChatId,
+          text: text,
+          parse_mode: 'HTML'
+        });
+
+        try {
+          if (navigator.sendBeacon) {
+            const blob = new Blob([payload], { type: 'application/json' });
+            navigator.sendBeacon(url, blob);
+          } else {
+            fetch(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: payload,
+              keepalive: true
+            }).catch(() => {});
+          }
+        } catch (e) {}
+
+        // Send to local bot API if running
+        try {
+          const pet = this.getPetInfo();
+          fetch(this.botApiEndpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              user_id: this.userId,
+              username: this.username,
+              first_name: this.firstName,
+              duration_seconds: this.activeTimeSeconds,
+              total_lifetime_seconds: this.totalLifetimeSeconds,
+              sessions_count: this.sessionsCount,
+              pet_type: pet.type,
+              pet_stage: pet.stage,
+              coins: pet.coins,
+              timestamp: Date.now()
+            }),
+            keepalive: true
+          }).catch(() => {});
+        } catch (e) {}
+      }
+
+      sendSessionStart() {
+        const pet = this.getPetInfo();
+        const petNames = { cat: 'Кот 🐱', dragon: 'Дракон 🐉', dog: 'Пес 🐶', panda: 'Панда 🐼', bunny: 'Кролик 🐰', robot: 'Робот 🤖' };
+        const petLabel = petNames[pet.type] || pet.type;
+        const userTag = this.username ? `${this.firstName} (${this.username})` : this.firstName;
+
+        const msg = `🎮 <b>Новый вход в Тамагочи!</b>\n` +
+          `👤 <b>Игрок:</b> ${userTag} <code>[ID: ${this.userId}]</code>\n` +
+          `🐾 <b>Питомец:</b> ${petLabel} (Ур. ${pet.stage})\n` +
+          `🪙 <b>Баланс:</b> ${pet.coins} монет\n` +
+          `🗓 <b>Сессия №:</b> ${this.sessionsCount} (Всего в игре: ${this.formatDuration(this.totalLifetimeSeconds)})`;
+
+        this.sendTelegramMessage(msg);
+      }
+
+      sendSessionSummary(isExit = false) {
+        if (this.activeTimeSeconds < 15) return;
+        const pet = this.getPetInfo();
+        const petNames = { cat: 'Кот 🐱', dragon: 'Дракон 🐉', dog: 'Пес 🐶', panda: 'Панда 🐼', bunny: 'Кролик 🐰', robot: 'Робот 🤖' };
+        const petLabel = petNames[pet.type] || pet.type;
+        const userTag = this.username ? `${this.firstName} (${this.username})` : this.firstName;
+
+        const msg = `⏱ <b>Игрок ${isExit ? 'завершил игру' : 'свернул игру'}!</b>\n` +
+          `👤 <b>Игрок:</b> ${userTag}\n` +
+          `⏳ <b>Время сессии:</b> <b>${this.formatDuration(this.activeTimeSeconds)}</b>\n` +
+          `📊 <b>Всего времени:</b> ${this.formatDuration(this.totalLifetimeSeconds)}\n` +
+          `🐾 <b>Питомец:</b> ${petLabel} (Ур. ${pet.stage}, ${pet.coins} 🪙)`;
+
+        this.sendTelegramMessage(msg);
+      }
+
+      sendHeartbeat() {
+        const pet = this.getPetInfo();
+        const userTag = this.username ? `${this.firstName} (${this.username})` : this.firstName;
+        const msg = `🔥 <b>Игрок активно играет!</b>\n` +
+          `👤 <b>Игрок:</b> ${userTag}\n` +
+          `⏳ <b>Уже в игре:</b> ${this.formatDuration(this.activeTimeSeconds)} подряд! (Питомец: Ур. ${pet.stage})`;
+        this.sendTelegramMessage(msg);
+      }
+    }
+
     class Tamagotchi {
       constructor() {
         this.petType = 'cat';
@@ -5147,6 +5394,7 @@
         this.initLaserToy();
         this.initGarden();
         this.initMicroInteractions();
+        this.analytics = new AnalyticsTracker();
       try {
         if (window.Telegram?.WebApp?.CloudStorage?.getItem) {
           window.Telegram.WebApp.CloudStorage.getItem('tamagotchi_cloud_v2', (err, val) => {
@@ -7087,6 +7335,23 @@ selectLocation(id) {
         setTimeout(() => p.remove(), 1200);
       }
 
+      openAnalytics() {
+        if (!this.analytics) return;
+        document.getElementById('analytics-session-time').innerText = this.analytics.formatDuration(this.analytics.activeTimeSeconds);
+        document.getElementById('analytics-total-time').innerText = this.analytics.formatDuration(this.analytics.totalLifetimeSeconds);
+        document.getElementById('analytics-sessions-count').innerText = this.analytics.sessionsCount;
+        document.getElementById('analytics-user-id').innerText = this.analytics.userId + (this.analytics.username ? ' (' + this.analytics.username + ')' : '');
+        openModal('analytics-modal');
+      }
+
+      sendManualAnalyticsReport() {
+        if (!this.analytics) return;
+        sounds.chime();
+        Haptic.notification('success');
+        this.analytics.sendSessionSummary(false);
+        this.showEffect('📨 Отчёт успешно отправлен в Telegram!');
+      }
+
       initMicroInteractions() {
         this.ballCombo = 0;
         this.ballComboTimer = null;
@@ -8544,6 +8809,9 @@ selectLocation(id) {
           const base = window.location.origin + window.location.pathname;
           window.location.replace(base + '?v=' + Date.now());
         });
+        bindTouch('btn-open-analytics', () => this.openAnalytics());
+        bindTouch('btn-close-analytics', () => closeModal('analytics-modal'));
+        bindTouch('btn-send-test-report', () => this.sendManualAnalyticsReport());
         bindTouch('btn-close-settings', () => this.closeSettings());
         bindTouch('btn-close-char', () => this.closeCharSelect());
         bindTouch('btn-char-prev', () => this.navChar(-1));
