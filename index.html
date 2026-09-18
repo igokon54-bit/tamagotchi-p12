@@ -1375,6 +1375,143 @@
     }
 
     /* APPLE CATCHER CANVAS */
+    /* HARVEST SLASH CANVAS */
+    #harvest-canvas {
+      width: 480px;
+      height: 432px;
+      background: radial-gradient(circle at 50% 40%, #1e1338 0%, #0c0717 100%);
+      display: block;
+      touch-action: none;
+      contain: strict;
+      transform: translateZ(0);
+      cursor: crosshair;
+    }
+
+    /* CLOUD JUMPER CANVAS */
+    #jumper-canvas {
+      width: 480px;
+      height: 432px;
+      background: linear-gradient(180deg, #090d16 0%, #131d36 30%, #0369a1 75%, #38bdf8 100%);
+      display: block;
+      touch-action: none;
+      contain: strict;
+      transform: translateZ(0);
+      cursor: pointer;
+    }
+
+    /* SCREEN SHAKE ANIMATION */
+    @keyframes screenShakeAnim {
+      0% { transform: translate(0, 0); }
+      20% { transform: translate(-6px, 5px) rotate(-0.5deg); }
+      40% { transform: translate(6px, -4px) rotate(0.5deg); }
+      60% { transform: translate(-4px, 3px); }
+      80% { transform: translate(3px, -2px); }
+      100% { transform: translate(0, 0); }
+    }
+    .screen-shaking {
+      animation: screenShakeAnim 0.25s ease-in-out !important;
+    }
+
+    /* SHINY MYTHIC PET IRIDESCENT AURA */
+    @keyframes shinyRainbowGlow {
+      0% { filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.8)) drop-shadow(0 0 20px rgba(236, 72, 153, 0.6)); }
+      33% { filter: drop-shadow(0 0 14px rgba(56, 189, 248, 0.85)) drop-shadow(0 0 26px rgba(168, 85, 247, 0.7)); }
+      66% { filter: drop-shadow(0 0 12px rgba(52, 211, 153, 0.85)) drop-shadow(0 0 22px rgba(245, 158, 11, 0.6)); }
+      100% { filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.8)) drop-shadow(0 0 20px rgba(236, 72, 153, 0.6)); }
+    }
+    .pet-shiny-aura {
+      animation: shinyRainbowGlow 3s ease-in-out infinite !important;
+    }
+
+    /* STARDUST HUD BADGE */
+    .stardust-badge {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      padding: 3px 7px;
+      border-radius: 12px;
+      background: rgba(168, 85, 247, 0.2);
+      border: 1px solid rgba(192, 132, 252, 0.5);
+      font-size: 11px;
+      font-weight: 800;
+      color: #E9D5FF;
+      box-shadow: 0 0 10px rgba(168, 85, 247, 0.25);
+      animation: stardustGlow 2s ease-in-out infinite alternate;
+    }
+    @keyframes stardustGlow {
+      from { box-shadow: 0 0 6px rgba(168, 85, 247, 0.2); }
+      to { box-shadow: 0 0 14px rgba(192, 132, 252, 0.5); }
+    }
+
+    /* RELIC SHOP STYLES */
+    .relic-item-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: rgba(30, 41, 59, 0.75);
+      border: 1.5px solid rgba(148, 163, 184, 0.25);
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      text-align: left;
+    }
+    .relic-item-card.unlocked {
+      border-color: rgba(234, 179, 8, 0.6);
+      background: rgba(234, 179, 8, 0.1);
+    }
+    .relic-icon-box {
+      font-size: 26px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+    .relic-info-box {
+      flex: 1;
+    }
+    .relic-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: #F8FAFC;
+    }
+    .relic-desc {
+      font-size: 10px;
+      color: #94A3B8;
+      line-height: 1.3;
+      margin-top: 2px;
+    }
+    .relic-btn-buy {
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .relic-btn-buy.active {
+      background: linear-gradient(135deg, #A855F7, #EC4899);
+      color: #FFF;
+      box-shadow: 0 2px 8px rgba(168, 85, 247, 0.4);
+    }
+    .relic-btn-buy.purchased {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34D399;
+      border: 1px solid #10B981;
+      cursor: default;
+    }
+    .relic-btn-buy:disabled:not(.purchased) {
+      background: #334155;
+      color: #64748B;
+      cursor: not-allowed;
+    }
+
     #apple-canvas {
       width: 480px;
       height: 432px;
@@ -2161,6 +2298,10 @@
         </div>
       </div>
       <div class="header-right">
+        <div class="stardust-badge" id="stardust-badge" title="Звёздная пыль и Святилище Реликвий" style="display: none; cursor: pointer;">
+          <span>✨</span><span id="stardust-count">0</span>
+        </div>
+        <button class="header-btn" id="btn-ascend" title="✨ Вознесение в Созвездия" style="display: none; background: linear-gradient(135deg, #8B5CF6, #EC4899); border-color: #F472B6; margin-right: 4px;">✨</button>
         <div class="coin-badge">
           <span>🪙</span><span id="coin-count">25</span>
         </div>
@@ -2466,6 +2607,10 @@
       <div class="game-body" id="game-body-container">
         <!-- Canvas for Apple Catcher -->
         <canvas id="apple-canvas" width="480" height="432" style="display: none;"></canvas>
+        <!-- Canvas for Harvest Slash (Овощной Ниндзя) -->
+        <canvas id="harvest-canvas" width="480" height="432" style="display: none;"></canvas>
+        <!-- Canvas for Cloud Jumper (Прыг-Скок в облака) -->
+        <canvas id="jumper-canvas" width="480" height="432" style="display: none;"></canvas>
         <!-- Rhythm Simon Game UI -->
         <div id="rhythm-container" style="display: none;">
           <div class="rhythm-stage">
@@ -2550,6 +2695,50 @@
       </div>
     </div>
 
+    <!-- ASCENSION / PRESTIGE MODAL -->
+    <div class="modal-overlay" id="ascension-modal">
+      <div class="modal-card" style="max-width: 380px; padding: 18px 14px; text-align: center;">
+        <div style="font-size: 38px; margin-bottom: 4px;">🌌✨</div>
+        <div class="modal-title" style="margin-bottom: 2px;">Вознесение в Созвездия</div>
+        <div style="font-size: 11px; color: #C084FC; margin-bottom: 12px;" id="ascension-subtitle">Вечная слава Великого Титана</div>
+
+        <!-- Star Constellation Canvas -->
+        <div style="position: relative; width: 100%; height: 120px; background: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #090d16 100%); border-radius: 12px; border: 1px solid rgba(168, 85, 247, 0.4); margin-bottom: 12px; overflow: hidden;">
+          <canvas id="constellation-canvas" width="340" height="120" style="width: 100%; height: 100%; display: block;"></canvas>
+          <div id="constellation-label" style="position: absolute; bottom: 6px; left: 0; right: 0; font-size: 10px; color: #E9D5FF; font-weight: 700; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">Созвездие: 0 Звёзд</div>
+        </div>
+
+        <div style="background: rgba(30, 41, 59, 0.7); border: 1.5px dashed #A855F7; border-radius: 12px; padding: 10px; margin-bottom: 12px; font-size: 11px; color: #E2E8F0; line-height: 1.4;">
+          <div id="ascension-reward-preview" style="font-weight: 800; color: #FDE047; font-size: 13px; margin-bottom: 4px;">
+            Награда за Вознесение: +100 ✨ Звёздной Пыли
+          </div>
+          <div id="ascension-desc-text">
+            Питомец переродится в священное яйцо со всеми открытыми Древними Реликвиями и бонусом к характеристикам!
+          </div>
+        </div>
+
+        <button class="menu-btn btn-primary" id="btn-perform-ascend" style="background: linear-gradient(135deg, #8B5CF6, #EC4899); border-color: #F472B6; font-weight: 800; padding: 10px; font-size: 13px; margin-bottom: 6px;">🌌 Свершить Вознесение</button>
+        <button class="menu-btn" id="btn-open-relics-from-ascension" style="background: linear-gradient(135deg, #F59E0B, #D97706); border-color: #FCD34D; font-weight: 800; font-size: 12px; margin-bottom: 6px;">🏛️ Святилище Древних Реликвий</button>
+        <button class="menu-btn btn-close" id="btn-close-ascension">✕ Закрыть</button>
+      </div>
+    </div>
+
+    <!-- ANCIENT RELICS SANCTUARY MODAL -->
+    <div class="modal-overlay" id="relics-modal">
+      <div class="modal-card" style="max-width: 390px; padding: 16px 14px; text-align: center;">
+        <div class="modal-title" style="margin-bottom: 2px;">🏛️ Древние Реликвии</div>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; font-weight: 800; color: #FDE047; margin-bottom: 12px;">
+          <span>Баланс:</span> <span id="relics-stardust-label">✨ 0 Звёздной Пыли</span>
+        </div>
+
+        <div id="relics-list-container" style="max-height: 280px; overflow-y: auto; margin-bottom: 12px; padding-right: 2px;">
+          <!-- Dynamically populated relics -->
+        </div>
+
+        <button class="menu-btn btn-close" id="btn-close-relics">✕ Назад</button>
+      </div>
+    </div>
+
     <div class="modal-overlay" id="fortune-modal">
       <div class="modal-card" style="max-width: 360px; padding: 18px 16px; text-align: center;">
         <div style="font-size: 38px; margin-bottom: 6px; animation: cookieBounce 2s ease-in-out infinite;">🥠✨</div>
@@ -2612,6 +2801,21 @@
             <span class="menu-card-icon">🎡</span>
             <span class="menu-card-name">Колесо Фортуны</span>
             <span class="menu-card-desc">Вращай рулетку и выигрывай монеты, еду и джекпот! (+Призы)</span>
+          </div>
+          <div class="menu-card" id="card-play-harvest" style="border-color: rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.12);">
+            <span class="menu-card-icon">🍉</span>
+            <span class="menu-card-name">Овощной Ниндзя</span>
+            <span class="menu-card-desc">Рассекай летящие овощи и фрукты, делай комбо и берегись бомб! (+🪙 +⚡)</span>
+          </div>
+          <div class="menu-card" id="card-play-jumper" style="border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.12);">
+            <span class="menu-card-icon">🚀</span>
+            <span class="menu-card-name">Прыг-Скок в облака</span>
+            <span class="menu-card-desc">Взлетай по парящим облакам, хватай ракеты и монетки! (+🪙 +⚡)</span>
+          </div>
+          <div class="menu-card" id="card-open-ascension" style="border-color: rgba(168, 85, 247, 0.4); background: rgba(168, 85, 247, 0.12);">
+            <span class="menu-card-icon">✨</span>
+            <span class="menu-card-name">Святилище Реликвий & Вознесение</span>
+            <span class="menu-card-desc">Звёздная пыль, постоянные множители монет и созвездия вечности!</span>
           </div>
           <div class="menu-card" id="card-play-apple">
             <span class="menu-card-icon">🍎</span>
@@ -3020,6 +3224,104 @@
         [523, 659, 784, 1046, 1318].forEach((f, i) => {
           setTimeout(() => this.beep(f, 0.12, 'triangle', 0.18), i * 75);
         });
+      }
+          // High-impact Arcade & Slicing Synthesizers
+      sliceSwish() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          const now = this.ctx.currentTime;
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(1400, now);
+          osc.frequency.exponentialRampToValueAtTime(280, now + 0.08);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        } catch(e) {}
+      }
+
+      sliceHit(combo = 1) {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const base = Math.min(1600, 520 + (combo * 120));
+          this.beep(base, 0.04, 'triangle', 0.16);
+          setTimeout(() => this.beep(base * 1.5, 0.06, 'sine', 0.14), 25);
+          if (combo >= 3) {
+            setTimeout(() => this.beep(base * 2, 0.08, 'triangle', 0.16), 55);
+          }
+        } catch(e) {}
+      }
+
+      bombExplode() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          const now = this.ctx.currentTime;
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(160, now);
+          osc.frequency.exponentialRampToValueAtTime(35, now + 0.35);
+          gain.gain.setValueAtTime(0.35, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.35);
+        } catch(e) {}
+      }
+
+      springBounce() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          const now = this.ctx.currentTime;
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(260, now);
+          osc.frequency.exponentialRampToValueAtTime(740, now + 0.14);
+          gain.gain.setValueAtTime(0.18, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.14);
+        } catch(e) {}
+      }
+
+      rocketBoost() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const notes = [440, 587, 880, 1174];
+          notes.forEach((n, i) => {
+            setTimeout(() => this.beep(n, 0.09, 'sawtooth', 0.15), i * 50);
+          });
+        } catch(e) {}
+      }
+
+      celestialChime() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const chord = [523, 659, 784, 1046, 1318, 1568, 2093];
+          chord.forEach((n, i) => {
+            setTimeout(() => this.beep(n, 0.18, 'sine', 0.14), i * 65);
+          });
+        } catch(e) {}
       }
     }
     const sounds = new SoundEngine();
@@ -4549,6 +4851,1209 @@
       ctx.closePath();
     }
 
+    
+    // =========================================================
+    // MINI-GAME 3: HARVEST SLASH («ОВОЩНОЙ НИНДЗЯ») - 60 FPS
+    // =========================================================
+    class HarvestSlashGame {
+      constructor(tamagotchi, onFinish) {
+        this.tamagotchi = tamagotchi;
+        this.onFinish = onFinish;
+        this.canvas = document.getElementById('harvest-canvas');
+        this.ctx = this.canvas ? this.canvas.getContext('2d') : null;
+        this.width = 480;
+        this.height = 432;
+        this.score = 0;
+        this.coinsEarned = 0;
+        this.lives = 3;
+        this.timeLeft = 45;
+        this.isRunning = false;
+        this.items = [];
+        this.halves = [];
+        this.particles = [];
+        this.floatingTexts = [];
+        this.trail = [];
+        this.animId = null;
+        this.timerId = null;
+        this.lastSpawn = 0;
+        this.comboCount = 0;
+        this.lastSliceTime = 0;
+        this.slowMoTimer = 0;
+        this.hitStopTimer = 0;
+        this.isSwiping = false;
+        this.lastSwishTime = 0;
+
+        this.elScore = document.getElementById('game-stat-score');
+        this.elCoins = document.getElementById('game-stat-coins');
+        this.elExtra = document.getElementById('game-stat-extra');
+
+        this._cachedLeft = 0;
+        this._cachedTop = 0;
+        this._cachedScaleX = 1;
+        this._cachedScaleY = 1;
+      }
+
+      start() {
+        if (!this.canvas) return;
+        this.isRunning = true;
+        this.score = 0;
+        this.coinsEarned = 0;
+        this.lives = 3;
+        this.timeLeft = 45;
+        this.items = [];
+        this.halves = [];
+        this.particles = [];
+        this.floatingTexts = [];
+        this.trail = [];
+        this.comboCount = 0;
+        this.lastSliceTime = 0;
+        this.slowMoTimer = 0;
+        this.hitStopTimer = 0;
+        this.isSwiping = false;
+
+        this.canvas.style.display = 'block';
+        const apple = document.getElementById('apple-canvas');
+        if (apple) apple.style.display = 'none';
+        const jumper = document.getElementById('jumper-canvas');
+        if (jumper) jumper.style.display = 'none';
+        const rhythm = document.getElementById('rhythm-container');
+        if (rhythm) rhythm.style.display = 'none';
+
+        this.updateGeometry();
+        this._resizeHandler = () => this.updateGeometry();
+        window.addEventListener('resize', this._resizeHandler);
+
+        this.bindControls();
+        this.updateHUD();
+
+        this.timerId = setInterval(() => {
+          this.timeLeft--;
+          this.updateHUD();
+          if (this.timeLeft <= 0) {
+            this.finish(true);
+          }
+        }, 1000);
+
+        let lastTime = performance.now();
+        const loop = (now) => {
+          if (!this.isRunning) return;
+          const dt = Math.min((now - lastTime) / 1000, 0.05);
+          lastTime = now;
+
+          if (this.hitStopTimer > 0) {
+            this.hitStopTimer -= dt * 1000;
+          } else {
+            this.update(dt, now);
+          }
+          this.draw();
+          this.animId = requestAnimationFrame(loop);
+        };
+        this.animId = requestAnimationFrame(loop);
+      }
+
+      applyHitStop(ms) {
+        this.hitStopTimer = Math.max(this.hitStopTimer, ms);
+      }
+
+      updateGeometry() {
+        if (!this.canvas) return;
+        const rect = this.canvas.getBoundingClientRect();
+        this._cachedLeft = rect.left;
+        this._cachedTop = rect.top;
+        this._cachedScaleX = this.width / (rect.width || 480);
+        this._cachedScaleY = this.height / (rect.height || 432);
+      }
+
+      bindControls() {
+        const addPoint = (clientX, clientY) => {
+          const x = (clientX - this._cachedLeft) * this._cachedScaleX;
+          const y = (clientY - this._cachedTop) * this._cachedScaleY;
+          const now = performance.now();
+
+          // Slice detection against all active items
+          if (this.trail.length > 0) {
+            const prev = this.trail[this.trail.length - 1];
+            this.checkSliceSegment(prev.x, prev.y, x, y, now);
+
+            const dist = Math.hypot(x - prev.x, y - prev.y);
+            if (dist > 35 && now - this.lastSwishTime > 160) {
+              sounds.sliceSwish();
+              this.lastSwishTime = now;
+            }
+          }
+
+          this.trail.push({ x, y, time: now });
+        };
+
+        this._touchHandler = (e) => {
+          e.preventDefault();
+          if (e.type === 'touchstart') {
+            this.isSwiping = true;
+            this.trail = [];
+            const t = e.touches[0];
+            if (t) addPoint(t.clientX, t.clientY);
+          } else if (e.type === 'touchmove') {
+            const t = e.touches[0];
+            if (t) addPoint(t.clientX, t.clientY);
+          } else if (e.type === 'touchend' || e.type === 'touchcancel') {
+            this.isSwiping = false;
+          }
+        };
+
+        this._mouseHandler = (e) => {
+          if (e.type === 'mousedown') {
+            this.isSwiping = true;
+            this.trail = [];
+            addPoint(e.clientX, e.clientY);
+          } else if (e.type === 'mousemove' && this.isSwiping) {
+            addPoint(e.clientX, e.clientY);
+          } else if (e.type === 'mouseup' || e.type === 'mouseleave') {
+            this.isSwiping = false;
+          }
+        };
+
+        const target = this.canvas;
+        target.addEventListener('touchstart', this._touchHandler, { passive: false });
+        target.addEventListener('touchmove', this._touchHandler, { passive: false });
+        target.addEventListener('touchend', this._touchHandler, { passive: false });
+        target.addEventListener('touchcancel', this._touchHandler, { passive: false });
+
+        target.addEventListener('mousedown', this._mouseHandler);
+        window.addEventListener('mousemove', this._mouseHandler);
+        window.addEventListener('mouseup', this._mouseHandler);
+      }
+
+      unbindControls() {
+        const target = this.canvas;
+        if (this._touchHandler && target) {
+          target.removeEventListener('touchstart', this._touchHandler);
+          target.removeEventListener('touchmove', this._touchHandler);
+          target.removeEventListener('touchend', this._touchHandler);
+          target.removeEventListener('touchcancel', this._touchHandler);
+        }
+        if (this._mouseHandler && target) {
+          target.removeEventListener('mousedown', this._mouseHandler);
+          window.removeEventListener('mousemove', this._mouseHandler);
+          window.removeEventListener('mouseup', this._mouseHandler);
+        }
+        if (this._resizeHandler) {
+          window.removeEventListener('resize', this._resizeHandler);
+          this._resizeHandler = null;
+        }
+      }
+
+      distToSegment(px, py, x1, y1, x2, y2) {
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        const l2 = dx * dx + dy * dy;
+        if (l2 === 0) return Math.hypot(px - x1, py - y1);
+        let t = ((px - x1) * dx + (py - y1) * dy) / l2;
+        t = Math.max(0, Math.min(1, t));
+        return Math.hypot(px - (x1 + t * dx), py - (y1 + t * dy));
+      }
+
+      checkSliceSegment(x1, y1, x2, y2, now) {
+        for (let i = 0; i < this.items.length; i++) {
+          const it = this.items[i];
+          if (it.sliced) continue;
+
+          const d = this.distToSegment(it.x, it.y, x1, y1, x2, y2);
+          if (d <= it.radius) {
+            this.sliceItem(it, x1, y1, x2, y2, now);
+          }
+        }
+      }
+
+      sliceItem(it, x1, y1, x2, y2, now) {
+        it.sliced = true;
+
+        if (it.isBomb) {
+          this.lives--;
+          sounds.bombExplode();
+          Haptic.notification('error');
+          this.tamagotchi.screenShake(10, 400);
+          this.spawnBombExplosion(it.x, it.y);
+          this.floatingTexts.push({
+            text: '💥 БОМБА! -1 ❤️',
+            x: it.x,
+            y: it.y,
+            color: '#EF4444',
+            alpha: 1,
+            scale: 1.3
+          });
+          this.updateHUD();
+          if (this.lives <= 0) {
+            this.finish(false);
+          }
+          return;
+        }
+
+        // Fruit / Vegetable Sliced!
+        const dtSlice = now - this.lastSliceTime;
+        if (dtSlice < 320) {
+          this.comboCount++;
+        } else {
+          this.comboCount = 1;
+        }
+        this.lastSliceTime = now;
+
+        const comboMul = Math.min(5, this.comboCount);
+        const pts = it.pts * comboMul;
+        const coins = it.coins * (this.tamagotchi.relics && this.tamagotchi.relics.coinBoost ? 2 : 1);
+
+        this.score += pts;
+        this.coinsEarned += coins;
+
+        sounds.sliceHit(comboMul);
+        Haptic.impact(comboMul >= 3 ? 'medium' : 'light');
+
+        if (comboMul >= 3) {
+          this.tamagotchi.hitStop(45);
+          this.tamagotchi.screenShake(4, 180);
+          this.floatingTexts.push({
+            text: `🔥 КОМБО x${comboMul}! +${pts}`,
+            x: it.x,
+            y: it.y - 10,
+            color: '#FDE047',
+            alpha: 1,
+            scale: 1.4
+          });
+        } else {
+          this.floatingTexts.push({
+            text: `+${pts}`,
+            x: it.x,
+            y: it.y - 10,
+            color: '#FFFFFF',
+            alpha: 1,
+            scale: 1.1
+          });
+        }
+
+        if (it.isGolden) {
+          this.slowMoTimer = 3.5;
+          sounds.fanfare();
+          this.floatingTexts.push({
+            text: '⚡ СЛОУ-МО 3.5С!',
+            x: it.x,
+            y: it.y - 32,
+            color: '#38BDF8',
+            alpha: 1,
+            scale: 1.4
+          });
+        }
+
+        // Split into 2 halves
+        const angle = Math.atan2(y2 - y1, x2 - x1);
+        const nx = -Math.sin(angle);
+        const ny = Math.cos(angle);
+
+        this.halves.push({
+          x: it.x,
+          y: it.y,
+          vx: it.vx + nx * 110,
+          vy: it.vy + ny * 60 - 40,
+          rot: it.rot,
+          vrot: it.vrot - 3,
+          radius: it.radius,
+          type: it.type,
+          side: 1,
+          color: it.color,
+          innerColor: it.innerColor,
+          emoji: it.emoji
+        });
+
+        this.halves.push({
+          x: it.x,
+          y: it.y,
+          vx: it.vx - nx * 110,
+          vy: it.vy - ny * 60 - 40,
+          rot: it.rot,
+          vrot: it.vrot + 3,
+          radius: it.radius,
+          type: it.type,
+          side: 2,
+          color: it.color,
+          innerColor: it.innerColor,
+          emoji: it.emoji
+        });
+
+        // Spawn 14 juice particles
+        for (let p = 0; p < 14; p++) {
+          const pAngle = Math.random() * Math.PI * 2;
+          const spd = 60 + Math.random() * 160;
+          this.particles.push({
+            x: it.x,
+            y: it.y,
+            vx: Math.cos(pAngle) * spd,
+            vy: Math.sin(pAngle) * spd,
+            radius: 2.5 + Math.random() * 3.5,
+            color: it.innerColor || it.color,
+            alpha: 1,
+            life: 0.45 + Math.random() * 0.3
+          });
+        }
+
+        this.updateHUD();
+      }
+
+      spawnBombExplosion(x, y) {
+        for (let p = 0; p < 30; p++) {
+          const pAngle = Math.random() * Math.PI * 2;
+          const spd = 80 + Math.random() * 220;
+          this.particles.push({
+            x: x,
+            y: y,
+            vx: Math.cos(pAngle) * spd,
+            vy: Math.sin(pAngle) * spd,
+            radius: 3 + Math.random() * 4.5,
+            color: Math.random() < 0.5 ? '#EF4444' : '#F59E0B',
+            alpha: 1,
+            life: 0.6 + Math.random() * 0.4
+          });
+        }
+      }
+
+      spawnWave(now) {
+        const count = 1 + Math.floor(Math.random() * 2.6); // 1 to 3 items
+        const types = [
+          { type: 'watermelon', emoji: '🍉', radius: 25, pts: 15, coins: 2, color: '#15803D', innerColor: '#EF4444' },
+          { type: 'carrot', emoji: '🥕', radius: 22, pts: 10, coins: 1, color: '#F97316', innerColor: '#EA580C' },
+          { type: 'tomato', emoji: '🍅', radius: 21, pts: 10, coins: 1, color: '#DC2626', innerColor: '#B91C1C' },
+          { type: 'apple', emoji: '🍎', radius: 21, pts: 10, coins: 1, color: '#EF4444', innerColor: '#FDE047' },
+        ];
+
+        for (let c = 0; c < count; c++) {
+          const isBomb = Math.random() < 0.16;
+          const isGolden = !isBomb && (Math.random() < (this.tamagotchi.relics && this.tamagotchi.relics.goldFruit ? 0.28 : 0.11));
+
+          let it;
+          if (isBomb) {
+            it = {
+              type: 'bomb',
+              emoji: '💣',
+              radius: 20,
+              pts: 0,
+              coins: 0,
+              color: '#334155',
+              innerColor: '#EF4444',
+              isBomb: true,
+              isGolden: false
+            };
+          } else if (isGolden) {
+            it = {
+              type: 'pineapple',
+              emoji: '🍍',
+              radius: 26,
+              pts: 35,
+              coins: 5,
+              color: '#FBBF24',
+              innerColor: '#FDE047',
+              isBomb: false,
+              isGolden: true
+            };
+          } else {
+            const pick = types[Math.floor(Math.random() * types.length)];
+            it = Object.assign({}, pick, { isBomb: false, isGolden: false });
+          }
+
+          const startX = 70 + Math.random() * (this.width - 140);
+          const vx = (Math.random() - 0.5) * 160;
+          const vy = -(520 + Math.random() * 110);
+
+          this.items.push(Object.assign(it, {
+            x: startX,
+            y: this.height + 25,
+            vx: vx,
+            vy: vy,
+            rot: Math.random() * Math.PI * 2,
+            vrot: (Math.random() - 0.5) * 4.5,
+            sliced: false
+          }));
+        }
+      }
+
+      update(dt, now) {
+        // Slow-Mo time dilation
+        let timeScale = 1.0;
+        if (this.slowMoTimer > 0) {
+          this.slowMoTimer -= dt;
+          timeScale = 0.42;
+        }
+
+        const effDt = dt * timeScale;
+        const gravity = 680 * timeScale;
+
+        // Clean up old trail points (> 180ms)
+        const trailThreshold = now - 180;
+        while (this.trail.length > 0 && this.trail[0].time < trailThreshold) {
+          this.trail.shift();
+        }
+
+        // Spawn waves
+        if (now - this.lastSpawn > (this.slowMoTimer > 0 ? 1600 : 950)) {
+          this.lastSpawn = now;
+          this.spawnWave(now);
+        }
+
+        // Update items
+        for (let i = this.items.length - 1; i >= 0; i--) {
+          const it = this.items[i];
+          if (it.sliced) {
+            this.items.splice(i, 1);
+            continue;
+          }
+          it.x += it.vx * effDt;
+          it.y += it.vy * effDt;
+          it.vy += gravity * effDt;
+          it.rot += it.vrot * effDt;
+
+          if (it.y > this.height + 60 && it.vy > 0) {
+            this.items.splice(i, 1);
+          }
+        }
+
+        // Update halves
+        for (let i = this.halves.length - 1; i >= 0; i--) {
+          const h = this.halves[i];
+          h.x += h.vx * effDt;
+          h.y += h.vy * effDt;
+          h.vy += gravity * effDt;
+          h.rot += h.vrot * effDt;
+
+          if (h.y > this.height + 60) {
+            this.halves.splice(i, 1);
+          }
+        }
+
+        // Update particles
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+          const p = this.particles[i];
+          p.x += p.vx * dt;
+          p.y += p.vy * dt;
+          p.vy += 450 * dt;
+          p.life -= dt;
+          p.alpha = Math.max(0, p.life / 0.6);
+          if (p.life <= 0) {
+            this.particles.splice(i, 1);
+          }
+        }
+
+        // Update floating texts
+        for (let i = this.floatingTexts.length - 1; i >= 0; i--) {
+          const ft = this.floatingTexts[i];
+          ft.y -= 40 * dt;
+          ft.alpha -= 1.3 * dt;
+          if (ft.alpha <= 0) {
+            this.floatingTexts.splice(i, 1);
+          }
+        }
+      }
+
+      draw() {
+        const ctx = this.ctx;
+        ctx.clearRect(0, 0, this.width, this.height);
+
+        // Draw unsliced items
+        for (let i = 0; i < this.items.length; i++) {
+          const it = this.items[i];
+          ctx.save();
+          ctx.translate(it.x, it.y);
+          ctx.rotate(it.rot);
+
+          if (it.isGolden) {
+            // Golden halo aura
+            ctx.shadowColor = '#FBBF24';
+            ctx.shadowBlur = 16;
+            ctx.fillStyle = 'rgba(251, 191, 36, 0.3)';
+            ctx.beginPath();
+            ctx.arc(0, 0, it.radius + 6, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+          }
+
+          // Item body
+          ctx.font = `${Math.round(it.radius * 1.8)}px sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(it.emoji, 0, 0);
+
+          ctx.restore();
+        }
+
+        // Draw sliced halves
+        for (let i = 0; i < this.halves.length; i++) {
+          const h = this.halves[i];
+          ctx.save();
+          ctx.translate(h.x, h.y);
+          ctx.rotate(h.rot);
+
+          ctx.fillStyle = h.innerColor || h.color;
+          ctx.beginPath();
+          if (h.side === 1) {
+            ctx.arc(0, 0, h.radius * 0.85, 0, Math.PI);
+          } else {
+            ctx.arc(0, 0, h.radius * 0.85, Math.PI, Math.PI * 2);
+          }
+          ctx.closePath();
+          ctx.fill();
+
+          ctx.restore();
+        }
+
+        // Draw juice particles
+        for (let i = 0; i < this.particles.length; i++) {
+          const p = this.particles[i];
+          ctx.save();
+          ctx.globalAlpha = p.alpha;
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+
+        // Draw Neon Blade Trail
+        if (this.trail.length >= 2) {
+          ctx.save();
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+
+          // Outer Neon Glow
+          ctx.shadowBlur = 14;
+          ctx.shadowColor = '#38BDF8';
+          ctx.strokeStyle = 'rgba(56, 189, 248, 0.75)';
+          ctx.lineWidth = 6;
+          ctx.beginPath();
+          ctx.moveTo(this.trail[0].x, this.trail[0].y);
+          for (let i = 1; i < this.trail.length; i++) {
+            ctx.lineTo(this.trail[i].x, this.trail[i].y);
+          }
+          ctx.stroke();
+
+          // Inner Bright Core
+          ctx.shadowBlur = 0;
+          ctx.strokeStyle = '#FFFFFF';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          ctx.moveTo(this.trail[0].x, this.trail[0].y);
+          for (let i = 1; i < this.trail.length; i++) {
+            ctx.lineTo(this.trail[i].x, this.trail[i].y);
+          }
+          ctx.stroke();
+
+          ctx.restore();
+        }
+
+        // Draw Floating Texts
+        for (let i = 0; i < this.floatingTexts.length; i++) {
+          const ft = this.floatingTexts[i];
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, ft.alpha);
+          ctx.font = `900 ${Math.round(15 * ft.scale)}px sans-serif`;
+          ctx.fillStyle = ft.color;
+          ctx.textAlign = 'center';
+          ctx.shadowColor = 'rgba(0,0,0,0.8)';
+          ctx.shadowBlur = 6;
+          ctx.fillText(ft.text, ft.x, ft.y);
+          ctx.restore();
+        }
+      }
+
+      updateHUD() {
+        if (this.elScore) this.elScore.innerText = `🍉 ${this.score}`;
+        if (this.elCoins) this.elCoins.innerText = `🪙 +${this.coinsEarned}`;
+        if (this.elExtra) {
+          const hearts = '❤️'.repeat(Math.max(0, this.lives));
+          this.elExtra.innerText = `${hearts} ⏱️${this.timeLeft}с`;
+        }
+      }
+
+      finish(success) {
+        if (!this.isRunning) return;
+        this.isRunning = false;
+        if (this.animId) cancelAnimationFrame(this.animId);
+        if (this.timerId) clearInterval(this.timerId);
+        this.unbindControls();
+
+        if (this.onFinish) {
+          this.onFinish(this.score, this.coinsEarned, success);
+        }
+      }
+    }
+
+
+    // =========================================================
+    // MINI-GAME 4: CLOUD JUMPER («ПРЫГ-СКОК В ОБЛАКА») - 60 FPS
+    // =========================================================
+    class CloudJumperGame {
+      constructor(tamagotchi, onFinish) {
+        this.tamagotchi = tamagotchi;
+        this.onFinish = onFinish;
+        this.canvas = document.getElementById('jumper-canvas');
+        this.ctx = this.canvas ? this.canvas.getContext('2d') : null;
+        this.width = 480;
+        this.height = 432;
+        this.score = 0; // Altitude in meters
+        this.coinsEarned = 0;
+        this.highScore = parseInt(SafeStorage.get('tamagotchi_jumper_hs', '0'), 10);
+        this.isRunning = false;
+        this.petX = 240;
+        this.petY = 320;
+        this.petVx = 0;
+        this.petVy = -520;
+        this.petSize = 34;
+        this.facingLeft = false;
+        this.platforms = [];
+        this.coins = [];
+        this.particles = [];
+        this.floatingTexts = [];
+        this.rocketTimer = 0;
+        this.totalClimbed = 0;
+        this.animId = null;
+        this._touchHandler = null;
+        this._resizeHandler = null;
+        this._cachedLeft = 0;
+        this._cachedScale = 1;
+
+        this.elScore = document.getElementById('game-stat-score');
+        this.elCoins = document.getElementById('game-stat-coins');
+        this.elExtra = document.getElementById('game-stat-extra');
+      }
+
+      start() {
+        if (!this.canvas) return;
+        this.isRunning = true;
+        this.score = 0;
+        this.coinsEarned = 0;
+        this.totalClimbed = 0;
+        this.petX = 240;
+        this.petY = 320;
+        this.petVx = 0;
+        this.petVy = -520;
+        this.rocketTimer = 0;
+        this.platforms = [];
+        this.coins = [];
+        this.particles = [];
+        this.floatingTexts = [];
+
+        this.canvas.style.display = 'block';
+        const apple = document.getElementById('apple-canvas');
+        if (apple) apple.style.display = 'none';
+        const harvest = document.getElementById('harvest-canvas');
+        if (harvest) harvest.style.display = 'none';
+        const rhythm = document.getElementById('rhythm-container');
+        if (rhythm) rhythm.style.display = 'none';
+
+        this.initPlatforms();
+        this.updateGeometry();
+        this._resizeHandler = () => this.updateGeometry();
+        window.addEventListener('resize', this._resizeHandler);
+
+        this.bindControls();
+        this.updateHUD();
+
+        let lastTime = performance.now();
+        const loop = (now) => {
+          if (!this.isRunning) return;
+          const dt = Math.min((now - lastTime) / 1000, 0.05);
+          lastTime = now;
+          this.update(dt, now);
+          this.draw();
+          this.animId = requestAnimationFrame(loop);
+        };
+        this.animId = requestAnimationFrame(loop);
+      }
+
+      initPlatforms() {
+        // Base starter platform
+        this.platforms.push({
+          x: 240,
+          y: 380,
+          w: 90,
+          h: 16,
+          type: 'normal',
+          squash: 1,
+          vx: 0
+        });
+
+        // Procedural vertical ladder of clouds
+        let curY = 320;
+        while (curY > -120) {
+          curY -= (45 + Math.random() * 22);
+          this.spawnPlatformAt(curY);
+        }
+      }
+
+      spawnPlatformAt(y) {
+        const x = 50 + Math.random() * (this.width - 100);
+        const rand = Math.random();
+        let type = 'normal';
+        let vx = 0;
+
+        if (rand < 0.20) {
+          type = 'moving';
+          vx = (Math.random() < 0.5 ? 1 : -1) * (60 + Math.random() * 40);
+        } else if (rand < 0.32) {
+          type = 'fragile';
+        } else if (rand < 0.42) {
+          type = 'spring';
+        }
+
+        const plat = {
+          x: x,
+          y: y,
+          w: type === 'spring' ? 68 : 78,
+          h: 15,
+          type: type,
+          squash: 1,
+          vx: vx
+        };
+        this.platforms.push(plat);
+
+        // Chance to spawn floating coin or rocket powerup
+        if (Math.random() < 0.35 && type !== 'fragile') {
+          this.coins.push({
+            x: x,
+            y: y - 26,
+            radius: 9,
+            collected: false
+          });
+        } else if (Math.random() < 0.045 && type !== 'fragile') {
+          this.coins.push({
+            x: x,
+            y: y - 28,
+            radius: 12,
+            isRocket: true,
+            collected: false
+          });
+        }
+      }
+
+      updateGeometry() {
+        if (!this.canvas) return;
+        const rect = this.canvas.getBoundingClientRect();
+        this._cachedLeft = rect.left;
+        this._cachedScale = this.width / (rect.width || 480);
+      }
+
+      bindControls() {
+        const updateSteer = (clientX) => {
+          const targetX = (clientX - this._cachedLeft) * this._cachedScale;
+          const diff = targetX - this.petX;
+          this.petVx = Math.max(-420, Math.min(420, diff * 7));
+          if (Math.abs(diff) > 4) {
+            this.facingLeft = diff < 0;
+          }
+        };
+
+        this._touchHandler = (e) => {
+          e.preventDefault();
+          const t = e.touches ? e.touches[0] : e;
+          if (t) updateSteer(t.clientX);
+        };
+
+        const target = this.canvas;
+        target.addEventListener('touchstart', this._touchHandler, { passive: false });
+        target.addEventListener('touchmove', this._touchHandler, { passive: false });
+        target.addEventListener('mousedown', this._touchHandler);
+        window.addEventListener('mousemove', (e) => {
+          if (this.isRunning && e.buttons === 1) updateSteer(e.clientX);
+        });
+      }
+
+      unbindControls() {
+        const target = this.canvas;
+        if (this._touchHandler && target) {
+          target.removeEventListener('touchstart', this._touchHandler);
+          target.removeEventListener('touchmove', this._touchHandler);
+          target.removeEventListener('mousedown', this._touchHandler);
+        }
+        if (this._resizeHandler) {
+          window.removeEventListener('resize', this._resizeHandler);
+          this._resizeHandler = null;
+        }
+      }
+
+      update(dt, now) {
+        // Rocket / Super-Jetpack boost
+        if (this.rocketTimer > 0) {
+          this.rocketTimer -= dt;
+          this.petVy = -880;
+
+          // Rocket smoke/fire particles
+          if (Math.random() < 0.6) {
+            this.particles.push({
+              x: this.petX + (Math.random() - 0.5) * 14,
+              y: this.petY + 20,
+              vx: (Math.random() - 0.5) * 40,
+              vy: 200 + Math.random() * 100,
+              radius: 4 + Math.random() * 3,
+              color: Math.random() < 0.5 ? '#EF4444' : '#F59E0B',
+              alpha: 1,
+              life: 0.35
+            });
+          }
+        } else {
+          // Normal Gravity
+          this.petVy += 860 * dt;
+        }
+
+        // Horizontal inertia with damping
+        this.petX += this.petVx * dt;
+        this.petVx *= 0.92;
+
+        // Screen wrap horizontally
+        if (this.petX < -18) this.petX = this.width + 18;
+        if (this.petX > this.width + 18) this.petX = -18;
+
+        this.petY += this.petVy * dt;
+
+        // Update moving platforms
+        for (let i = 0; i < this.platforms.length; i++) {
+          const pl = this.platforms[i];
+          if (pl.vx !== 0) {
+            pl.x += pl.vx * dt;
+            if (pl.x < 45 || pl.x > this.width - 45) {
+              pl.vx = -pl.vx;
+            }
+          }
+          if (pl.squash < 1) {
+            pl.squash = Math.min(1, pl.squash + dt * 4);
+          }
+        }
+
+        // Collision detection: when falling downwards
+        if (this.petVy > 0 && this.rocketTimer <= 0) {
+          const petFoot = this.petY + this.petSize * 0.48;
+          for (let i = 0; i < this.platforms.length; i++) {
+            const pl = this.platforms[i];
+            const halfW = pl.w * 0.5;
+
+            if (this.petX >= pl.x - halfW && this.petX <= pl.x + halfW) {
+              if (petFoot >= pl.y - 6 && petFoot <= pl.y + 14) {
+                // Bounce!
+                if (pl.type === 'fragile') {
+                  // Shatter fragile platform into puff clouds
+                  for (let p = 0; p < 12; p++) {
+                    this.particles.push({
+                      x: pl.x + (Math.random() - 0.5) * pl.w,
+                      y: pl.y + (Math.random() - 0.5) * pl.h,
+                      vx: (Math.random() - 0.5) * 120,
+                      vy: (Math.random() - 0.5) * 80,
+                      radius: 3 + Math.random() * 4,
+                      color: '#94A3B8',
+                      alpha: 1,
+                      life: 0.35
+                    });
+                  }
+                  this.platforms.splice(i, 1);
+                  this.petVy = -480;
+                  sounds.springBounce();
+                  Haptic.impact('light');
+                  break;
+                } else if (pl.type === 'spring') {
+                  pl.squash = 0.55;
+                  this.petVy = -760;
+                  sounds.springBounce();
+                  this.tamagotchi.screenShake(4, 150);
+                  Haptic.impact('medium');
+                  this.floatingTexts.push({
+                    text: '🦘 СУПЕР-ПРЫЖОК!',
+                    x: pl.x,
+                    y: pl.y - 15,
+                    color: '#FCD34D',
+                    alpha: 1,
+                    scale: 1.2
+                  });
+                } else {
+                  pl.squash = 0.7;
+                  this.petVy = -520;
+                  sounds.springBounce();
+                  Haptic.impact('light');
+                }
+                break;
+              }
+            }
+          }
+        }
+
+        // Camera scroll upward when pet rises above middle
+        if (this.petY < 190) {
+          const dy = 190 - this.petY;
+          this.petY = 190;
+          this.totalClimbed += dy;
+          this.score = Math.floor(this.totalClimbed / 10);
+
+          // Shift all platforms and items down
+          for (let i = 0; i < this.platforms.length; i++) {
+            this.platforms[i].y += dy;
+          }
+          for (let i = 0; i < this.coins.length; i++) {
+            this.coins[i].y += dy;
+          }
+          for (let i = 0; i < this.particles.length; i++) {
+            this.particles[i].y += dy;
+          }
+          for (let i = 0; i < this.floatingTexts.length; i++) {
+            this.floatingTexts[i].y += dy;
+          }
+
+          // Recycle platforms that fell below screen
+          for (let i = this.platforms.length - 1; i >= 0; i--) {
+            if (this.platforms[i].y > this.height + 25) {
+              this.platforms.splice(i, 1);
+            }
+          }
+
+          // Top up platform ladder
+          let highestY = this.height;
+          for (let i = 0; i < this.platforms.length; i++) {
+            if (this.platforms[i].y < highestY) highestY = this.platforms[i].y;
+          }
+          while (highestY > -40) {
+            highestY -= (46 + Math.random() * 20);
+            this.spawnPlatformAt(highestY);
+          }
+        }
+
+        // Check coin / rocket collection
+        for (let i = this.coins.length - 1; i >= 0; i--) {
+          const c = this.coins[i];
+          if (c.collected) continue;
+
+          const dist = Math.hypot(this.petX - c.x, this.petY - c.y);
+          if (dist < this.petSize * 0.6 + c.radius) {
+            c.collected = true;
+            if (c.isRocket) {
+              this.rocketTimer = 3.2;
+              sounds.rocketBoost();
+              this.tamagotchi.screenShake(6, 250);
+              Haptic.notification('success');
+              this.floatingTexts.push({
+                text: '🚀 РАКЕТА! ВЗЛЁТ!',
+                x: c.x,
+                y: c.y - 10,
+                color: '#38BDF8',
+                alpha: 1,
+                scale: 1.4
+              });
+            } else {
+              const coinVal = this.tamagotchi.relics && this.tamagotchi.relics.coinBoost ? 2 : 1;
+              this.coinsEarned += coinVal;
+              sounds.coin();
+              Haptic.impact('light');
+              this.floatingTexts.push({
+                text: `+${coinVal} 🪙`,
+                x: c.x,
+                y: c.y - 10,
+                color: '#FCD34D',
+                alpha: 1,
+                scale: 1.1
+              });
+            }
+          }
+          if (c.y > this.height + 40) {
+            this.coins.splice(i, 1);
+          }
+        }
+
+        // Update particles
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+          const p = this.particles[i];
+          p.x += p.vx * dt;
+          p.y += p.vy * dt;
+          p.life -= dt;
+          p.alpha = Math.max(0, p.life / 0.35);
+          if (p.life <= 0) {
+            this.particles.splice(i, 1);
+          }
+        }
+
+        // Update floating texts
+        for (let i = this.floatingTexts.length - 1; i >= 0; i--) {
+          const ft = this.floatingTexts[i];
+          ft.y -= 35 * dt;
+          ft.alpha -= 1.2 * dt;
+          if (ft.alpha <= 0) {
+            this.floatingTexts.splice(i, 1);
+          }
+        }
+
+        this.updateHUD();
+
+        // Fall below bottom of screen = Game Over!
+        if (this.petY > this.height + 40) {
+          this.finish(true);
+        }
+      }
+
+      draw() {
+        const ctx = this.ctx;
+        ctx.clearRect(0, 0, this.width, this.height);
+
+        // Draw Platforms
+        for (let i = 0; i < this.platforms.length; i++) {
+          const pl = this.platforms[i];
+          const halfW = pl.w * 0.5;
+          const h = pl.h * pl.squash;
+
+          ctx.save();
+          if (pl.type === 'fragile') {
+            ctx.fillStyle = '#64748B';
+            drawRoundRect(ctx, pl.x - halfW, pl.y, pl.w, h, 6);
+            ctx.fill();
+            // Cracks
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(pl.x - 12, pl.y + 2);
+            ctx.lineTo(pl.x + 8, pl.y + h - 2);
+            ctx.stroke();
+          } else if (pl.type === 'moving') {
+            ctx.fillStyle = '#38BDF8';
+            ctx.shadowColor = 'rgba(56, 189, 248, 0.5)';
+            ctx.shadowBlur = 8;
+            drawRoundRect(ctx, pl.x - halfW, pl.y, pl.w, h, 7);
+            ctx.fill();
+            ctx.fillStyle = '#FFFFFF';
+            drawRoundRect(ctx, pl.x - halfW + 4, pl.y + 2, pl.w - 8, h * 0.45, 4);
+            ctx.fill();
+          } else {
+            // Normal Cloud
+            ctx.fillStyle = '#FFFFFF';
+            ctx.shadowColor = 'rgba(255, 255, 255, 0.4)';
+            ctx.shadowBlur = 6;
+            drawRoundRect(ctx, pl.x - halfW, pl.y, pl.w, h, 8);
+            ctx.fill();
+            ctx.fillStyle = '#E2E8F0';
+            drawRoundRect(ctx, pl.x - halfW + 4, pl.y + h * 0.5, pl.w - 8, h * 0.4, 4);
+            ctx.fill();
+
+            if (pl.type === 'spring') {
+              // Golden Spring Coil
+              ctx.strokeStyle = '#F59E0B';
+              ctx.lineWidth = 3;
+              ctx.beginPath();
+              ctx.moveTo(pl.x - 8, pl.y);
+              ctx.lineTo(pl.x + 8, pl.y - 4);
+              ctx.lineTo(pl.x - 8, pl.y - 8);
+              ctx.lineTo(pl.x + 8, pl.y - 12);
+              ctx.stroke();
+            }
+          }
+          ctx.restore();
+        }
+
+        // Draw Coins and Powerups
+        for (let i = 0; i < this.coins.length; i++) {
+          const c = this.coins[i];
+          if (c.collected) continue;
+
+          ctx.save();
+          if (c.isRocket) {
+            ctx.font = '22px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('🚀', c.x, c.y);
+          } else {
+            ctx.fillStyle = '#FBBF24';
+            ctx.beginPath();
+            ctx.arc(c.x, c.y, c.radius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#FDE047';
+            ctx.beginPath();
+            ctx.arc(c.x - 2, c.y - 2, c.radius * 0.45, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.restore();
+        }
+
+        // Draw Particles
+        for (let i = 0; i < this.particles.length; i++) {
+          const p = this.particles[i];
+          ctx.save();
+          ctx.globalAlpha = p.alpha;
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+
+        // Draw Pet Jumper Avatar
+        ctx.save();
+        ctx.translate(this.petX, this.petY);
+        if (this.facingLeft) ctx.scale(-1, 1);
+
+        if (this.rocketTimer > 0) {
+          // Attached Rocket visual
+          ctx.font = '28px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('🚀', 12, 4);
+        }
+
+        // Pet circle body
+        ctx.fillStyle = '#F472B6';
+        ctx.beginPath();
+        ctx.arc(0, 0, 16, 0, Math.PI * 2);
+        ctx.fill();
+        // Kawaii face
+        ctx.fillStyle = '#1E293B';
+        ctx.beginPath();
+        ctx.arc(5, -2, 2.5, 0, Math.PI * 2);
+        ctx.arc(11, -2, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#FFFFFF';
+        ctx.beginPath();
+        ctx.arc(4, -3, 1, 0, Math.PI * 2);
+        ctx.arc(10, -3, 1, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+
+        // Draw Floating Texts
+        for (let i = 0; i < this.floatingTexts.length; i++) {
+          const ft = this.floatingTexts[i];
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, ft.alpha);
+          ctx.font = `900 ${Math.round(14 * ft.scale)}px sans-serif`;
+          ctx.fillStyle = ft.color;
+          ctx.textAlign = 'center';
+          ctx.shadowColor = 'rgba(0,0,0,0.8)';
+          ctx.shadowBlur = 5;
+          ctx.fillText(ft.text, ft.x, ft.y);
+          ctx.restore();
+        }
+      }
+
+      updateHUD() {
+        if (this.elScore) this.elScore.innerText = `☁️ ${this.score}м`;
+        if (this.elCoins) this.elCoins.innerText = `🪙 +${this.coinsEarned}`;
+        if (this.elExtra) {
+          const hs = Math.max(this.score, this.highScore);
+          this.elExtra.innerText = `🏆 Рекорд: ${hs}м`;
+        }
+      }
+
+      finish(success) {
+        if (!this.isRunning) return;
+        this.isRunning = false;
+        if (this.animId) cancelAnimationFrame(this.animId);
+        this.unbindControls();
+
+        if (this.score > this.highScore) {
+          this.highScore = this.score;
+          SafeStorage.set('tamagotchi_jumper_hs', this.score.toString());
+        }
+
+        if (this.onFinish) {
+          this.onFinish(this.score, this.coinsEarned, success);
+        }
+      }
+    }
+
+
     class AppleCatcherGame {
       constructor(tamagotchi, onFinish) {
         this.tamagotchi = tamagotchi;
@@ -5449,6 +6954,10 @@
             this.lastDailyLogin = s.lastDailyLogin || null;
             this.lastWheelSpinDate = s.lastWheelSpinDate || null;
             this.gardenPlots = s.gardenPlots || null;
+            this.stardust = s.stardust || 0;
+            this.ascensionCount = s.ascensionCount || 0;
+            this.relics = s.relics || {};
+            this.isShiny = !!s.isShiny;
             this.timeOfDayIndex = s.timeOfDayIndex !== undefined ? s.timeOfDayIndex : 1;
             this.weatherIndex = s.weatherIndex !== undefined ? s.weatherIndex : 0;
             this.lastCelebratedDay = this.getAgeDays();
@@ -5506,6 +7015,11 @@
             lastWheelSpinDate: this.lastWheelSpinDate,
             gardenPlots: this.gardenPlots,
 
+            stardust: this.stardust || 0,
+            ascensionCount: this.ascensionCount || 0,
+            relics: this.relics || {},
+            isShiny: !!this.isShiny,
+
             lastSaved: Date.now()
           };
           SafeStorage.set('tamagotchi_p12_v3', JSON.stringify(state));
@@ -5540,8 +7054,16 @@
         this.energy = 95;
         this.hygiene = 95;
 
+        const shinyChance = (this.relics && this.relics.shinyBoost) ? 0.10 : 0.01;
+        this.isShiny = Math.random() < shinyChance;
+
         sounds.eggHatch();
-        this.showEffect("🎉 ВЫЛУПИЛСЯ МАЛЫШ!");
+        if (this.isShiny) {
+          sounds.fanfare();
+          this.showEffect("🌈 ВЫЛУПИЛСЯ РЕДКИЙ ШАЙНИ!");
+        } else {
+          this.showEffect("🎉 ВЫЛУПИЛСЯ МАЛЫШ!");
+        }
 
         const hatchModal = document.getElementById('hatch-modal');
         const burstContainer = document.getElementById('hatch-egg-display');
@@ -6187,6 +7709,296 @@ selectLocation(id) {
 
       closeGameHub() {
         closeModal('game-hub-modal');
+      }
+
+      screenShake(intensity = 6, duration = 250) {
+        const target = document.getElementById('game-overlay') || document.getElementById('app-container');
+        if (!target) return;
+        target.classList.add('screen-shaking');
+        clearTimeout(this._shakeTimer);
+        this._shakeTimer = setTimeout(() => {
+          target.classList.remove('screen-shaking');
+        }, duration);
+      }
+
+      hitStop(ms = 50) {
+        if (this.activeMiniGame && this.activeMiniGame.applyHitStop) {
+          this.activeMiniGame.applyHitStop(ms);
+        }
+      }
+
+      getCoinMultiplier() {
+        return 1 + (this.relics && this.relics.coinBoost ? 0.5 : 0);
+      }
+
+      getXPMultiplier() {
+        return 1 + (this.relics && this.relics.xpBoost ? 1.0 : 0);
+      }
+
+      startHarvestGame() {
+        this.closeGameHub();
+        const app = document.getElementById('app-container');
+        if (app) app.classList.add('in-minigame');
+        const overlay = document.getElementById('game-overlay');
+        document.getElementById('game-overlay-title').innerText = '🍉 Овощной Ниндзя';
+        overlay.classList.add('open');
+        this.activeMiniGame = new HarvestSlashGame(this, (score, coins, success) => {
+          const bonusCoins = Math.round(coins * this.getCoinMultiplier());
+          const bonusXP = Math.round(score * 1.5 * this.getXPMultiplier()) + 5;
+          this.coins += bonusCoins;
+          this.happiness = Math.min(100, this.happiness + 20);
+          this.addXP(bonusXP);
+          sounds.fanfare();
+          this.vibrate([100, 50, 100]);
+          this.showEffect(`🎉 Очков: ${score} 🍉 (+${bonusCoins} 🪙)`);
+          this.say(score > 30 ? "Вот это мастерство нарезки! 🍉🔥" : "В следующий раз нарежем ещё больше! 🥕");
+          this.exitMiniGame();
+          this.checkAchievements();
+          this.saveState();
+          this.render();
+          this.promptTelegramChallenge('Овощной Ниндзя', score);
+        });
+        this.activeMiniGame.start();
+      }
+
+      startJumperGame() {
+        this.closeGameHub();
+        const app = document.getElementById('app-container');
+        if (app) app.classList.add('in-minigame');
+        const overlay = document.getElementById('game-overlay');
+        document.getElementById('game-overlay-title').innerText = '🚀 Прыг-Скок в облака';
+        overlay.classList.add('open');
+        this.activeMiniGame = new CloudJumperGame(this, (score, coins, success) => {
+          const bonusCoins = Math.round(coins * this.getCoinMultiplier());
+          const bonusXP = Math.round(score * 0.8 * this.getXPMultiplier()) + 5;
+          this.coins += bonusCoins;
+          this.happiness = Math.min(100, this.happiness + 20);
+          this.addXP(bonusXP);
+          sounds.fanfare();
+          this.vibrate([100, 50, 100]);
+          this.showEffect(`🎉 Высота: ${score}м 🚀 (+${bonusCoins} 🪙)`);
+          this.say(score > 100 ? "Мы коснулись стратосферы! 🚀✨" : "Прыжки в облаках — это супер! ☁️🐾");
+          this.exitMiniGame();
+          this.checkAchievements();
+          this.saveState();
+          this.render();
+          this.promptTelegramChallenge('Прыг-Скок в облака', score);
+        });
+        this.activeMiniGame.start();
+      }
+
+      openAscensionModal() {
+        this.closeGameHub();
+        this.closeSettings();
+        const ascCount = this.ascensionCount || 0;
+
+        const label = document.getElementById('constellation-label');
+        if (label) label.innerText = `Созвездие: ${ascCount} ${ascCount === 1 ? 'Звезда' : 'Звёзд'}`;
+
+        const rewardPreview = document.getElementById('ascension-reward-preview');
+        const ageDays = this.getAgeDays();
+        const potentialDust = 100 + Math.floor(this.coins / 50) + (ageDays * 10);
+        if (rewardPreview) {
+          rewardPreview.innerText = `Награда за Вознесение: +${potentialDust} ✨ Звёздной Пыли`;
+        }
+
+        const btnAscend = document.getElementById('btn-perform-ascend');
+        if (btnAscend) {
+          if (this.stage < 5) {
+            btnAscend.disabled = true;
+            btnAscend.innerText = '🔒 Доступно на 5 Стадии (Титан)';
+            btnAscend.style.opacity = '0.5';
+          } else {
+            btnAscend.disabled = false;
+            btnAscend.innerText = '🌌 Свершить Вознесение';
+            btnAscend.style.opacity = '1';
+          }
+        }
+
+        this.renderConstellation();
+        openModal('ascension-modal');
+      }
+
+      closeAscensionModal() {
+        closeModal('ascension-modal');
+      }
+
+      renderConstellation() {
+        const canvas = document.getElementById('constellation-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, 340, 120);
+
+        for (let i = 0; i < 35; i++) {
+          const x = (i * 37 + 13) % 340;
+          const y = (i * 23 + 7) % 120;
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+          ctx.fillRect(x, y, 1.5, 1.5);
+        }
+
+        const count = Math.max(0, this.ascensionCount || 0);
+        const starPositions = [
+          {x: 55, y: 50}, {x: 110, y: 30}, {x: 165, y: 65},
+          {x: 220, y: 40}, {x: 285, y: 60}, {x: 85, y: 90},
+          {x: 205, y: 95}, {x: 140, y: 20}, {x: 260, y: 25}
+        ];
+
+        for (let i = 0; i < count && i < starPositions.length; i++) {
+          const pos = starPositions[i];
+          if (i > 0) {
+            const prev = starPositions[i - 1];
+            ctx.strokeStyle = 'rgba(168, 85, 247, 0.5)';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(prev.x, prev.y);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+          }
+
+          ctx.shadowColor = '#FDE047';
+          ctx.shadowBlur = 10;
+          ctx.fillStyle = '#FDE047';
+          ctx.beginPath();
+          ctx.arc(pos.x, pos.y, 4, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = '#FFFFFF';
+          ctx.beginPath();
+          ctx.arc(pos.x, pos.y, 2, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+      }
+
+      performAscension() {
+        if (this.stage < 5) return;
+
+        const ageDays = this.getAgeDays();
+        const earnedDust = 100 + Math.floor(this.coins / 50) + (ageDays * 10);
+        this.stardust = (this.stardust || 0) + earnedDust;
+        this.ascensionCount = (this.ascensionCount || 0) + 1;
+
+        sounds.celestialChime();
+        Haptic.notification('success');
+        this.screenShake(12, 600);
+
+        this.stage = 0;
+        this.xp = 0;
+        this.hunger = 100;
+        this.energy = 100;
+        this.happiness = 100;
+        this.hygiene = 100;
+        this.birthTimestamp = Date.now();
+
+        this.closeAscensionModal();
+        this.showEffect(`🌌 ВОЗНЕСЕНИЕ СВЕРШЕНО! +${earnedDust} ✨`);
+        this.say("Моя душа стала звездой! Я переродился в священном яйце! 🌌✨");
+
+        this.saveState();
+        this.render();
+        this.renderHUD();
+      }
+
+      openRelicsModal() {
+        this.closeAscensionModal();
+        this.closeGameHub();
+        this.renderRelicsList();
+        openModal('relics-modal');
+      }
+
+      closeRelicsModal() {
+        closeModal('relics-modal');
+      }
+
+      renderRelicsList() {
+        const label = document.getElementById('relics-stardust-label');
+        if (label) label.innerText = `✨ ${this.stardust || 0} Звёздной Пыли`;
+
+        const container = document.getElementById('relics-list-container');
+        if (!container) return;
+
+        const RELIC_DEFS = [
+          { key: 'coinBoost', icon: '🌟', name: 'Звёздный Магнит', cost: 60, desc: '+50% ко всем монетам во всех мини-играх навсегда.' },
+          { key: 'gardenWater', icon: '💧', name: 'Вечный Родник', cost: 80, desc: 'Грядки в саду поливаются автоматически и не вянут.' },
+          { key: 'xpBoost', icon: '⚡', name: 'Космический Разум', cost: 100, desc: 'Удвоение (+100%) получаемого опыта за любые действия.' },
+          { key: 'shinyBoost', icon: '🌈', name: 'Радужная Призма', cost: 120, desc: 'Шанс вылупления редкого Шайни-питомца повышен до 10% (вместо 1%).' },
+          { key: 'goldFruit', icon: '🍀', name: 'Золотое Касание', cost: 75, desc: 'Золотые фрукты и ананасы в играх появляются в 3 раза чаще.' }
+        ];
+
+        if (!this.relics) this.relics = {};
+
+        container.innerHTML = RELIC_DEFS.map(r => {
+          const unlocked = !!this.relics[r.key];
+          const canAfford = (this.stardust || 0) >= r.cost;
+
+          let btnHtml;
+          if (unlocked) {
+            btnHtml = `<button class="relic-btn-buy purchased" disabled>✅ Активировано</button>`;
+          } else if (canAfford) {
+            btnHtml = `<button class="relic-btn-buy active" id="btn-buy-relic-${r.key}">Купить за ${r.cost} ✨</button>`;
+          } else {
+            btnHtml = `<button class="relic-btn-buy" disabled>${r.cost} ✨</button>`;
+          }
+
+          return `
+            <div class="relic-item-card ${unlocked ? 'unlocked' : ''}">
+              <div class="relic-icon-box">${r.icon}</div>
+              <div class="relic-info-box">
+                <div class="relic-name">${r.name}</div>
+                <div class="relic-desc">${r.desc}</div>
+              </div>
+              ${btnHtml}
+            </div>
+          `;
+        }).join('');
+
+        // Bind buy buttons
+        RELIC_DEFS.forEach(r => {
+          const btn = document.getElementById(`btn-buy-relic-${r.key}`);
+          if (btn) {
+            bindTouch(btn, () => this.buyRelic(r.key, r.cost));
+          }
+        });
+      }
+
+      buyRelic(key, cost) {
+        if ((this.stardust || 0) < cost) {
+          sounds.noMoney();
+          return;
+        }
+        this.stardust -= cost;
+        if (!this.relics) this.relics = {};
+        this.relics[key] = true;
+
+        sounds.fanfare();
+        Haptic.notification('success');
+        this.showEffect("✨ РЕЛИКВИЯ АКТИВИРОВАНА!");
+        this.renderRelicsList();
+        this.saveState();
+        this.renderHUD();
+      }
+
+      promptTelegramChallenge(gameName, score) {
+        if (score < 10) return;
+        const text = `🎮 Я набрал ${score} очков в «${gameName}» в Тамагочи! Сможешь побить мой рекорд? 🚀🐾`;
+        const url = 'https://t.me/share/url?url=https://t.me/MyTamagotchi_bot&text=' + encodeURIComponent(text);
+
+        const toast = document.getElementById('game-toast');
+        if (toast) {
+          toast.innerText = `🏆 Новый рекорд! Нажмите, чтобы бросить вызов в Telegram!`;
+          toast.classList.add('show');
+          toast.onclick = () => {
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
+              window.Telegram.WebApp.openTelegramLink(url);
+            } else {
+              window.open(url, '_blank');
+            }
+          };
+          setTimeout(() => {
+            toast.classList.remove('show');
+            toast.onclick = null;
+          }, 5000);
+        }
       }
 
       startAppleGame() {
@@ -7485,9 +9297,24 @@ selectLocation(id) {
       render() {
         const stageInfo = this.getCurrentStageInfo();
 
-        document.getElementById('pet-name').innerText = this.name;
+        const petName = this.isShiny ? ('✨ ' + this.name) : this.name;
+        document.getElementById('pet-name').innerText = petName;
         document.getElementById('pet-stage-badge').innerText = stageInfo.name;
         document.getElementById('coin-count').innerText = this.coins;
+
+        // Stardust & Ascension HUD
+        const stardustBadge = document.getElementById('stardust-badge');
+        const stardustCount = document.getElementById('stardust-count');
+        if (stardustCount) stardustCount.innerText = this.stardust || 0;
+        if (stardustBadge) {
+          const showDust = (this.stardust > 0) || (this.ascensionCount > 0) || (this.stage === 5);
+          stardustBadge.style.display = showDust ? 'flex' : 'none';
+        }
+
+        const btnAscend = document.getElementById('btn-ascend');
+        if (btnAscend) {
+          btnAscend.style.display = (this.stage === 5) ? 'inline-flex' : 'none';
+        }
 
         // Day Badge
         document.getElementById('pet-day-badge').innerText = '🗓️ ' + this.getAgeDays() + 'д';
@@ -7538,6 +9365,7 @@ selectLocation(id) {
         const wrapper = document.getElementById('pet-wrapper');
         for (let i = 0; i <= 5; i++) wrapper.classList.remove('stage-' + i);
         wrapper.classList.add('stage-' + this.stage);
+        wrapper.classList.toggle('pet-shiny-aura', !!this.isShiny);
         wrapper.style.left = this.posX + 'px';
 
         const critBanner = document.getElementById('critical-banner');
@@ -8836,6 +10664,16 @@ selectLocation(id) {
         bindTouch('btn-close-eyes', () => this.closeEyesDefense());
 
         // V4 MINI-GAMES & HUB BINDINGS
+        bindTouch('card-play-harvest', () => this.startHarvestGame());
+        bindTouch('card-play-jumper', () => this.startJumperGame());
+        bindTouch('card-open-ascension', () => this.openAscensionModal());
+        bindTouch('stardust-badge', () => this.openRelicsModal());
+        bindTouch('btn-ascend', () => this.openAscensionModal());
+        bindTouch('btn-close-ascension', () => this.closeAscensionModal());
+        bindTouch('btn-perform-ascend', () => this.performAscension());
+        bindTouch('btn-open-relics-from-ascension', () => this.openRelicsModal());
+        bindTouch('btn-close-relics', () => this.closeRelicsModal());
+
         bindTouch('card-play-apple', () => this.startAppleGame());
         bindTouch('card-play-rhythm', () => this.startRhythmGame());
         bindTouch('card-play-ball', () => {
@@ -8929,6 +10767,7 @@ selectLocation(id) {
     window.addEventListener('DOMContentLoaded', () => {
       initTelegramMiniApp();
       window.tamagotchi = new Tamagotchi();
+      window.game = window.tamagotchi;
       window.addEventListener('resize', () => {
         if (window.tamagotchi && typeof window.tamagotchi.getPlayAreaBounds === 'function') {
           const b = window.tamagotchi.getPlayAreaBounds();
